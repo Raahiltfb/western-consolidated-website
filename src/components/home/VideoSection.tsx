@@ -7,16 +7,19 @@ const videos = [
     id: 'genset',
     title: 'Genset Overview',
     description: 'Comprehensive look at our diesel generator sets.',
+    embedUrl: 'https://drive.google.com/file/d/1qIVRxUWR6TgLmPzE7kBQVOyFRzTrkTwl/preview',
   },
   {
     id: 'better-power',
     title: 'Better Power Solutions',
     description: 'How WCPL delivers superior power reliability.',
+    embedUrl: 'https://drive.google.com/file/d/1rVmrNg_I5wWcQy_RoskYalf0oNDqvaEB/preview',
   },
   {
     id: 'optiprime',
     title: 'Optiprime Series',
     description: 'Advanced features of our Optiprime generators.',
+    embedUrl: 'https://drive.google.com/file/d/1t2i2M3rgN1C5pakeP9C7KJ5SkEUUNayO/preview',
   },
 ];
 
@@ -76,7 +79,7 @@ export const VideoSection = () => {
                 {/* Thumbnail Placeholder */}
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                   <span className="text-xs text-foreground-muted bg-background/80 px-2 py-1 rounded">
-                    Video Placeholder
+                    Click to play
                   </span>
                 </div>
               </div>
@@ -118,18 +121,13 @@ export const VideoSection = () => {
               <X className="w-5 h-5" />
             </button>
             
-            {/* Video Placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                  <Play className="w-10 h-10 text-foreground-muted" />
-                </div>
-                <p className="text-foreground-muted">Video Player Placeholder</p>
-                <p className="text-muted-foreground text-sm mt-2">
-                  {videos.find(v => v.id === activeVideo)?.title}
-                </p>
-              </div>
-            </div>
+            {/* Google Drive Video Embed */}
+            <iframe
+              src={videos.find(v => v.id === activeVideo)?.embedUrl}
+              className="w-full h-full"
+              allow="autoplay"
+              allowFullScreen
+            />
           </motion.div>
         </motion.div>
       )}
