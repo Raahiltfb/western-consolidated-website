@@ -50,11 +50,11 @@ export const LegacySection = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
               Engineering Excellence
               <br />
-              <span className="text-primary">Since 1960s</span>
+              <span className="text-primary">Since 1957</span>
             </h2>
             
             <p className="text-foreground-muted text-lg leading-relaxed max-w-lg">
-              Since 1957, Western Consolidated Private Limited has lived by one belief: the consumer is king. 
+              For over 60 years, Western Consolidated Private Limited has lived by one belief: the consumer is king. 
               This commitment has driven us to become a leading authorized GOEM of Kirloskar Oil Engines Limited, 
               delivering precision-engineered diesel generator sets across India.
             </p>
