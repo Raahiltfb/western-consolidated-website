@@ -131,9 +131,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="text-foreground-muted text-lg max-w-lg leading-relaxed"
                 >
-                  Precision-engineered diesel generator sets delivering uncompromising 
-                  performance for mission-critical industrial applications. From 3 kVA 
-                  to 1010 kVA, our solutions ensure your operations never stop.
+                  Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
+                  Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
                 </motion.p>
               )}
             </AnimatePresence>
