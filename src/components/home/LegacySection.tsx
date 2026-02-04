@@ -60,7 +60,7 @@ export const LegacySection = () => {
             </p>
             
             <p className="text-foreground-muted leading-relaxed max-w-lg">
-              We chose the harder path—being solution-savvy, not just problem-aware. 
+              We chose the harder path: being solution-savvy, not just problem-aware. 
               Backed by world-class infrastructure, advanced technology, and round-the-clock customer care, we ensure your operations 
               never stop. Because for us, excellence isn't just about products; it's about service, values, and the relationships we build.
             </p>
