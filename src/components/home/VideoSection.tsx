@@ -8,18 +8,21 @@ const videos = [
     title: 'Genset Overview',
     description: 'Comprehensive look at our diesel generator sets.',
     embedUrl: 'https://drive.google.com/file/d/1qIVRxUWR6TgLmPzE7kBQVOyFRzTrkTwl/preview',
+    thumbnailUrl: 'https://drive.google.com/thumbnail?id=1qIVRxUWR6TgLmPzE7kBQVOyFRzTrkTwl&sz=w640',
   },
   {
     id: 'better-power',
     title: 'Better Power Solutions',
     description: 'How WCPL delivers superior power reliability.',
     embedUrl: 'https://drive.google.com/file/d/1rVmrNg_I5wWcQy_RoskYalf0oNDqvaEB/preview',
+    thumbnailUrl: 'https://drive.google.com/thumbnail?id=1rVmrNg_I5wWcQy_RoskYalf0oNDqvaEB&sz=w640',
   },
   {
     id: 'optiprime',
     title: 'Optiprime Series',
     description: 'Advanced features of our Optiprime generators.',
     embedUrl: 'https://drive.google.com/file/d/1t2i2M3rgN1C5pakeP9C7KJ5SkEUUNayO/preview',
+    thumbnailUrl: 'https://drive.google.com/thumbnail?id=1t2i2M3rgN1C5pakeP9C7KJ5SkEUUNayO&sz=w640',
   },
 ];
 
@@ -64,23 +67,24 @@ export const VideoSection = () => {
             >
               {/* Video Thumbnail */}
               <div 
-                className="aspect-video bg-card relative cursor-pointer group"
+                className="aspect-video bg-card relative cursor-pointer group overflow-hidden"
                 onClick={() => setActiveVideo(video.id)}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-muted to-card" />
+                {/* Thumbnail Image */}
+                <img 
+                  src={video.thumbnailUrl}
+                  alt={video.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
                 
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all">
                     <Play className="w-6 h-6 text-primary-foreground ml-1" fill="currentColor" />
                   </div>
-                </div>
-                
-                {/* Thumbnail Placeholder */}
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                  <span className="text-xs text-foreground-muted bg-background/80 px-2 py-1 rounded">
-                    Click to play
-                  </span>
                 </div>
               </div>
               
