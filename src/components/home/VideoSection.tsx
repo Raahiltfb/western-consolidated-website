@@ -4,16 +4,16 @@ import { Play, X } from 'lucide-react';
 
 const videos = [
   {
-    id: 'genset',
-    title: 'Genset Overview',
-    description: 'Comprehensive look at our diesel generator sets.',
+    id: 'better-power',
+    title: 'Better Power Solutions',
+    description: 'How WCPL delivers superior power reliability.',
     embedUrl: 'https://drive.google.com/file/d/1qIVRxUWR6TgLmPzE7kBQVOyFRzTrkTwl/preview',
     thumbnailUrl: 'https://drive.google.com/thumbnail?id=1qIVRxUWR6TgLmPzE7kBQVOyFRzTrkTwl&sz=w640',
   },
   {
-    id: 'better-power',
-    title: 'Better Power Solutions',
-    description: 'How WCPL delivers superior power reliability.',
+    id: 'genset',
+    title: 'Genset Overview',
+    description: 'Comprehensive look at our diesel generator sets.',
     embedUrl: 'https://drive.google.com/file/d/1rVmrNg_I5wWcQy_RoskYalf0oNDqvaEB/preview',
     thumbnailUrl: 'https://drive.google.com/thumbnail?id=1rVmrNg_I5wWcQy_RoskYalf0oNDqvaEB&sz=w640',
   },
