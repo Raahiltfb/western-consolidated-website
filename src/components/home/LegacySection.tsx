@@ -54,16 +54,15 @@ export const LegacySection = () => {
             </h2>
             
             <p className="text-foreground-muted text-lg leading-relaxed max-w-lg">
-              Western Consolidated Private Limited (WCPL) has been at the forefront of 
-              industrial power solutions for over six decades. As an authorized GOEM of 
-              Kirloskar Oil Engines Limited (KOEL), we deliver mission-critical diesel 
-              generator sets that power India's industrial backbone.
+              Since 1957, Western Consolidated Private Limited has lived by one belief: the consumer is king. 
+              This commitment has driven us to become a leading authorized GOEM of Kirloskar Oil Engines Limited, 
+              delivering precision-engineered diesel generator sets across India.
             </p>
             
             <p className="text-foreground-muted leading-relaxed max-w-lg">
-              Our commitment to quality, innovation, and customer service has made us 
-              the preferred choice for enterprises requiring reliable, uninterrupted 
-              power supply.
+              We chose the harder path—being solution-savvy, not just problem-aware. 
+              Backed by world-class infrastructure, advanced technology, and round-the-clock customer care, we ensure your operations 
+              never stop. Because for us, excellence isn't just about products; it's about service, values, and the relationships we build.
             </p>
           </motion.div>
 
