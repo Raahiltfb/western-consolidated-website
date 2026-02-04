@@ -10,7 +10,7 @@ const features = [
   {
     icon: Shield,
     title: 'KOEL Authorized',
-    description: 'Official GOEM (Generator OEM) of Kirloskar Oil Engines Limited.',
+    description: 'Generator Original Equipment Manufactuer of Kirloskar Oil Engines Limited.',
   },
   {
     icon: Clock,
@@ -20,7 +20,7 @@ const features = [
   {
     icon: Users,
     title: '5000+ Clients',
-    description: 'Trusted by leading enterprises across manufacturing, healthcare, and infrastructure.',
+    description: 'Trusted by leading enterprises and private customers across industrial, cellular, and commercial sectors.',
   },
 ];
 
