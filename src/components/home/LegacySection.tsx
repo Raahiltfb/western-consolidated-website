@@ -1,0 +1,97 @@
+import { motion } from 'framer-motion';
+import { Award, Shield, Clock, Users } from 'lucide-react';
+
+const features = [
+  {
+    icon: Award,
+    title: '60+ Years Legacy',
+    description: 'Six decades of engineering excellence and trusted power solutions across industries.',
+  },
+  {
+    icon: Shield,
+    title: 'KOEL Authorized',
+    description: 'Official GOEM (Generator OEM) of Kirloskar Oil Engines Limited.',
+  },
+  {
+    icon: Clock,
+    title: '24/7 Support',
+    description: 'Round-the-clock technical support and emergency service coverage.',
+  },
+  {
+    icon: Users,
+    title: '5000+ Clients',
+    description: 'Trusted by leading enterprises across manufacturing, healthcare, and infrastructure.',
+  },
+];
+
+export const LegacySection = () => {
+  return (
+    <section id="legacy-section" className="py-24 bg-background-secondary relative overflow-hidden">
+      {/* Background accent */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent" />
+      
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <div className="flex items-center gap-3">
+              <div className="line-accent" />
+              <span className="text-primary font-semibold tracking-wider text-sm uppercase">
+                Our Legacy
+              </span>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+              Engineering Excellence
+              <br />
+              <span className="text-primary">Since 1960s</span>
+            </h2>
+            
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-lg">
+              Western Consolidated Private Limited (WCPL) has been at the forefront of 
+              industrial power solutions for over six decades. As an authorized GOEM of 
+              Kirloskar Oil Engines Limited (KOEL), we deliver mission-critical diesel 
+              generator sets that power India's industrial backbone.
+            </p>
+            
+            <p className="text-foreground-muted leading-relaxed max-w-lg">
+              Our commitment to quality, innovation, and customer service has made us 
+              the preferred choice for enterprises requiring reliable, uninterrupted 
+              power supply.
+            </p>
+          </motion.div>
+
+          {/* Right - Features Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="card-industrial p-6 rounded-lg group"
+              >
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <feature.icon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-foreground-muted text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
