@@ -54,13 +54,19 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3">
                 <div className="relative flex items-center justify-center">
-                  {/* Logo with enhanced glow - no background circle */}
+                  {/* Logo with subtle backdrop and enhanced contrast */}
+                  <div 
+                    className="absolute inset-0 -m-2 rounded-lg blur-md"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                    }}
+                  />
                   <img 
                     src={wcplLogo} 
                     alt="Western Consolidated" 
-                    className="h-24 w-auto"
+                    className="relative h-16 w-auto"
                     style={{
-                      filter: 'brightness(1.2) contrast(1.1) drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.4)) drop-shadow(0px 0px 16px rgba(255, 255, 255, 0.3)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8))'
+                      filter: 'brightness(1.3) saturate(1.2) drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.5)) drop-shadow(0px 0px 24px rgba(255, 255, 255, 0.3)) drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.9))'
                     }}
                   />
                 </div>
