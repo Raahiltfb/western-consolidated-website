@@ -53,20 +53,21 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             <div className="flex items-center justify-between h-20">
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center">
-                  {/* Multi-layer glow effect */}
-                  <div className="absolute inset-0 bg-white/20 rounded-full scale-150 blur-xl" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-blue-200/20 to-red-200/20 rounded-full scale-125 blur-lg" />
-                  <div className="absolute inset-0 bg-white/15 rounded-lg scale-110 blur-md" />
+                <div className="relative flex items-center justify-center p-3">
+                  {/* Subtle outer glow */}
+                  <div className="absolute inset-0 bg-white/10 rounded-full scale-125 blur-lg" />
                   
-                  {/* White background circle for better contrast */}
-                  <div className="absolute inset-0 bg-white/95 rounded-full scale-100 shadow-lg" />
+                  {/* Dark translucent backing */}
+                  <div 
+                    className="absolute inset-0 rounded-full blur-sm" 
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+                  />
                   
-                  {/* Logo with enhanced shadow */}
+                  {/* Logo with soft shadow */}
                   <img 
                     src={wcplLogo} 
                     alt="Western Consolidated" 
-                    className="relative h-16 w-auto z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+                    className="relative h-16 w-auto z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]"
                   />
                 </div>
               </Link>
