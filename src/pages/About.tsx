@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { Award, Users, Clock, Target, CheckCircle } from 'lucide-react';
+import { Award, Users, Clock, Target, CheckCircle, Eye, Compass, Heart, TrendingUp, Building } from 'lucide-react';
 
 const milestones = [
   { year: '1960s', title: 'Foundation', description: 'WCPL established as a power solutions provider.' },
@@ -16,6 +16,39 @@ const values = [
   { icon: Users, title: 'Customer First', description: 'Building lasting relationships.' },
   { icon: Clock, title: 'Reliability', description: 'Dependable service, every time.' },
   { icon: Target, title: 'Innovation', description: 'Continuous improvement and advancement.' },
+];
+
+const sections = [
+  {
+    id: 'vision',
+    icon: Eye,
+    title: 'Vision',
+    content: 'To be the most trusted and preferred partner for industrial power solutions in India, setting benchmarks for quality, reliability, and customer satisfaction in the power generation industry.',
+  },
+  {
+    id: 'mission',
+    icon: Compass,
+    title: 'Mission',
+    content: 'To deliver world-class diesel generator sets and power solutions that meet the diverse needs of our customers, while maintaining the highest standards of engineering excellence, safety, and environmental responsibility.',
+  },
+  {
+    id: 'values',
+    icon: Heart,
+    title: 'Values',
+    content: 'Integrity in all dealings, commitment to quality, customer-centric approach, continuous innovation, respect for people and environment, and unwavering dedication to excellence.',
+  },
+  {
+    id: 'growth',
+    icon: TrendingUp,
+    title: 'Growth',
+    content: 'From our humble beginnings in the 1960s, we have grown to become one of India\'s leading power solutions providers with a pan-India presence, serving thousands of satisfied customers across diverse industries.',
+  },
+  {
+    id: 'infrastructure',
+    icon: Building,
+    title: 'Infrastructure',
+    content: 'State-of-the-art manufacturing facilities, modern testing laboratories, extensive service network, and dedicated training centers that ensure we deliver products and services of the highest caliber.',
+  },
 ];
 
 const About = () => {
@@ -104,6 +137,50 @@ const About = () => {
                 <p className="text-muted-foreground text-sm">Placeholder</p>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision, Mission, Values, Growth, Infrastructure */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              What <span className="text-primary">Drives Us</span>
+            </h2>
+          </motion.div>
+          
+          <div className="space-y-8">
+            {sections.map((section, index) => (
+              <motion.div
+                key={section.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="card-industrial p-8 rounded-lg"
+              >
+                <div className="flex flex-col md:flex-row md:items-start gap-6">
+                  <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <section.icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">
+                      {section.title}
+                    </h3>
+                    <p className="text-foreground-muted leading-relaxed text-lg">
+                      {section.content}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
