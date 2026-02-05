@@ -67,7 +67,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                   <img 
                     src={wcplLogo} 
                     alt="Western Consolidated" 
-                    className="relative h-16 w-auto z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]"
+                    className="relative h-24 w-auto z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]"
                   />
                 </div>
               </Link>
