@@ -9,6 +9,7 @@ import { ImageSlideshow } from '@/components/home/ImageSlideshow';
 import { VideoSection } from '@/components/home/VideoSection';
 import { ClientsSection } from '@/components/home/ClientsSection';
 import { CTASection } from '@/components/home/CTASection';
+import { CertificationsSection } from '@/components/home/CertificationsSection';
 
 const Index = () => {
   const [navbarVisible, setNavbarVisible] = useState(false);
@@ -26,6 +27,7 @@ const Index = () => {
       <ImageSlideshow />
       <VideoSection />
       <ClientsSection />
+      <CertificationsSection />
       <CTASection />
       <Footer />
       <FloatingButtons />

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import wcplLogo from '@/assets/wcpl-logo.jpeg';
+import wcplLogo from '@/assets/wcpl-logo-transparent.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -53,14 +53,13 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             <div className="flex items-center justify-between h-20">
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3">
-                <img 
-                  src={wcplLogo} 
-                  alt="Western Consolidated" 
-                  className="h-10 w-auto"
-                />
-                <span className="font-bold text-lg text-foreground hidden sm:block">
-                  Western Consolidated
-                </span>
+                <div className="relative">
+                  <img 
+                    src={wcplLogo} 
+                    alt="Western Consolidated" 
+                    className="h-12 w-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                  />
+                </div>
               </Link>
 
               {/* Desktop Navigation */}
