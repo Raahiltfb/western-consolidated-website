@@ -127,6 +127,9 @@ export default {
         "float": "float 3s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

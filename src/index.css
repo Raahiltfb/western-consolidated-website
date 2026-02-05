@@ -212,6 +212,11 @@
     @apply absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 pointer-events-none opacity-30;
     background: radial-gradient(ellipse at center top, hsl(0 0% 100% / 0.15) 0%, transparent 70%);
   }
+
+  /* Radial gradient for logo glow */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
 }
 
 @layer utilities {
