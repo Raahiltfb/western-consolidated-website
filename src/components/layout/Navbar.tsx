@@ -54,9 +54,9 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3">
                 <div 
-                  className="relative flex items-center justify-center p-3 rounded-full"
+                  className="relative flex items-center justify-center p-2 rounded-full"
                   style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.25)',
                     boxShadow: '0px 0px 20px rgba(255, 255, 255, 0.25), 0px 0px 40px rgba(255, 255, 255, 0.15)'
                   }}
                 >
