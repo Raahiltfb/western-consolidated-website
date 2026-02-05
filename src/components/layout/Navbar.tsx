@@ -53,20 +53,14 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             <div className="flex items-center justify-between h-20">
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3">
-                <div 
-                  className="relative flex items-center justify-center p-2 rounded-full"
-                  style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                    boxShadow: '0px 0px 20px rgba(255, 255, 255, 0.25), 0px 0px 40px rgba(255, 255, 255, 0.15)'
-                  }}
-                >
-                  {/* Logo with drop-shadow filter for shape-specific glow */}
+                <div className="relative flex items-center justify-center">
+                  {/* Logo with enhanced glow - no background circle */}
                   <img 
                     src={wcplLogo} 
                     alt="Western Consolidated" 
-                    className="relative h-24 w-auto z-10"
+                    className="h-24 w-auto"
                     style={{
-                      filter: 'drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.6)) drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.2))'
+                      filter: 'brightness(1.2) contrast(1.1) drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.4)) drop-shadow(0px 0px 16px rgba(255, 255, 255, 0.3)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8))'
                     }}
                   />
                 </div>
