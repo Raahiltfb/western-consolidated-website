@@ -13,7 +13,7 @@ const quickLinks = [
 ];
 
 const productCategories = [
-  { name: '7.5–750 kVA & HHP', path: '/products/standard-range' },
+  { name: '7.5-750 kVA & HHP', path: '/products/standard-range' },
   { name: 'Hybrid Series', path: '/products/hybrid' },
   { name: 'Optiprime Series', path: '/products/optiprime' },
   { name: 'PNG Range', path: '/products/png-range' },
