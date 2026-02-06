@@ -2,38 +2,54 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { Wrench, Clock, Shield, Users, Phone, Truck } from 'lucide-react';
+// Added CheckCircle and Activity for the new content
+import { Wrench, Clock, Shield, Users, Phone, Truck, CheckCircle, Activity, Globe } from 'lucide-react';
 
 const services = [
   {
+    icon: CheckCircle,
+    title: 'Free Service Checks',
+    description: 'Comprehensive health assessments to ensure your equipment remains in peak condition.',
+  },
+  {
+    icon: Globe,
+    title: 'KOEL CARE Network',
+    description: 'Authorized neighborhood centers providing prompt response, operational support, and repair contracts.',
+  },
+  {
     icon: Wrench,
-    title: 'Installation & Commissioning',
-    description: 'Professional installation by certified engineers with comprehensive commissioning and testing.',
-  },
-  {
-    icon: Clock,
-    title: 'Annual Maintenance Contracts',
-    description: 'Preventive maintenance programs to ensure optimal performance and longevity of your equipment.',
-  },
-  {
-    icon: Shield,
-    title: 'Warranty Services',
-    description: 'Comprehensive warranty coverage with prompt response to any manufacturing defects or issues.',
-  },
-  {
-    icon: Users,
-    title: 'Technical Consultation',
-    description: 'Expert guidance on power requirements, system design, and optimal generator selection.',
+    title: 'Single Window Solutions',
+    description: 'Unified support for Gensets and customized Annual Maintenance Contracts (AMC).',
   },
   {
     icon: Phone,
-    title: '24/7 Emergency Support',
-    description: 'Round-the-clock technical support and emergency breakdown service across India.',
+    title: '24/7 Helpline',
+    description: 'Round-the-clock assistance and technical support to address inquiries instantly.',
+  },
+  {
+    icon: Activity,
+    title: 'Advanced CRM Support',
+    description: 'Fully implemented CRM modules for proactive and rapid service response times.',
+  },
+  {
+    icon: Users,
+    title: 'Expert Service Team',
+    description: 'Highly trained engineers delivering value-added support to international standards.',
+  },
+  {
+    icon: Clock,
+    title: 'Uptime Optimization',
+    description: "Specialized 'Mean Time to Restore' systems and 'First Pick Availability' to maximize generator uptime.",
+  },
+  {
+    icon: Shield,
+    title: 'Product Life Extension',
+    description: 'Specialized K-oil and K-cool Super Plus fluids to enhance engine longevity and performance.',
   },
   {
     icon: Truck,
-    title: 'Spare Parts Supply',
-    description: 'Genuine KOEL spare parts with nationwide availability and quick delivery.',
+    title: 'Comprehensive Logistics',
+    description: 'Seamless spare parts availability, product training, and expert warranty administration.',
   },
 ];
 
@@ -49,22 +65,24 @@ const Services = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl"
+            className="max-w-4xl"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="line-accent" />
               <span className="text-primary font-semibold tracking-wider text-sm uppercase">
-                Our Services
+                Customer Care
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Comprehensive
+              At Your Service,
               <br />
-              <span className="text-primary">Support Solutions</span>
+              <span className="text-primary">Whenever & Wherever</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed">
-              From installation to maintenance, we provide end-to-end services 
-              to ensure your power systems operate at peak efficiency.
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl">
+              After-sales support is the cornerstone of long-term business viability. 
+              With <strong>59 years of service excellence</strong>, we believe in the "Think Global, Act Local" 
+              philosophy, building enduring relationships with every customer through 
+              full dedication and world-class support.
             </p>
           </motion.div>
         </div>
@@ -73,6 +91,11 @@ const Services = () => {
       {/* Services Grid */}
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-foreground">Service Offerings</h2>
+            <div className="h-1 w-20 bg-primary mt-4" />
+          </div>
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <motion.div
@@ -80,8 +103,8 @@ const Services = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-8 rounded-lg"
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+                className="card-industrial p-8 rounded-lg border border-primary/5 hover:border-primary/20 transition-colors"
               >
                 <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
                   <service.icon className="w-7 h-7 text-primary" />
@@ -89,7 +112,7 @@ const Services = () => {
                 <h3 className="text-xl font-semibold text-foreground mb-3">
                   {service.title}
                 </h3>
-                <p className="text-foreground-muted leading-relaxed">
+                <p className="text-foreground-muted leading-relaxed text-sm">
                   {service.description}
                 </p>
               </motion.div>
