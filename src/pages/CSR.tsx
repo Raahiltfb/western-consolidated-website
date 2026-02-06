@@ -28,14 +28,12 @@ const csrPolicySections = [
   {
     id: 'objective',
     title: 'II. OBJECTIVE',
-    content: `Our aim is to be one of the most respected companies in India delivering superior and everlasting value to all our customers, associates, shareholders, employees and Society at large. The CSR initiatives focus on holistic development of host communities and create social, environmental and economic value to the society.
-
-The main objective of the CSR policy is to take up programmes that benefit the communities, enhance the quality of life of the people, promote education, alleviate hunger, poverty and malnutrition, promote healthcare including preventive healthcare.`,
+    content: `Our aim is to be one of the most respected companies in India delivering superior and everlasting value to all our customers, associates, shareholders, employees and Society at large. The CSR initiatives focus on holistic development of host communities and create social, environmental and economic value to the society.\n\nThe main objective of the CSR policy is to take up programmes that benefit the communities, enhance the quality of life of the people, promote education, alleviate hunger, poverty and malnutrition, promote healthcare including preventive healthcare.`,
   },
   {
     id: 'definitions',
     title: 'III. Definitions',
-    content: 'In this policy, unless the context otherwise requires:-',
+    content: 'In this policy, unless the context otherwise requires:',
     definitions: [
       { term: 'A. "Act"', definition: 'means the Companies Act, 2013.' },
       { term: 'B. "Company"', definition: 'means Western Consolidated Private Limited.' },
@@ -45,7 +43,7 @@ The main objective of the CSR policy is to take up programmes that benefit the c
   {
     id: 'activities',
     title: 'IV. CSR ACTIVITIES',
-    content: `The Company's CSR activities shall primarily include one or more of the items covered under Schedule VII of the Act as detailed below: -`,
+    content: `The Company's CSR activities shall primarily include one or more of the items covered under Schedule VII of the Act as detailed below:`,
     activities: [
       'Eradicating hunger, poverty and malnutrition, promoting health care including preventive health care and sanitation including contribution to the Swach Bharat Kosh set-up by the Central Government for the promotion of sanitation and making available safe drinking water;',
       'Promoting education, including special education and employment enhancing vocation skills especially among children, women, elderly and the differently abled and livelihood enhancement projects;',
@@ -65,39 +63,21 @@ The main objective of the CSR policy is to take up programmes that benefit the c
   {
     id: 'expenditure',
     title: 'V. CSR EXPENDITURE',
-    content: `It will be the Company's endeavour to spend in every financial year, two percent of its average net profits during the three immediately preceding financial years (or such other limit as may be prescribed under the Act), on CSR Programmes in pursuance of this Policy. All expenditure towards the programs to be diligently documented.
-
-The CSR expenditure will include all expenditure, direct and indirect, incurred by the Company on CSR Programmes undertaken in accordance with the CSR Plan.
-
-Any surplus arising out of the CSR activities will not form part of the business profit and will be either ploughed back into the same project or transferred to the Unspent CSR Account and spent in pursuance of CSR policy and annual action plan of the company or transfer such surplus amount to a Fund specified in Schedule VII, within a period of six months of the expiry of the financial year.
-
-Any income arising from CSR Programmes will be netted off from the CSR expenditure and such net amount will be reported as CSR expenditure.
-
-If CSR expenditure in a financial year exceeds the statutory limit, such excess may be set-off against CSR expenditure for the immediate succeeding three financial years with the approval of the Board, on the recommendation of the CSR Committee.
-
-In case at least two percent of average net profit of the last three years is not spent in a financial year, reasons for the same to be specified in the CSR report and unless the unspent amount relates to any ongoing project, the said unspent amount shall be transfer to a Fund specified in Schedule VII of the Act within a period of six months from the expiry of the financial year.`,
+    content: `It will be the Company's endeavour to spend in every financial year, two percent of its average net profits during the three immediately preceding financial years (or such other limit as may be prescribed under the Act), on CSR Programmes in pursuance of this Policy. All expenditure towards the programs to be diligently documented.\n\nThe CSR expenditure will include all expenditure, direct and indirect, incurred by the Company on CSR Programmes undertaken in accordance with the CSR Plan.\n\nAny surplus arising out of the CSR activities will not form part of the business profit and will be either ploughed back into the same project or transferred to the Unspent CSR Account and spent in pursuance of CSR policy and annual action plan of the company or transfer such surplus amount to a Fund specified in Schedule VII, within a period of six months of the expiry of the financial year.\n\nAny income arising from CSR Programmes will be netted off from the CSR expenditure and such net amount will be reported as CSR expenditure.\n\nIf CSR expenditure in a financial year exceeds the statutory limit, such excess may be set-off against CSR expenditure for the immediate succeeding three financial years with the approval of the Board, on the recommendation of the CSR Committee.\n\nIn case at least two percent of average net profit of the last three years is not spent in a financial year, reasons for the same to be specified in the CSR report and unless the unspent amount relates to any ongoing project, the said unspent amount shall be transfer to a Fund specified in Schedule VII of the Act within a period of six months from the expiry of the financial year.`,
   },
   {
     id: 'implementation',
     title: 'VI. IMPLEMENTATION OF CSR PROGRAMMES',
-    content: `WCPL will undertake its CSR activities (being projects / programs / other permitted activities) either directly or through other eligible entity / organization as approved by the CSR Committee.
-
-The CSR Committee shall recommend to the Board for approval an Annual CSR Action Plan, delineating the CSR Programmes to be carried out during the financial year, including the budgets thereof, their manner of execution, and any other matters as the CSR Committee may deem fit from time to time.
-
-The Board may modify the Annual CSR Action Plan as per the recommendations of the CSR Committee at any time during the financial year, based on reasonable justification.`,
+    content: `WCPL will undertake its CSR activities (being projects / programs / other permitted activities) either directly or through other eligible entity / organization as approved by the CSR Committee.\n\nThe CSR Committee shall recommend to the Board for approval an Annual CSR Action Plan, delineating the CSR Programmes to be carried out during the financial year, including the budgets thereof, their manner of execution, and any other matters as the CSR Committee may deem fit from time to time.\n\nThe Board may modify the Annual CSR Action Plan as per the recommendations of the CSR Committee at any time during the financial year, based on reasonable justification.`,
   },
   {
     id: 'monitoring',
     title: 'VII. MANAGEMENT AND MONITORING MECHANISM OF CSR PROGRAMMES',
-    content: `Board of Directors: The Board reviews the impact of CSR activities, provides inputs and satisfies itself that the CSR spends are aligned to the CSR Policy and has been utilized for the purposes and in the manner as approved by it. In addition, at the end of financial year, any one Director shall certify that CSR spends have been utilized for the purposes and in the manner approved by the Board.
-
-CSR Committee: CSR Committee provides guidance on CSR activities and monitors compliance with CSR Policy, commitments, and applicable CSR provisions. The composition, scope and role of CSR Committee shall be as set out in the Act read with the CSR Rules.`,
+    content: `Board of Directors: The Board reviews the impact of CSR activities, provides inputs and satisfies itself that the CSR spends are aligned to the CSR Policy and has been utilized for the purposes and in the manner as approved by it. In addition, at the end of financial year, any one Director shall certify that CSR spends have been utilized for the purposes and in the manner approved by the Board.\n\nCSR Committee: CSR Committee provides guidance on CSR activities and monitors compliance with CSR Policy, commitments, and applicable CSR provisions. The composition, scope and role of CSR Committee shall be as set out in the Act read with the CSR Rules.`,
   },
 ];
 
-const amendmentsContent = `In case of any subsequent changes in the provisions of the Act or any other regulations which makes any of the provisions in the Policy inconsistent with the Act or regulations, then the provisions of the Act or regulations would prevail over the Policy and the provisions in the Policy would be modified in due course to make it consistent with the law.
-
-This Policy will be reviewed by the Board, on the recommendation of the CSR Committee, as and when deemed necessary.`;
+const amendmentsContent = `In case of any subsequent changes in the provisions of the Act or any other regulations which makes any of the provisions in the Policy inconsistent with the Act or regulations, then the provisions of the Act or regulations would prevail over the Policy and the provisions in the Policy would be modified in due course to make it consistent with the law.\n\nThis Policy will be reviewed by the Board, on the recommendation of the CSR Committee, as and when deemed necessary.`;
 
 const csrProgrammes = [
   {
@@ -148,42 +128,14 @@ const CSR = () => {
               <span className="text-primary">Responsibility</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
-              Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development-delivering value to society at large.
+              Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development - delivering value to society at large.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Initiatives */}
-      <section className="py-20 bg-background-secondary">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            {initiatives.map((initiative, index) => (
-              <motion.div
-                key={initiative.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-8 rounded-lg"
-              >
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                  <initiative.icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {initiative.title}
-                </h3>
-                <p className="text-foreground-muted leading-relaxed">
-                  {initiative.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CSR Committee */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -196,7 +148,7 @@ const CSR = () => {
             </h2>
           </motion.div>
           
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {csrCommittee.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -222,7 +174,7 @@ const CSR = () => {
       </section>
 
       {/* CSR Policy */}
-      <section className="py-20 bg-background-secondary">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -289,7 +241,9 @@ const CSR = () => {
             className="card-industrial p-6 lg:p-8 rounded-lg"
           >
             <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-3">
-              <FileText className="w-5 h-5 text-primary" />
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <FileText className="w-5 h-5 text-primary" />
+              </div>
               AMENDMENTS TO THIS POLICY
             </h3>
             <p className="text-foreground-muted leading-relaxed whitespace-pre-line">
@@ -300,7 +254,7 @@ const CSR = () => {
       </section>
 
       {/* CSR Programmes */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -349,7 +303,7 @@ const CSR = () => {
       </section>
 
       {/* Image Gallery Placeholder */}
-      <section className="py-20 bg-background-secondary">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
