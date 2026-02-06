@@ -12,10 +12,9 @@ const milestones = [
 ];
 
 const values = [
-  { icon: Award, title: 'Excellence', description: 'Commitment to highest quality standards.' },
-  { icon: Users, title: 'Customer First', description: 'Building lasting relationships.' },
-  { icon: Clock, title: 'Reliability', description: 'Dependable service, every time.' },
-  { icon: Target, title: 'Innovation', description: 'Continuous improvement and advancement.' },
+  { icon: Award, title: 'Excellence', description: 'Uncompromising Focus on Quality' },
+  { icon: Users, title: 'Ethics', description: 'High Ethical Standards Through Integrity and Mutual Trust' },
+  { icon: Clock, title: 'Reliability', description: 'Speed and Responsiveness Through Employee Empowerment' },
 ];
 
 const sections = [
@@ -41,14 +40,14 @@ const sections = [
   id: 'growth',
   icon: TrendingUp,
   title: 'Growth',
-  content: 'Established in 1957 by Chairman Mr. K.C. Dhingra, Western Consolidated Private Limited (formerly Western India Machinery Co Pvt Ltd) has grown into one of India\'s leading providers of diesel generating sets and electrical control panels. Whether serving large corporations or small and medium enterprises, we bring the same level of dedication and excellence to every project. As an authorized GOEM of Kirloskar Oil Engines Ltd (KOEL)—the country\'s largest independent diesel engine manufacturer with nationwide reach—WCPL delivers reliable, mission-critical power solutions. We partner with the best to serve the best: our generators feature KOEL Green alternators, recognized as industry leaders in quality and performance.',
+  content: 'Established in 1957 by Chairman Mr. K.C. Dhingra, Western Consolidated Private Limited (formerly Western India Machinery Co Pvt Ltd) has grown into one of India's leading providers of diesel generating sets and electrical control panels. Whether serving large corporations or small and medium enterprises, we bring the same level of dedication and excellence to every project.\n\nAs an authorized GOEM of Kirloskar Oil Engines Ltd (KOEL)-the country's largest independent diesel engine manufacturer with nationwide reach, WCPL delivers reliable, mission-critical power solutions. We partner with the best to serve the best: our generators feature KOEL Green alternators, recognized as industry leaders in quality and performance.',
   },
-  {
-    id: 'infrastructure',
-    icon: Building,
-    title: 'Infrastructure',
-    content: 'State-of-the-art manufacturing facilities, modern testing laboratories, extensive service network, and dedicated training centers that ensure we deliver products and services of the highest caliber.',
-  },
+{
+  id: 'infrastructure',
+  icon: Building,
+  title: 'Infrastructure',
+  content: 'Excellence in quality is embedded in WCPL through our advanced infrastructure and skilled workforce. Technology is our power, our people are our strength; together, they drive our commitment to quality.\n\nWCPL operates a state-of-the-art manufacturing facility in Sitarganj, Uttarakhand, capable of producing diesel generating sets from 3 kVA to 1010 kVA. Partnered with KOEL Green for sound-proof canopies, our facility has an annual production capacity of 5,000 units.\n\nOur nationwide network operates through strategically located branch offices, with robust presence across Bengal, Bihar, Jharkhand, and Sikkim, ensuring comprehensive coverage and responsive service throughout India.',
+},
 ];
 
 const About = () => {
