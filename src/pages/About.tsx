@@ -23,13 +23,13 @@ const sections = [
     id: 'vision',
     icon: Eye,
     title: 'Vision',
-    content: 'To be the most trusted and preferred partner for industrial power solutions in India, setting benchmarks for quality, reliability, and customer satisfaction in the power generation industry.',
+    content: 'To be the most admired power solutions provider with international standards, delivering sustainable values to all customers.',
   },
   {
     id: 'mission',
     icon: Compass,
     title: 'Mission',
-    content: 'To deliver world-class diesel generator sets and power solutions that meet the diverse needs of our customers, while maintaining the highest standards of engineering excellence, safety, and environmental responsibility.',
+    content: 'Driving organizational transformation to build the conviction and capabilities needed to deliver quality products on time to our customers.',
   },
   {
     id: 'values',
@@ -38,10 +38,10 @@ const sections = [
     content: 'Integrity in all dealings, commitment to quality, customer-centric approach, continuous innovation, respect for people and environment, and unwavering dedication to excellence.',
   },
   {
-    id: 'growth',
-    icon: TrendingUp,
-    title: 'Growth',
-    content: 'From our humble beginnings in the 1960s, we have grown to become one of India\'s leading power solutions providers with a pan-India presence, serving thousands of satisfied customers across diverse industries.',
+  id: 'growth',
+  icon: TrendingUp,
+  title: 'Growth',
+  content: 'Established in 1957 by Chairman Mr. K.C. Dhingra, Western Consolidated Private Limited (formerly Western India Machinery Co Pvt Ltd) has grown into one of India\'s leading providers of diesel generating sets and electrical control panels. Whether serving large corporations or small and medium enterprises, we bring the same level of dedication and excellence to every project. As an authorized GOEM of Kirloskar Oil Engines Ltd (KOEL)—the country\'s largest independent diesel engine manufacturer with nationwide reach—WCPL delivers reliable, mission-critical power solutions. We partner with the best to serve the best: our generators feature KOEL Green alternators, recognized as industry leaders in quality and performance.',
   },
   {
     id: 'infrastructure',
