@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import kirloskarLogo from '@/assets/kirloskar-logo.png';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
@@ -252,8 +253,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             className="absolute bottom-8 right-8 hidden lg:block"
           >
             <div className="bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3">
-              <div className="w-10 h-10 bg-foreground rounded flex items-center justify-center text-background font-bold text-lg">
-                K
+              <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
+                <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
               </div>
               <div>
                 <div className="text-xs text-foreground-muted">AUTHORIZED GOEM</div>
