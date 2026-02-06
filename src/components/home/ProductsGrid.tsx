@@ -5,7 +5,7 @@ import { ArrowRight, Zap, Leaf, Sun, Shield, Factory } from 'lucide-react';
 const productCategories = [
   {
     id: 'standard-range',
-    name: '7.5–750 kVA & HHP',
+    name: '7.5-750 kVA & HHP',
     description: 'Standard industrial diesel generator sets for diverse applications.',
     icon: Factory,
     path: '/products/standard-range',
