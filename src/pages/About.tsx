@@ -37,17 +37,17 @@ const sections = [
     content: 'Integrity in all dealings, commitment to quality, customer-centric approach, continuous innovation, respect for people and environment, and unwavering dedication to excellence.',
   },
   {
-  id: 'growth',
-  icon: TrendingUp,
-  title: 'Growth',
-  content: 'Established in 1957 by Chairman Mr. K.C. Dhingra, Western Consolidated Private Limited (formerly Western India Machinery Co Pvt Ltd) has grown into one of India's leading providers of diesel generating sets and electrical control panels. Whether serving large corporations or small and medium enterprises, we bring the same level of dedication and excellence to every project.\n\nAs an authorized GOEM of Kirloskar Oil Engines Ltd (KOEL)-the country's largest independent diesel engine manufacturer with nationwide reach, WCPL delivers reliable, mission-critical power solutions. We partner with the best to serve the best: our generators feature KOEL Green alternators, recognized as industry leaders in quality and performance.',
+    id: 'growth',
+    icon: TrendingUp,
+    title: 'Growth',
+    content: 'Established in 1957 by Chairman Mr. K.C. Dhingra, Western Consolidated Private Limited (formerly Western India Machinery Co Pvt Ltd) has grown into one of India\'s leading providers of diesel generating sets and electrical control panels. Whether serving large corporations or small and medium enterprises, we bring the same level of dedication and excellence to every project.\n\nAs an authorized GOEM of Kirloskar Oil Engines Ltd (KOEL) - the country\'s largest independent diesel engine manufacturer with nationwide reach - WCPL delivers reliable, mission-critical power solutions. We partner with the best to serve the best: our generators feature KOEL Green alternators, recognized as industry leaders in quality and performance.',
   },
-{
-  id: 'infrastructure',
-  icon: Building,
-  title: 'Infrastructure',
-  content: 'Excellence in quality is embedded in WCPL through our advanced infrastructure and skilled workforce. Technology is our power, our people are our strength; together, they drive our commitment to quality.\n\nWCPL operates a state-of-the-art manufacturing facility in Sitarganj, Uttarakhand, capable of producing diesel generating sets from 3 kVA to 1010 kVA. Partnered with KOEL Green for sound-proof canopies, our facility has an annual production capacity of 5,000 units.\n\nOur nationwide network operates through strategically located branch offices, with robust presence across Bengal, Bihar, Jharkhand, and Sikkim, ensuring comprehensive coverage and responsive service throughout India.',
-},
+  {
+    id: 'infrastructure',
+    icon: Building,
+    title: 'Infrastructure',
+    content: 'Excellence in quality is embedded in WCPL through our advanced infrastructure and skilled workforce. Technology is our power, our people are our strength - together, they drive our commitment to quality.\n\nWCPL operates a state-of-the-art manufacturing facility in Sitarganj, Uttarakhand, capable of producing diesel generating sets from 3 kVA to 1010 kVA. Partnered with KOEL Green for sound-proof canopies, our facility has an annual production capacity of 5,000 units.\n\nOur nationwide network operates through strategically located branch offices, with robust presence across Bengal, Bihar, Jharkhand, and Sikkim, ensuring comprehensive coverage and responsive service throughout India.',
+  },
 ];
 
 const About = () => {
@@ -71,14 +71,14 @@ const About = () => {
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Powering India's
+              Powering India&apos;s
               <br />
               <span className="text-primary">Industrial Growth</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
               For over six decades, Western Consolidated Private Limited has been 
               at the forefront of industrial power solutions, delivering reliable 
-              generator sets that power India's industrial backbone.
+              generator sets that power India&apos;s industrial backbone.
             </p>
           </motion.div>
         </div>
@@ -100,7 +100,7 @@ const About = () => {
               </h2>
               <p className="text-foreground-muted leading-relaxed">
                 Established in the 1960s, WCPL began its journey with a vision to provide 
-                reliable power solutions to India's growing industrial sector. What started 
+                reliable power solutions to India&apos;s growing industrial sector. What started 
                 as a small enterprise has grown into one of the most trusted names in the 
                 power generation industry.
               </p>
@@ -173,7 +173,7 @@ const About = () => {
                     <h3 className="text-2xl font-bold text-foreground mb-3">
                       {section.title}
                     </h3>
-                    <p className="text-foreground-muted leading-relaxed text-lg">
+                    <p className="text-foreground-muted leading-relaxed text-lg whitespace-pre-line">
                       {section.content}
                     </p>
                   </div>
