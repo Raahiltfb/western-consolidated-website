@@ -80,7 +80,7 @@ const Services = () => {
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl">
               After-sales support is the cornerstone of long-term business viability. 
-              With <strong>59 years of service excellence</strong>, we believe in the "Think Global, Act Local" 
+              With <strong>60+ years of service excellence</strong>, we believe in the "Think Global, Act Local" 
               philosophy, building enduring relationships with every customer through 
               full dedication and world-class support.
             </p>
