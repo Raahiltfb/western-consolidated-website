@@ -64,7 +64,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                   <img 
                     src={wcplLogo} 
                     alt="Western Consolidated" 
-                    className="relative h-16 w-auto"
+                    className="relative h-24 w-auto"
                     style={{
                       filter: 'brightness(1.3) saturate(1.2) drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.5)) drop-shadow(0px 0px 24px rgba(255, 255, 255, 0.3)) drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.9))'
                     }}
