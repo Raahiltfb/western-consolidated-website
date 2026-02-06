@@ -8,6 +8,7 @@ const quickLinks = [
   { name: 'Services', path: '/services' },
   { name: 'Clients', path: '/clients' },
   { name: 'Career', path: '/career' },
+  { name: 'CSR', path: '/csr' },
   { name: 'Contact', path: '/contact' },
 ];
 
@@ -108,25 +109,25 @@ export const Footer = () => {
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-primary mt-0.5 shrink-0" />
                 <span className="text-foreground-muted text-sm">
-                  Industrial Area, Pune, Maharashtra, India
+                  Western Consolidated Pvt. Ltd. 19, Ganesh Chandra Avenue, Kolkata 700013
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-primary shrink-0" />
                 <a 
-                  href="tel:+919876543210" 
+                  href="tel:(033)-22376813" 
                   className="text-foreground-muted hover:text-primary transition-colors text-sm"
                 >
-                  +91 98765 43210
+                  (033)-22376813
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-primary shrink-0" />
                 <a 
-                  href="mailto:info@wcpl.in" 
+                  href="western@westernconsolidated.com" 
                   className="text-foreground-muted hover:text-primary transition-colors text-sm"
                 >
-                  info@wcpl.in
+                  western@westernconsolidated.com
                 </a>
               </li>
             </ul>
