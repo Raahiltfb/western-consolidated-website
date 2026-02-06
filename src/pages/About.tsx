@@ -31,12 +31,6 @@ const sections = [
     content: 'Driving organizational transformation to build the conviction and capabilities needed to deliver quality products on time to our customers.',
   },
   {
-    id: 'values',
-    icon: Heart,
-    title: 'Values',
-    content: 'Integrity in all dealings, commitment to quality, customer-centric approach, continuous innovation, respect for people and environment, and unwavering dedication to excellence.',
-  },
-  {
     id: 'growth',
     icon: TrendingUp,
     title: 'Growth',
@@ -140,7 +134,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Vision, Mission, Values, Growth, Infrastructure */}
+      {/* Vision, Mission, Growth, Infrastructure */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -217,7 +211,7 @@ const About = () => {
           </div>
         </div>
       </section>
-
+      
       {/* Values */}
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
@@ -227,29 +221,29 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
-          >
+            >
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Our <span className="text-primary">Values</span>
             </h2>
           </motion.div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg text-center"
-              >
-                <div className="w-14 h-14 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <value.icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
-                <p className="text-foreground-muted text-sm">{value.description}</p>
-              </motion.div>
-            ))}
+      <motion.div
+        key={value.title}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: index * 0.1 }}
+        className="card-industrial p-6 rounded-lg text-center"
+        >
+        <div className="w-14 h-14 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+          <value.icon className="w-7 h-7 text-primary" />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
+        <p className="text-foreground-muted text-sm">{value.description}</p>
+      </motion.div>
+    ))}
           </div>
         </div>
       </section>
