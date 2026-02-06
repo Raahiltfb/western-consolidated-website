@@ -32,7 +32,7 @@ const Career = () => {
               <span className="text-primary">Team</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
-              People are our strength. If you believe you can add to our strength and bring a unique skill set to WCPL, we'd love to meet you over a cup of coffee.
+              People are our strength. If you believe you can add to our strength and bring a unique skill set to Western Consolidated, we'd love to meet you over a cup of coffee.
             </p>
           </motion.div>
         </div>
@@ -110,19 +110,21 @@ const Career = () => {
               </p>
               
               <div className="space-y-4 mb-8">
-                <p className="text-foreground font-medium">Email us your resume at:</p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <p className="text-foreground font-medium text-center">Email us your resume at:</p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
                   <a 
                     href="mailto:response@westernconsolidated.com"
                     className="text-primary hover:underline font-medium"
-                  >
+                    >
                     response@westernconsolidated.com
                   </a>
-                  <span className="text-foreground-muted hidden sm:inline">or</span>
+    
+                  <span className="text-foreground-muted hidden sm:inline mx-1">or</span>
+    
                   <a 
                     href="mailto:western@cal.vsnl.net.in"
                     className="text-primary hover:underline font-medium"
-                  >
+                    >
                     western@cal.vsnl.net.in
                   </a>
                 </div>
