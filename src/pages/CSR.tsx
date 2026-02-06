@@ -4,41 +4,18 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
 import { Heart, Leaf, GraduationCap, Users, User, FileText, Calendar } from 'lucide-react';
 
-const initiatives = [
-  {
-    icon: GraduationCap,
-    title: 'Education Support',
-    description: 'Supporting education initiatives in underprivileged communities through scholarships and infrastructure development.',
-  },
-  {
-    icon: Heart,
-    title: 'Healthcare Access',
-    description: 'Providing reliable power solutions to rural healthcare centers and supporting medical equipment donations.',
-  },
-  {
-    icon: Leaf,
-    title: 'Environmental Sustainability',
-    description: 'Committed to reducing carbon footprint through hybrid power solutions and sustainable manufacturing practices.',
-  },
-  {
-    icon: Users,
-    title: 'Community Development',
-    description: 'Investing in local communities through skill development programs and employment opportunities.',
-  },
-];
-
 const csrCommittee = [
   {
-    name: 'Mr. Rajesh Kumar',
-    designation: 'Chairman, CSR Committee',
+    name: 'Mr. Vineet Dhingra',
+    designation: 'Chairman',
   },
   {
-    name: 'Mrs. Priya Sharma',
-    designation: 'Independent Director',
+    name: 'Mr. Pranab Biswas',
+    designation: 'Member',
   },
   {
-    name: 'Mr. Anil Mehta',
-    designation: 'Managing Director',
+    name: 'Mrs. Savita Dhingra',
+    designation: 'Member',
   },
 ];
 
@@ -124,24 +101,24 @@ This Policy will be reviewed by the Board, on the recommendation of the CSR Comm
 
 const csrProgrammes = [
   {
-    title: 'Education & Skill Development Initiative',
-    description: 'Supporting educational infrastructure and vocational training programs in underprivileged communities to enhance employability and create sustainable livelihoods.',
+    title: 'Poverty, Health and Nutrition Programme for children',
+    description: 'Eradicating hunger, poverty and malnutrition, promoting health care including preventive health care and sanitation including contribution to the Swach Bharat Kosh set-up by the Central Government for the promotion of sanitation and making available safe drinking water.',
   },
   {
-    title: 'Healthcare Access Programme',
-    description: 'Providing healthcare facilities, medical camps, and health awareness programs in rural areas with focus on preventive healthcare and nutrition.',
+    title: 'Flood Relief',
+    description: 'Disaster management, including relief, rehabilitation and reconstruction activities.',
   },
   {
-    title: 'Environmental Sustainability Project',
-    description: 'Tree plantation drives, waste management initiatives, and promotion of renewable energy solutions to reduce environmental footprint.',
+    title: 'Promoting Sports',
+    description: 'Training to promote rural sports, nationally recognised sports, paralympic sports and olympic sports.',
   },
   {
-    title: 'Rural Development Scheme',
-    description: 'Infrastructure development in rural areas including roads, water supply systems, and community centers for holistic village development.',
+    title: 'Protection of Flora and Fauna',
+    description: 'Ensuring environmental sustainability, ecological balance, protection of flora and fauna, animal welfare, agro forestry, conservation of natural resources and maintaining quality of soil, air and water including contribution to the Clean Ganga Fund set-up by the Central Government for rejuvenation of river Ganga.',
   },
   {
-    title: 'Women Empowerment Programme',
-    description: 'Skills training, entrepreneurship development, and self-help group formation to promote economic independence among women.',
+    title: 'Promoting Education',
+    description: 'Promoting education, including special education and employment enhancing vocation skills especially among children, women, elderly and the differently abled and livelihood enhancement projects.',
   },
 ];
 
@@ -171,8 +148,7 @@ const CSR = () => {
               <span className="text-primary">Responsibility</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
-              At WCPL, we believe in giving back to society. Our CSR initiatives 
-              focus on education, healthcare, environment, and community development.
+              Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development-delivering value to society at large.
             </p>
           </motion.div>
         </div>
