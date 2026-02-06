@@ -3,29 +3,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
 import { Button } from '@/components/ui/button';
-import { MapPin, Briefcase, Clock } from 'lucide-react';
+import { Mail, Users, Coffee } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-const openings = [
-  {
-    title: 'Service Engineer',
-    location: 'Pune, Maharashtra',
-    type: 'Full-time',
-    department: 'Service',
-  },
-  {
-    title: 'Sales Executive',
-    location: 'Mumbai, Maharashtra',
-    type: 'Full-time',
-    department: 'Sales',
-  },
-  {
-    title: 'Technical Support',
-    location: 'Bangalore, Karnataka',
-    type: 'Full-time',
-    department: 'Support',
-  },
-];
 
 const Career = () => {
   return (
@@ -53,8 +32,7 @@ const Career = () => {
               <span className="text-primary">Team</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
-              Build your career with a company that's powering India's industrial growth. 
-              We're looking for passionate individuals to join our team.
+              People are our strength. If you believe you can add to our strength and bring a unique skill set to WCPL, we'd love to meet you over a cup of coffee.
             </p>
           </motion.div>
         </div>
@@ -74,9 +52,21 @@ const Career = () => {
           
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: 'Growth Opportunities', description: 'Continuous learning and career advancement paths.' },
-              { title: 'Industry Leaders', description: 'Work with cutting-edge technology and industry experts.' },
-              { title: 'Work-Life Balance', description: 'Supportive environment that values your well-being.' },
+              { 
+                icon: Users,
+                title: 'People Are Our Strength', 
+                description: 'Join a team where your unique skills and talents are valued and nurtured.' 
+              },
+              { 
+                icon: Coffee,
+                title: 'Collaborative Culture', 
+                description: 'Work in an environment that encourages innovation, growth, and open dialogue.' 
+              },
+              { 
+                icon: Mail,
+                title: 'Career Growth', 
+                description: 'Build your career with a company that has been powering India\'s industrial growth for decades.' 
+              },
             ].map((item, index) => (
               <motion.div
                 key={item.title}
@@ -86,6 +76,9 @@ const Career = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="card-industrial p-8 rounded-lg text-center"
               >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <item.icon className="w-7 h-7 text-primary" />
+                </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">{item.title}</h3>
                 <p className="text-foreground-muted">{item.description}</p>
               </motion.div>
@@ -94,52 +87,60 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Current Openings */}
+      {/* Write to Us */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-foreground mb-12 text-center"
-          >
-            Current <span className="text-primary">Openings</span>
-          </motion.h2>
-          
-          <div className="space-y-4 max-w-3xl mx-auto">
-            {openings.map((job, index) => (
-              <motion.div
-                key={job.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{job.title}</h3>
-                  <div className="flex flex-wrap gap-4 text-sm text-foreground-muted">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      {job.location}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {job.type}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Briefcase className="w-4 h-4" />
-                      {job.department}
-                    </span>
-                  </div>
+          <div className="max-w-3xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="card-industrial p-8 lg:p-12 rounded-lg text-center"
+            >
+              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <Mail className="w-8 h-8 text-primary" />
+              </div>
+              
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Write to <span className="text-primary">Us</span>
+              </h2>
+              
+              <p className="text-foreground-muted text-lg leading-relaxed mb-8">
+                People are our strength. If you believe you can contribute to our team and bring unique skills to the table, we'd be delighted to connect with you.
+              </p>
+              
+              <div className="space-y-4 mb-8">
+                <p className="text-foreground font-medium">Email us your resume at:</p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <a 
+                    href="mailto:response@westernconsolidated.com"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    response@westernconsolidated.com
+                  </a>
+                  <span className="text-foreground-muted hidden sm:inline">or</span>
+                  <a 
+                    href="mailto:western@cal.vsnl.net.in"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    western@cal.vsnl.net.in
+                  </a>
                 </div>
-                <Link to="/enquiry">
-                  <Button variant="outline" size="sm">
-                    Apply Now
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:response@westernconsolidated.com">
+                  <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                    Send Your Resume
+                  </Button>
+                </a>
+                <Link to="/contact">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                    Contact Us
                   </Button>
                 </Link>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
