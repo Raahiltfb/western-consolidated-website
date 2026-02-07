@@ -259,11 +259,11 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           </div>
           <div>
             {/* 2. Changed 'text-foreground-muted' to 'text-muted-foreground/90' for better contrast in light mode */}
-            <div className="text-[10px] leading-tight font-medium text-muted-foreground/90 dark:text-foreground-muted uppercase">
+            <div className="text-[10px] leading-tight font-medium text-white uppercase">
               AUTHORIZED GOEM
             </div>
             {/* 3. Ensured 'of KOEL' uses the primary foreground color of the current theme */}
-            <div className="text-sm font-bold text-foreground">
+            <div className="text-sm font-bold text-white">
               of KOEL
             </div>
           </div>
