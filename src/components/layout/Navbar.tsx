@@ -51,22 +51,30 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
         >
           <div className="container mx-auto px-4 lg:px-8">
             <div className="flex items-center justify-between h-20">
+
               {/* Logo */}
-              <Link to="/" className="flex items-center gap-3">
+              <Link to="/" className="flex items-center">
                 <div className="relative flex items-center justify-center">
-                  {/* Logo with subtle backdrop and enhanced contrast */}
-                  <div 
-                    className="absolute inset-0 -m-2 rounded-lg blur-md"
+
+                  {/* Gold Contrast Plate */}
+                  <div
+                    className="absolute inset-0 -m-3 rounded-xl"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                      background:
+                        'linear-gradient(135deg, #FFD54F 0%, #FFC107 50%, #FFB300 100%)',
+                      boxShadow:
+                        '0 8px 20px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(0,0,0,0.15)',
                     }}
                   />
-                  <img 
-                    src={wcplLogo} 
-                    alt="Western Consolidated" 
+
+                  {/* Logo */}
+                  <img
+                    src={wcplLogo}
+                    alt="Western Consolidated"
                     className="relative h-24 w-auto"
                     style={{
-                      filter: 'brightness(1.3) saturate(1.2) drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.5)) drop-shadow(0px 0px 24px rgba(255, 255, 255, 0.3)) drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.9))'
+                      filter:
+                        'drop-shadow(0px 3px 6px rgba(0,0,0,0.8))',
                     }}
                   />
                 </div>
@@ -96,7 +104,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                     Enquiry
                   </Button>
                 </Link>
-                
+
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="lg:hidden p-2 text-foreground hover:text-primary transition-colors"
