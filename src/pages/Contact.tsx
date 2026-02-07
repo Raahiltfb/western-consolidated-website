@@ -72,11 +72,9 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Address</h3>
                     <p className="text-foreground-muted leading-relaxed">
-                      Plot No A-194D, 194E & 194E,<br />
-                      Eldeco Sidcul Industrial Park Ltd.,<br />
-                      Phase - 1, Sitarganj - 262 405,<br />
-                      Distt. U.S.Nagar, Uttarakhand,<br />
-                      India
+                      <strong>Kolkata</strong><br />
+                      Western Consolidated Pvt. Ltd.<br />
+                      19, Ganesh Chandra Avenue, Kolkata 700013
                     </p>
                   </div>
                 </div>
@@ -88,16 +86,16 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
                     <a 
-                      href="mailto:info@wcpl.in" 
+                      href="mailto:response@westernconsolidated.com" 
                       className="text-foreground-muted hover:text-primary transition-colors block"
                     >
-                      info@wcpl.in
+                      response@westernconsolidated.com
                     </a>
                     <a 
-                      href="mailto:sales@wcpl.in" 
+                      href="mailto:western@westernconsolidated.com" 
                       className="text-foreground-muted hover:text-primary transition-colors block"
                     >
-                      sales@wcpl.in
+                      western@westernconsolidated.com
                     </a>
                   </div>
                 </div>
@@ -109,16 +107,16 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
                     <a 
-                      href="tel:+919876543210" 
+                      href="tel:(033)-22376813" 
                       className="text-foreground-muted hover:text-primary transition-colors block"
                     >
-                      +91 98765 43210
+                      (033)-22376813
                     </a>
                     <a 
-                      href="tel:+912012345678" 
+                      href="tel:22378962" 
                       className="text-foreground-muted hover:text-primary transition-colors block"
                     >
-                      +91 20 1234 5678
+                      22378962
                     </a>
                   </div>
                 </div>
@@ -145,16 +143,16 @@ const Contact = () => {
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
-                  city: 'Delhi NCR',
-                  address: 'Plot No. 123, Industrial Area,\nPhase II, Gurgaon - 122001,\nHaryana, India',
-                },
-                {
                   city: 'Mumbai',
-                  address: 'Unit 45, MIDC Industrial Estate,\nAndheri East, Mumbai - 400093,\nMaharashtra, India',
+                  address: 'Western Consolidated Pvt. Ltd.\nF-102, Remi Biz Court, Plot No 9,\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053',
                 },
                 {
-                  city: 'Kolkata',
-                  address: 'Block B, Salt Lake City,\nSector V, Kolkata - 700091,\nWest Bengal, India',
+                  city: 'Patna',
+                  address: 'Western Consolidated Pvt. Ltd.\nGram-Fatehajangpur, Mauja-Sabalpur,\nJamabandi No.265, Khata No.762,\nPatna 800009,\nBihar, India',
+                },
+                {
+                  city: 'Ranchi',
+                  address: 'Western Consolidated Pvt. Ltd.\nMauza - Mesra, Thana - Sadar (169),\nKhata No. 26, Plot No. 411,\nNH 33, Near B I T More,\nRanchi 835217,\nJharkhand, India',
                 },
               ].map((branch, index) => (
                 <motion.div
@@ -204,13 +202,12 @@ const Contact = () => {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Manufacturing Facility</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Sitarganj</h3>
                     <p className="text-foreground-muted leading-relaxed">
-                      Plot No A-194D, 194E & 194E,<br />
-                      Eldeco Sidcul Industrial Park Ltd.,<br />
-                      Phase - 1, Sitarganj - 262 405,<br />
-                      Distt. U.S.Nagar, Uttarakhand,<br />
-                      India
+                      Western Consolidated Pvt. Ltd.<br />
+                      Plot No. A-194D, 194E, 194F,<br />
+                      Sidcul, Sitarganj, Dist. U.S. Nagar,<br />
+                      262405, Uttarakhand
                     </p>
                   </div>
                 </div>
@@ -222,10 +219,10 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
                     <a 
-                      href="mailto:works@wcpl.in" 
+                      href="mailto:wcplsitarganj@westernconsolidated.com" 
                       className="text-foreground-muted hover:text-primary transition-colors"
                     >
-                      works@wcpl.in
+                      wcplsitarganj@westernconsolidated.com
                     </a>
                   </div>
                 </div>
@@ -252,7 +249,7 @@ const Contact = () => {
             <div className="card-industrial rounded-lg overflow-hidden">
               <div className="aspect-[21/9] w-full">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3478.6037891384386!2d79.58839587550766!3d29.14276557543543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0be2d7e5a9a49%3A0x5e1f1f5f5f5f5f5f!2sEldeco%20Sidcul%20Industrial%20Park!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  src="https://maps.app.goo.gl/ketZuTgSnT95jrjn9"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -265,7 +262,7 @@ const Contact = () => {
               </div>
               <div className="p-4 bg-card border-t border-border">
                 <a
-                  href="https://maps.app.goo.gl/vL5XnBt2edzrpeXQ9"
+                  href="https://maps.app.goo.gl/ketZuTgSnT95jrjn9"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:text-primary-hover transition-colors text-sm font-medium inline-flex items-center gap-2"
@@ -293,7 +290,7 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-foreground">Send Us a Message</h2>
             </div>
             
-            <div className="max-w-2xl">
+            <div className="max-w-2xl mx-auto">
               {submitted ? (
                 <div className="card-industrial p-12 rounded-lg text-center">
                   <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
