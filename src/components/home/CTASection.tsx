@@ -35,8 +35,8 @@ export const CTASection = () => {
           </h2>
           
           <p className="text-foreground-muted text-lg mb-10 max-w-2xl mx-auto">
-            Connect with our engineering team to discuss your power requirements. 
-            We'll help you find the perfect solution for your industrial needs.
+            Connect with our team to discuss your power requirements. 
+            We'll help you find the perfect solution tailored to your specific requirements.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
