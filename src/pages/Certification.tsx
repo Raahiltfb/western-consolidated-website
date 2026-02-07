@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { ArrowLeft, Download } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Certificate images
@@ -151,14 +151,11 @@ const Certification = () => {
                 </div>
               </div>
 
-              <Button variant="hero" size="lg" className="w-full">
-                <Download size={18} className="mr-2" />
-                Download Certificate
-              </Button>
+              {/* Download Button Removed from here */}
 
-              <div className="text-center">
+              <div className="text-center lg:text-left">
                 <Link to="/enquiry">
-                  <Button variant="outline" size="lg">
+                  <Button variant="hero" size="lg" className="w-full">
                     Request More Information
                   </Button>
                 </Link>
