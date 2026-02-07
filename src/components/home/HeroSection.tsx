@@ -242,27 +242,34 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-
+      
       {/* KOEL Badge */}
       <AnimatePresence>
         {showContent && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="absolute bottom-8 right-8 hidden lg:block"
-          >
-            <div className="bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
-                <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
-              </div>
-              <div>
-                <div className="text-xs text-foreground-muted">AUTHORIZED GOEM</div>
-                <div className="text-sm font-semibold text-foreground">of KOEL</div>
-              </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="absolute bottom-8 right-8 hidden lg:block"
+        >
+        {/* 1. Added 'dark:bg-secondary/80' and 'bg-secondary' to ensure consistent container density */}
+        <div className="bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-sm">
+          <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
+            <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
+          </div>
+          <div>
+            {/* 2. Changed 'text-foreground-muted' to 'text-muted-foreground/90' for better contrast in light mode */}
+            <div className="text-[10px] leading-tight font-medium text-muted-foreground/90 dark:text-foreground-muted uppercase">
+              AUTHORIZED GOEM
             </div>
-          </motion.div>
-        )}
+            {/* 3. Ensured 'of KOEL' uses the primary foreground color of the current theme */}
+            <div className="text-sm font-bold text-foreground">
+              of KOEL
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    )}
       </AnimatePresence>
     </section>
   );
