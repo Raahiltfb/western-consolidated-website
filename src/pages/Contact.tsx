@@ -20,7 +20,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
-
+      
       {/* Hero */}
       <section className="pt-32 pb-20 bg-background relative">
         <div className="container mx-auto px-4 lg:px-8">
@@ -49,7 +49,7 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Form — MOVED TO TOP */}
+      {/* Contact Form - Now First */}
       <section className="py-16 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -58,22 +58,18 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center justify-center gap-3 mb-8 text-center">
+            <div className="flex items-center justify-center gap-3 mb-8">
               <Mail className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold text-foreground">
-                Send Us a Message
-              </h2>
+              <h2 className="text-2xl font-bold text-foreground">Send Us a Message</h2>
             </div>
-
+            
             <div className="max-w-2xl mx-auto">
               {submitted ? (
                 <div className="card-industrial p-12 rounded-lg text-center">
                   <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
                     <CheckCircle className="w-10 h-10 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    Thank You!
-                  </h2>
+                  <h2 className="text-2xl font-bold text-foreground mb-4">Thank You!</h2>
                   <p className="text-foreground-muted mb-6">
                     Your enquiry has been submitted successfully. Our team will contact you shortly.
                   </p>
@@ -86,37 +82,83 @@ const Contact = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Full Name *</label>
-                      <Input required />
+                      <Input 
+                        placeholder="Enter your name" 
+                        required
+                        className="bg-background border-border"
+                      />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Company Name</label>
-                      <Input />
+                      <Input 
+                        placeholder="Enter company name"
+                        className="bg-background border-border"
+                      />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
-                    <Input type="email" required placeholder="Email Address *" />
-                    <Input type="tel" required placeholder="Phone Number *" />
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Email Address *</label>
+                      <Input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        required
+                        className="bg-background border-border"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Phone Number *</label>
+                      <Input 
+                        type="tel" 
+                        placeholder="Enter phone number" 
+                        required
+                        className="bg-background border-border"
+                      />
+                    </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Product Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="standard">7.5–750 kVA & HHP</SelectItem>
-                        <SelectItem value="hybrid">Hybrid Series</SelectItem>
-                        <SelectItem value="optiprime">Optiprime Series</SelectItem>
-                        <SelectItem value="png">PNG Range</SelectItem>
-                        <SelectItem value="sentinel">Sentinel Range</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Input placeholder="Power Requirement (kVA)" />
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Product Category</label>
+                      <Select>
+                        <SelectTrigger className="bg-background border-border">
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="standard">7.5–750 kVA & HHP</SelectItem>
+                          <SelectItem value="hybrid">Hybrid Series</SelectItem>
+                          <SelectItem value="optiprime">Optiprime Series</SelectItem>
+                          <SelectItem value="png">PNG Range</SelectItem>
+                          <SelectItem value="sentinel">Sentinel Range</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Power Requirement (kVA)</label>
+                      <Input 
+                        placeholder="e.g., 250 kVA"
+                        className="bg-background border-border"
+                      />
+                    </div>
                   </div>
 
-                  <Input required placeholder="Location / City *" />
-                  <Textarea className="min-h-[120px]" />
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Location / City *</label>
+                    <Input 
+                      placeholder="Enter your city" 
+                      required
+                      className="bg-background border-border"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Message / Requirements</label>
+                    <Textarea 
+                      placeholder="Describe your requirements..."
+                      className="bg-background border-border min-h-[120px]"
+                    />
+                  </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full group">
                     Enquiry
@@ -130,7 +172,7 @@ const Contact = () => {
       </section>
 
       {/* Head Office */}
-      <section className="py-16 bg-background-secondary">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,10 +184,64 @@ const Contact = () => {
               <Building2 className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">Head Office</h2>
             </div>
-
+            
             <div className="card-industrial p-8 rounded-lg">
               <div className="grid md:grid-cols-3 gap-8">
-                {/* unchanged */}
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Address</h3>
+                    <p className="text-foreground-muted leading-relaxed">
+                      <strong>Kolkata</strong><br />
+                      Western Consolidated Pvt. Ltd.<br />
+                      19, Ganesh Chandra Avenue, Kolkata 700013
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
+                    <a 
+                      href="mailto:response@westernconsolidated.com" 
+                      className="text-foreground-muted hover:text-primary transition-colors block"
+                    >
+                      response@westernconsolidated.com
+                    </a>
+                    <a 
+                      href="mailto:western@westernconsolidated.com" 
+                      className="text-foreground-muted hover:text-primary transition-colors block"
+                    >
+                      western@westernconsolidated.com
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
+                    <a 
+                      href="tel:(033)-22376813" 
+                      className="text-foreground-muted hover:text-primary transition-colors block"
+                    >
+                      (033)-22376813
+                    </a>
+                    <a 
+                      href="tel:22378962" 
+                      className="text-foreground-muted hover:text-primary transition-colors block"
+                    >
+                      22378962
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -153,7 +249,7 @@ const Contact = () => {
       </section>
 
       {/* Branch Offices */}
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -165,23 +261,20 @@ const Contact = () => {
               <Building2 className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">Branch Offices</h2>
             </div>
-
+            
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
                   city: 'Mumbai',
-                  address:
-                    'Western Consolidated Pvt. Ltd.\nF-102, Remi Biz Court, Plot No 9,\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053',
+                  address: 'Western Consolidated Pvt. Ltd.\nF-102, Remi Biz Court, Plot No 9,\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053',
                 },
                 {
                   city: 'Patna',
-                  address:
-                    'Western Consolidated Pvt. Ltd.\nGram-Fatehajangpur, Mauja-Sabalpur,\nJamabandi No.265, Khata No.762,\nPatna 800009,\nBihar, India',
+                  address: 'Western Consolidated Pvt. Ltd.\nGram-Fatehajangpur, Mauja-Sabalpur,\nJamabandi No.265, Khata No.762,\nPatna 800009,\nBihar, India',
                 },
                 {
                   city: 'Ranchi',
-                  address:
-                    'Western Consolidated Pvt. Ltd.\nMauza - Mesra, Thana - Sadar (169),\nKhata No. 26, Plot No. 411,\nNH 33, Near B I T More,\nRanchi 835217,\nJharkhand, India',
+                  address: 'Western Consolidated Pvt. Ltd.\nMauza - Mesra, Thana - Sadar (169),\nKhata No. 26, Plot No. 411,\nNH 33, Near B I T More,\nRanchi 835217,\nJharkhand, India',
                 },
               ].map((branch, index) => (
                 <motion.div
@@ -197,9 +290,7 @@ const Contact = () => {
                       <MapPin className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">
-                        {branch.city}
-                      </h3>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">{branch.city}</h3>
                       <p className="text-foreground-muted text-sm whitespace-pre-line">
                         {branch.address}
                       </p>
@@ -212,10 +303,59 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Works — unchanged */}
+      {/* Works */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center gap-3 mb-8">
+              <Factory className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold text-foreground">Works</h2>
+            </div>
+            
+            <div className="card-industrial p-8 rounded-lg">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Sitarganj</h3>
+                    <p className="text-foreground-muted leading-relaxed">
+                      Western Consolidated Pvt. Ltd.<br />
+                      Plot No. A-194D, 194E, 194F,<br />
+                      Sidcul, Sitarganj, Dist. U.S. Nagar,<br />
+                      262405, Uttarakhand
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
+                    <a 
+                      href="mailto:wcplsitarganj@westernconsolidated.com" 
+                      className="text-foreground-muted hover:text-primary transition-colors"
+                    >
+                      wcplsitarganj@westernconsolidated.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Map Section */}
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -227,13 +367,19 @@ const Contact = () => {
               <MapPin className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">Location</h2>
             </div>
-
+            
             <div className="card-industrial rounded-lg overflow-hidden">
               <div className="aspect-[21/9] w-full">
                 <iframe
-                  src="https://www.google.com/maps?q=19,+Ganesh+Chandra+Avenue,+Kolkata+700013&output=embed"
-                  className="w-full h-full"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0989372545894!2d88.36282647595314!3d22.578946933689724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a6e8e98cc7%3A0xa8dfcb5a74946fd8!2sWestern%20Consolidated%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1709123456789!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
                   loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="WCPL Location"
+                  className="w-full h-full"
                 />
               </div>
               <div className="p-4 bg-card border-t border-border">
