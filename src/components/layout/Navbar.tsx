@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import wcplLogo from '@/assets/wcpl-logo-transparent.png';
 
 const navLinks = [
@@ -96,8 +97,10 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                 ))}
               </nav>
 
-              {/* CTA & Mobile */}
-              <div className="flex items-center gap-4">
+              {/* CTA, Theme Toggle & Mobile Menu */}
+              <div className="flex items-center gap-3">
+                <ThemeToggle />
+                
                 <Link to="/enquiry" className="hidden sm:block">
                   <Button variant="hero">Enquiry</Button>
                 </Link>
