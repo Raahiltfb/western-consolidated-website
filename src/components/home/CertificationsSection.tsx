@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Certificate images
+// Certificate images (kept imports in case they are used elsewhere, 
+// but removed from the UI render below)
 import iso14001Img from '@/assets/certificates/iso14001.jpg';
 import iso45001Img from '@/assets/certificates/iso45001.jpg';
 import iso9001Img from '@/assets/certificates/iso9001.jpg';
@@ -12,19 +13,19 @@ const certifications = [
   {
     id: 'iso-14001',
     title: 'ISO 14001:2015',
-    description: 'Environmental Management System',
+    description: 'Quality Management System',
     image: iso14001Img,
   },
   {
     id: 'iso-45001',
     title: 'ISO 45001:2018',
-    description: 'Occupational Health & Safety Management System',
+    description: 'Health and Safety Management System',
     image: iso45001Img,
   },
   {
     id: 'iso-9001',
     title: 'ISO 9001:2015',
-    description: 'Quality Management System',
+    description: 'Environment Management System',
     image: iso9001Img,
   },
 ];
@@ -56,7 +57,7 @@ export const CertificationsSection = () => {
           </p>
         </motion.div>
 
-        {/* Certification Cards */}
+        {/* Certification Cards - Text Only */}
         <div className="grid md:grid-cols-3 gap-8">
           {certifications.map((cert, index) => (
             <motion.div
@@ -67,29 +68,17 @@ export const CertificationsSection = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Link to={`/certifications/${cert.id}`} className="block group">
-                <div className="card-industrial rounded-lg overflow-hidden">
-                  {/* Certificate Image */}
-                  <div className="aspect-[3/4] overflow-hidden bg-white">
-                    <img
-                      src={cert.image}
-                      alt={`${cert.title} Certificate`}
-                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  
-                  {/* Card Content */}
-                  <div className="p-6 text-center">
-                    <h3 className="text-xl font-bold text-foreground mb-2">
-                      {cert.title}
-                    </h3>
-                    <p className="text-foreground-muted text-sm mb-4">
-                      {cert.description}
-                    </p>
-                    <Button variant="outline" size="sm" className="group/btn">
-                      View Certificate
-                      <ExternalLink size={14} className="ml-2 group-hover/btn:translate-x-0.5 transition-transform" />
-                    </Button>
-                  </div>
+                <div className="card-industrial h-full rounded-lg border border-border p-8 text-center transition-all duration-300 hover:border-primary/50 hover:bg-card/50 flex flex-col items-center justify-center">
+                  <h3 className="text-2xl font-bold text-foreground mb-3">
+                    {cert.title}
+                  </h3>
+                  <p className="text-foreground-muted text-sm mb-6 leading-relaxed">
+                    {cert.description}
+                  </p>
+                  <Button variant="outline" size="sm" className="group/btn mt-auto">
+                    View Certificate
+                    <ExternalLink size={14} className="ml-2 group-hover/btn:translate-x-0.5 transition-transform" />
+                  </Button>
                 </div>
               </Link>
             </motion.div>
@@ -102,7 +91,7 @@ export const CertificationsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 text-center"
+          className="mt-16 text-center"
         >
           <div className="inline-flex items-center gap-4 px-6 py-4 bg-card border border-border rounded-lg">
             <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center">
