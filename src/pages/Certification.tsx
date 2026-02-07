@@ -20,22 +20,22 @@ const certificationData: Record<string, {
 }> = {
   'iso-14001': {
     title: 'ISO 14001:2015',
-    fullTitle: 'Environmental Management System',
-    description: 'The Environment Management System is applicable to design, manufacture, sales, service and erection of diesel generator sets and parts thereof. This certification demonstrates our commitment to minimizing environmental impact and continuously improving environmental performance.',
+    fullTitle: 'Quality Management System',
+    description: '',
     image: iso14001Img,
     regNo: 'EM 04 00015',
   },
   'iso-45001': {
     title: 'ISO 45001:2018',
-    fullTitle: 'Occupational Health & Safety Management System',
-    description: 'The Health and Safety Management System is applicable to design, manufacture, sales, service and erection of diesel generator sets and parts thereof. This certification ensures the highest standards of workplace safety and employee wellbeing.',
+    fullTitle: 'Health & Safety Management System',
+    description: '',
     image: iso45001Img,
     regNo: 'OHS 04 00002',
   },
   'iso-9001': {
     title: 'ISO 9001:2015',
-    fullTitle: 'Quality Management System',
-    description: 'The Quality Management System is applicable to design, manufacture, sales, service and erection of diesel generator sets and parts thereof. This certification guarantees consistent quality and customer satisfaction across all operations.',
+    fullTitle: 'Environment Management System',
+    description: '',
     image: iso9001Img,
     regNo: 'QM 04 00510',
   },
