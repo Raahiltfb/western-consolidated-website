@@ -3,69 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { ArrowRight, Factory, Zap, Shield, Leaf, Sun } from 'lucide-react';
-
-const productCategories = [
-  {
-    id: 'standard-range',
-    name: '7.5–750 kVA & HHP',
-    description: 'Standard industrial diesel generator sets for diverse applications.',
-    icon: Factory,
-    subcategories: [
-      { id: '7-5-25-kva', name: '7.5–25 kVA', description: 'Compact generators for small-scale applications.' },
-      { id: '30-58-5-kva', name: '30–58.5 kVA', description: 'Mid-range generators for commercial use.' },
-      { id: 'cpcb-iv-82-5-160-kva', name: 'CPCB IV+ 82.5–160 kVA', description: 'CPCB IV+ compliant generators.' },
-      { id: '200-250-kva', name: '200–250 kVA', description: 'High-capacity industrial generators.' },
-      { id: '320-750-kva', name: '320–750 kVA', description: 'Heavy-duty industrial power solutions.' },
-      { id: '1010-1500-kva', name: '1010–1500 kVA', description: 'Ultra-high capacity generators.' },
-      { id: 'hd-200-625-kva', name: 'HD 200–625 kVA', description: 'Heavy-duty series generators.' },
-    ],
-  },
-  {
-    id: 'hybrid',
-    name: 'Hybrid Series',
-    description: 'Advanced hybrid power solutions combining efficiency with sustainability.',
-    icon: Zap,
-    subcategories: [
-      { id: 'hybrid-series', name: 'Hybrid Series', description: 'Advanced hybrid power solutions.' },
-    ],
-  },
-  {
-    id: 'optiprime',
-    name: 'Optiprime Series',
-    description: 'Premium optimized generators for maximum performance and reliability.',
-    icon: Shield,
-    subcategories: [
-      { id: 'optiprime-series', name: 'Optiprime Series', description: 'Optimized performance generators.' },
-    ],
-  },
-  {
-    id: 'png-range',
-    name: 'PNG Range',
-    description: 'Natural gas powered generators for cleaner industrial operations.',
-    icon: Leaf,
-    subcategories: [
-      { id: 'natural-gas-15-500', name: 'Natural Gas 15–500', description: 'Natural gas generators 15-500 kVA.' },
-      { id: 'natural-gas-250', name: 'Natural Gas 250', description: 'Specialized 250 kVA natural gas unit.' },
-    ],
-  },
-  {
-    id: 'sentinel',
-    name: 'Sentinel Range',
-    description: 'Heavy-duty sentinel series for critical infrastructure applications.',
-    icon: Sun,
-    subcategories: [
-      { id: 'sentinel-series', name: 'Sentinel Series', description: 'Heavy-duty sentinel generators.' },
-    ],
-  },
-];
+import { ArrowRight } from 'lucide-react';
+import { productCatalogue, getCategoryById, ProductCategory } from '@/data/productCatalogue';
 
 const Products = () => {
   const { categoryId } = useParams();
-  const category = categoryId ? productCategories.find(c => c.id === categoryId) : null;
+  const category = categoryId ? getCategoryById(categoryId) : null;
 
   if (category) {
-    return <ProductCategory category={category} />;
+    return <ProductCategoryView category={category} />;
   }
 
   return (
@@ -104,7 +50,7 @@ const Products = () => {
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {productCategories.map((cat, index) => (
+            {productCatalogue.map((cat, index) => (
               <motion.div
                 key={cat.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -132,7 +78,7 @@ const Products = () => {
                   </p>
                   
                   <div className="text-sm text-primary">
-                    {cat.subcategories.length} model{cat.subcategories.length > 1 ? 's' : ''}
+                    {cat.models.length} model{cat.models.length > 1 ? 's' : ''}
                   </div>
                 </Link>
               </motion.div>
@@ -147,11 +93,11 @@ const Products = () => {
   );
 };
 
-interface ProductCategoryProps {
-  category: typeof productCategories[0];
+interface ProductCategoryViewProps {
+  category: ProductCategory;
 }
 
-const ProductCategory = ({ category }: ProductCategoryProps) => {
+const ProductCategoryView = ({ category }: ProductCategoryViewProps) => {
   const Icon = category.icon;
   
   return (
@@ -191,7 +137,7 @@ const ProductCategory = ({ category }: ProductCategoryProps) => {
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.subcategories.map((model, index) => (
+            {category.models.map((model, index) => (
               <motion.div
                 key={model.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -203,23 +149,35 @@ const ProductCategory = ({ category }: ProductCategoryProps) => {
                   to={`/products/${category.id}/${model.id}`}
                   className="block card-industrial rounded-lg overflow-hidden group h-full"
                 >
-                  {/* Image placeholder */}
-                  <div className="aspect-video bg-card flex items-center justify-center border-b border-border">
-                    <div className="text-center p-4">
-                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-muted flex items-center justify-center">
-                        <svg className="w-6 h-6 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <p className="text-foreground-muted text-sm">Product Image</p>
-                    </div>
+                  {/* Image */}
+                  <div className="aspect-video bg-card flex items-center justify-center border-b border-border overflow-hidden">
+                    <img 
+                      src={model.image} 
+                      alt={model.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        // Fallback to placeholder on error
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.parentElement!.innerHTML = `
+                          <div class="text-center p-4">
+                            <div class="w-12 h-12 mx-auto mb-2 rounded-full bg-muted flex items-center justify-center">
+                              <svg class="w-6 h-6 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                            <p class="text-foreground-muted text-sm">Product Image</p>
+                          </div>
+                        `;
+                      }}
+                    />
                   </div>
                   
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                       {model.name}
                     </h3>
-                    <p className="text-foreground-muted text-sm mb-4">
+                    <p className="text-foreground-muted text-sm mb-4 line-clamp-2">
                       {model.description}
                     </p>
                     <div className="flex items-center text-primary text-sm font-medium">
