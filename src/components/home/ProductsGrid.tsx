@@ -1,44 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Leaf, Sun, Shield, Factory } from 'lucide-react';
-
-const productCategories = [
-  {
-    id: 'standard-range',
-    name: '7.5-750 kVA & HHP',
-    description: 'Standard industrial diesel generator sets for diverse applications.',
-    icon: Factory,
-    path: '/products/standard-range',
-  },
-  {
-    id: 'hybrid',
-    name: 'Hybrid Series',
-    description: 'Advanced hybrid power solutions combining efficiency with sustainability.',
-    icon: Zap,
-    path: '/products/hybrid',
-  },
-  {
-    id: 'optiprime',
-    name: 'Optiprime Series',
-    description: 'Premium optimized generators for maximum performance and reliability.',
-    icon: Shield,
-    path: '/products/optiprime',
-  },
-  {
-    id: 'png-range',
-    name: 'PNG Range',
-    description: 'Natural gas powered generators for cleaner industrial operations.',
-    icon: Leaf,
-    path: '/products/png-range',
-  },
-  {
-    id: 'sentinel',
-    name: 'Sentinel Range',
-    description: 'Heavy-duty sentinel series for critical infrastructure applications.',
-    icon: Sun,
-    path: '/products/sentinel',
-  },
-];
+import { ArrowRight } from 'lucide-react';
+import { productCatalogue } from '@/data/productCatalogue';
 
 export const ProductsGrid = () => {
   return (
@@ -74,7 +37,7 @@ export const ProductsGrid = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productCategories.map((category, index) => (
+          {productCatalogue.map((category, index) => (
             <motion.div
               key={category.id}
               initial={{ opacity: 0, y: 20 }}
@@ -83,7 +46,7 @@ export const ProductsGrid = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Link 
-                to={category.path}
+                to={`/products/${category.id}`}
                 className="block card-industrial p-8 rounded-lg group h-full"
               >
                 <div className="flex items-start justify-between mb-6">
