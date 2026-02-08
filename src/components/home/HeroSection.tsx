@@ -4,6 +4,7 @@ import { ArrowRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
+import optiprimeImage1 from '@/assets/optiprimeback1.png';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
@@ -14,17 +15,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    // Phase 1: Intro animation (logo reveal)
     const introTimer = setTimeout(() => {
       setAnimationPhase('main');
     }, 1500);
 
-    // Phase 2: Main content reveal
     const mainTimer = setTimeout(() => {
       setShowContent(true);
     }, 2000);
 
-    // Phase 3: Animation complete, show navbar
     const completeTimer = setTimeout(() => {
       setAnimationPhase('complete');
       onAnimationComplete();
@@ -53,13 +51,9 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
-      {/* Cinematic Lighting Effects */}
       <div className="lighting-effect" />
-      
-      {/* Grid Overlay */}
       <div className="absolute inset-0 grid-overlay opacity-20" />
       
-      {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -87,7 +81,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            {/* KOEL Authorization Badge */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -104,7 +97,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
 
-            {/* Main Headline */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -123,7 +115,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
 
-            {/* Description */}
             <AnimatePresence>
               {showContent && (
                 <motion.p
@@ -138,7 +129,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
 
-            {/* CTA Buttons */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -163,7 +153,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
 
-            {/* Stats */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -191,7 +180,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             </AnimatePresence>
           </div>
 
-          {/* Right - Hero Image Placeholder */}
+          {/* Right - Hero Image (MODIFIED HERE) */}
           <AnimatePresence>
             {showContent && (
               <motion.div
@@ -204,17 +193,13 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   {/* Glow effect behind image */}
                   <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
                   
-                  {/* Image placeholder */}
-                  <div className="relative z-10 aspect-square bg-card border border-border rounded-lg overflow-hidden flex items-center justify-center">
-                    <div className="text-center p-8">
-                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                        <svg className="w-12 h-12 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <p className="text-foreground-muted">Generator Image</p>
-                      <p className="text-muted-foreground text-sm">Placeholder</p>
-                    </div>
+                  {/* Actual Product Image */}
+                  <div className="relative z-10 aspect-square overflow-hidden flex items-center justify-center">
+                    <img 
+                      src={optiprimeImage1} 
+                      alt="Kirloskar Optiprime Generator" 
+                      className="w-full h-full object-contain drop-shadow-2xl"
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -246,30 +231,27 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
       {/* KOEL Badge */}
       <AnimatePresence>
         {showContent && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1 }}
-        className="absolute bottom-8 right-8 hidden lg:block"
-        >
-        {/* 1. Added 'dark:bg-secondary/80' and 'bg-secondary' to ensure consistent container density */}
-        <div className="bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-sm">
-          <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
-            <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
-          </div>
-          <div>
-            {/* 2. Changed 'text-foreground-muted' to 'text-muted-foreground/90' for better contrast in light mode */}
-            <div className="text-[10px] leading-tight font-medium text-white uppercase">
-              AUTHORIZED GOEM
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="absolute bottom-8 right-8 hidden lg:block"
+          >
+            <div className="bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-sm">
+              <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
+                <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
+              </div>
+              <div>
+                <div className="text-[10px] leading-tight font-medium text-white uppercase">
+                  AUTHORIZED GOEM
+                </div>
+                <div className="text-sm font-bold text-white">
+                  of KOEL
+                </div>
+              </div>
             </div>
-            {/* 3. Ensured 'of KOEL' uses the primary foreground color of the current theme */}
-            <div className="text-sm font-bold text-white">
-              of KOEL
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    )}
+          </motion.div>
+        )}
       </AnimatePresence>
     </section>
   );
