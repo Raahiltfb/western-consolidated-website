@@ -57,29 +57,11 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
 
               {/* Logo */}
               <Link to="/" className="flex items-center">
-                <div className="relative flex items-center justify-center">
-
-                  {/* Gold plate — toned down */}
-                  <div
-                    className="absolute inset-0 -m-1.5 rounded-lg"
-                    style={{
-                      background:
-                        'linear-gradient(135deg, #FFD24D 0%, #FFC107 60%, #FFB300 100%)',
-                      boxShadow:
-                        '0 4px 12px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(0,0,0,0.18)',
-                    }}
-                  />
-
-                  {/* Logo */}
-                  <img
-                    src={wcplLogo}
-                    alt="Western Consolidated"
-                    className="relative h-16 w-auto"
-                    style={{
-                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
-                    }}
-                  />
-                </div>
+                <img
+                  src={wcplLogo}
+                  alt="Western Consolidated"
+                  className="h-16 w-auto"
+                />
               </Link>
 
               {/* Desktop Navigation */}
