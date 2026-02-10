@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import wcplLogo from '@/assets/wcpl-logo-transparent.png';
+import darkLogo from '@/assets/wcp-dark-logo.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -58,7 +59,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
               {/* Logo */}
               <Link to="/" className="flex items-center">
                 <img
-                  src={wcplLogo}
+                  src={darkLogo}
                   alt="Western Consolidated"
                   className="h-20 w-auto"
                 />
