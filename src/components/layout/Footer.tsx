@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, Facebook, Twitter } from 'lucide-react';
-import wcplLogo from '@/assets/wcpl-logo.jpeg';
+import wcplLogo from '@/assets/wcpl-logo.png';
 
 const quickLinks = [
   { name: 'About Us', path: '/about' },
@@ -29,15 +29,11 @@ export const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
-              <div className="relative flex items-center justify-center">
-                {/* Subtle radial glow for contrast */}
-                <div className="absolute inset-0 bg-gradient-radial from-white/8 via-white/3 to-transparent rounded-full scale-150 blur-sm" />
-                <img 
-                  src={wcplLogo} 
-                  alt="Western Consolidated" 
-                  className="relative h-16 w-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                />
-              </div>
+              <img 
+                src={wcplLogo} 
+                alt="Western Consolidated" 
+                className="h-16 w-auto"
+              />
             </Link>
             <p className="text-foreground-muted text-sm leading-relaxed">
               Authorized GOEM of KOEL with 60+ years of engineering excellence. 
