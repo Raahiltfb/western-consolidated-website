@@ -5,7 +5,6 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import wcplLogo from '@/assets/wcpl-logo-transparent.png';
-import darkLogo from '@/assets/wcp-dark-logo.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -47,8 +46,10 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -80, opacity: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className={`fixed top-0 left-0 right-0 z-50 ${
-            isScrolled ? 'navbar-solid' : 'navbar-transparent'
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            isScrolled 
+              ? 'bg-white/95 backdrop-blur-md shadow-lg' 
+              : 'bg-white/90 backdrop-blur-sm'
           }`}
         >
           <div className="container mx-auto px-4 lg:px-8">
@@ -57,7 +58,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
               {/* Logo */}
               <Link to="/" className="flex items-center">
                 <img
-                  src={darkLogo}
+                  src={wcplLogo}
                   alt="Western Consolidated"
                   className="h-20 w-auto"
                 />
