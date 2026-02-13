@@ -46,10 +46,8 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -80, opacity: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-            isScrolled 
-              ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-              : 'bg-white/90 backdrop-blur-sm'
+          className={`fixed top-0 left-0 right-0 z-50 ${
+            isScrolled ? 'navbar-solid' : 'navbar-transparent'
           }`}
         >
           <div className="container mx-auto px-4 lg:px-8">
@@ -57,11 +55,29 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
 
               {/* Logo */}
               <Link to="/" className="flex items-center">
-                <img
-                  src={wcplLogo}
-                  alt="Western Consolidated"
-                  className="h-20 w-auto"
-                />
+                <div className="relative flex items-center justify-center">
+
+                  {/* Gold plate — toned down */}
+                  <div
+                    className="absolute inset-0 -m-1.5 rounded-lg"
+                    style={{
+                      background:
+                        'linear-gradient(135deg, #FFD24D 0%, #FFC107 60%, #FFB300 100%)',
+                      boxShadow:
+                        '0 4px 12px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(0,0,0,0.18)',
+                    }}
+                  />
+
+                  {/* Logo */}
+                  <img
+                    src={wcplLogo}
+                    alt="Western Consolidated"
+                    className="relative h-16 w-auto"
+                    style={{
+                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))',
+                    }}
+                  />
+                </div>
               </Link>
 
               {/* Desktop Navigation */}
@@ -72,8 +88,8 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                     to={link.path}
                     className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                       location.pathname === link.path
-                        ? 'text-red-700 bg-red-50'
-                        : 'text-gray-700 hover:text-red-700 hover:bg-gray-50'
+                        ? 'text-primary'
+                        : 'text-foreground-muted hover:text-foreground'
                     }`}
                   >
                     {link.name}
@@ -91,7 +107,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
 
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="lg:hidden p-2 text-gray-700 hover:text-red-700"
+                  className="lg:hidden p-2 text-foreground hover:text-primary"
                   aria-label="Toggle menu"
                 >
                   {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -108,17 +124,17 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="lg:hidden bg-white border-t border-gray-200"
+                className="lg:hidden bg-background border-t border-border"
               >
                 <nav className="container mx-auto px-4 py-4 flex flex-col gap-2">
                   {navLinks.map((link) => (
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`px-4 py-3 rounded-md transition-colors ${
+                      className={`px-4 py-3 rounded-md ${
                         location.pathname === link.path
-                          ? 'text-red-700 bg-red-50'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-red-700'
+                          ? 'text-primary bg-card'
+                          : 'text-foreground-muted hover:bg-card'
                       }`}
                     >
                       {link.name}
