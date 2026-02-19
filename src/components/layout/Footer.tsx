@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, Facebook, Twitter } from 'lucide-react';
-import wcplLogo from '@/assets/wcpl-logo.png';
+import { useTheme } from '@/components/theme/ThemeProvider';
+import wcplLogoLight from '@/assets/wcpl-logo.png';
+import wcplLogoDark from '@/assets/wcpl-logo-dark.png';
 
 const quickLinks = [
   { name: 'About Us', path: '/about' },
@@ -21,6 +23,8 @@ const productCategories = [
 ];
 
 export const Footer = () => {
+  const { theme } = useTheme();
+  const logo = theme === 'dark' ? wcplLogoDark : wcplLogoLight;
   return (
     <footer className="bg-background-secondary border-t border-border">
       {/* Main Footer */}
@@ -30,7 +34,7 @@ export const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
               <img 
-                src={wcplLogo} 
+                src={logo} 
                 alt="Western Consolidated" 
                 className="h-16 w-auto"
               />
