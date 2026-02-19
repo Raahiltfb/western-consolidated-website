@@ -4,7 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
-import wcplLogo from '@/assets/wcpl-logo.png';
+import { useTheme } from '@/components/theme/ThemeProvider';
+import wcplLogoLight from '@/assets/wcpl-logo.png';
+import wcplLogoDark from '@/assets/wcpl-logo-dark.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -25,6 +27,8 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { theme } = useTheme();
+  const logo = theme === 'dark' ? wcplLogoDark : wcplLogoLight;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +60,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
               {/* Logo */}
               <Link to="/" className="flex items-center">
                 <img
-                  src={wcplLogo}
+                  src={logo}
                   alt="Western Consolidated"
                   className="h-16 w-auto"
                 />
