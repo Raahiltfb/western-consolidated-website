@@ -44,7 +44,7 @@ const sections = [
   },
 ];
 
-const About-Us = () => {
+const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
@@ -254,4 +254,4 @@ const About-Us = () => {
   );
 };
 
-export default About-Us;
+export default About;
