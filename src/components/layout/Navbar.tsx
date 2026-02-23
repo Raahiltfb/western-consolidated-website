@@ -10,7 +10,7 @@ import wcplLogoDark from '@/assets/wcpl-logo-dark.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
+  { name: 'About Us', path: '/about-us' },
   { name: 'Products', path: '/products' },
   { name: 'Services', path: '/services' },
   { name: 'Clients', path: '/clients' },
