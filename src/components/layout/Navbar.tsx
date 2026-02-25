@@ -65,29 +65,35 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                   className="h-16 w-auto"
                 />
               </Link>
-              
+
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center gap-2">
-                {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={`relative px-4 py-2 text-[13px] font-semibold tracking-[0.05em] uppercase transition-all duration-300 rounded-md ${
-              location.pathname === link.path
-              ? 'text-primary'
-              : 'text-foreground/70 hover:text-primary'
-            }`}
-            >
-            {link.name}
-            {/* Subtle underline for the active link */}
-            {location.pathname === link.path && (
-              <motion.div 
-                layoutId="nav-underline"
-                className="absolute bottom-1 left-4 right-4 h-[2px] bg-primary" 
-                />
-            )}
-          </Link>
-        ))}
+              <nav className="hidden lg:flex items-center gap-1">
+                {navLinks.map((link) => {
+                  const isActive = location.pathname === link.path;
+                  return (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`relative px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider transition-all duration-300 ${
+                        isActive
+                          ? 'text-primary'
+                          : 'text-foreground-muted hover:text-primary'
+                      }`}
+                    >
+                      <span className="relative z-10">{link.name}</span>
+                      
+                      {/* Animated Active Link Background/Underline */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="nav-active"
+                          className="absolute inset-0 bg-primary/5 rounded-md border-b-2 border-primary"
+                          initial={false}
+                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </Link>
+                  );
+                })}
               </nav>
 
               {/* CTA, Theme Toggle & Mobile Menu */}
@@ -124,7 +130,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`px-4 py-3 rounded-md ${
+                      className={`px-4 py-3 rounded-md font-display font-semibold uppercase tracking-wide ${
                         location.pathname === link.path
                           ? 'text-primary bg-card'
                           : 'text-foreground-muted hover:bg-card'
