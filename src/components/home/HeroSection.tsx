@@ -4,7 +4,6 @@ import { ArrowRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
-import optiprimeImage1 from '@/assets/optiprimeback1.png';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
@@ -60,8 +59,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             key={i}
             className="absolute w-1 h-1 bg-primary/30 rounded-full"
             initial={{ 
-              x: Math.random() * window.innerWidth, 
-              y: Math.random() * window.innerHeight,
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000), 
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
               opacity: 0 
             }}
             animate={{ 
@@ -180,7 +179,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             </AnimatePresence>
           </div>
 
-          {/* Right - Hero Image (MODIFIED HERE) */}
+          {/* Right - Placeholder Image Section */}
           <AnimatePresence>
             {showContent && (
               <motion.div
@@ -189,21 +188,21 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                 transition={{ duration: 1, delay: 0.3 }}
                 className="relative hidden lg:block"
               >
-                <div className="relative aspect-square max-w-lg mx-auto">
-                  {/* Glow effect behind image */}
-                  <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+                <div className="relative aspect-square max-w-lg mx-auto flex items-center justify-center">
+                  {/* Glow effect behind placeholder */}
+                  <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
                   
-                  {/* Actual Product Image */}
-{/* Placeholder Product Image */}
-<div className="relative z-10 aspect-square overflow-hidden flex flex-col items-center justify-center bg-muted/30 rounded-lg border-2 border-dashed border-muted">
-  <div className="w-20 h-20 mb-4 rounded-full bg-muted flex items-center justify-center">
-    <svg className="w-10 h-10 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-  </div>
-  <p className="text-foreground-muted font-medium">Product Image</p>
-  <p className="text-muted-foreground text-sm">Placeholder</p>
-</div>
+                  {/* Placeholder Box */}
+                  <div className="relative z-10 w-full aspect-square overflow-hidden flex flex-col items-center justify-center bg-muted/20 rounded-2xl border-2 border-dashed border-muted-foreground/30 backdrop-blur-sm">
+                    <div className="w-24 h-24 mb-6 rounded-full bg-muted flex items-center justify-center shadow-inner">
+                      <svg className="w-12 h-12 text-muted-foreground/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <p className="text-foreground-muted font-semibold tracking-wide">Product Image</p>
+                    <p className="text-muted-foreground/60 text-sm italic">Coming Soon</p>
+                  </div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
