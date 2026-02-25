@@ -4,7 +4,8 @@
 
 /* WCPL Industrial Design System - Dark Premium Theme (default) + Light Mode */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Updated to include Montserrat for headers/nav */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@500;600;700;800&display=swap');
 
 @layer base {
   /* Dark Mode (default) */
@@ -292,6 +293,11 @@
 }
 
 @layer utilities {
+  /* Added font display utility */
+  .font-display {
+    font-family: 'Montserrat', sans-serif;
+  }
+
   /* Animation delays */
   .animation-delay-100 { animation-delay: 100ms; }
   .animation-delay-200 { animation-delay: 200ms; }
