@@ -251,7 +251,7 @@ const Contact = () => {
               {[
                 {
                   city: 'Mumbai',
-                  address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers.',
+                  address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers',
                 },
                 {
                   city: 'Bihar (Patna)',
@@ -323,7 +323,7 @@ const Contact = () => {
                     <h3 className="text-lg font-semibold text-foreground mb-2">Sitarganj: Uttarakhand</h3>
                     <p className="text-foreground-muted leading-relaxed">
                       Western Consolidated Private Limited<br />
-                      Plot.No.A-194D, 194E, 194F, 194G, 194H,<br />
+                      Plot. No. A-194D, 194E, 194F, 194G, 194H,<br />
                       Eldeco Sidcul Industrial Park Limited<br />
                       Phase 1 Sitarganj, Dist. Udham Singh Nagar,<br />
                       262405, Uttarakhand
@@ -355,48 +355,90 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section */}
+{/* Map Section */}
+
       <section className="py-16 bg-background-secondary">
+
         <div className="container mx-auto px-4 lg:px-8">
+
           <motion.div
+
             initial={{ opacity: 0, y: 20 }}
+
             whileInView={{ opacity: 1, y: 0 }}
+
             viewport={{ once: true }}
+
             transition={{ duration: 0.6 }}
+
           >
+
             <div className="flex items-center gap-3 mb-8">
+
               <MapPin className="w-6 h-6 text-primary" />
+
               <h2 className="text-2xl font-bold text-foreground">Location</h2>
+
             </div>
+
             
+
             <div className="card-industrial rounded-lg overflow-hidden">
+
               <div className="aspect-[21/9] w-full">
+
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.123456789012!2d88.3546!3d22.5684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDM0JzA2LjQiTiA4OMKwMjEnMTYuNiJF!5e0!3m2!1sen!2sin!4v1234567890"
+
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7368.549507369673!2d88.354976!3d22.568825!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a91a13a94f%3A0xf2368156fc970667!2sWestern%20Consolidated%20Private%20Limited!5e0!3m2!1sen!2sus!4v1770465156684!5m2!1sen!2sus"
+
                   width="100%"
+
                   height="100%"
+
                   style={{ border: 0 }}
+
                   allowFullScreen
+
                   loading="lazy"
+
                   referrerPolicy="no-referrer-when-downgrade"
+
                   title="WCPL Location"
+
                   className="w-full h-full"
+
                 />
+
               </div>
+
               <div className="p-4 bg-card border-t border-border">
+
                 <a
-                  href="https://maps.google.com"
+
+                  href="https://maps.app.goo.gl/ketZuTgSnT95jrjn9"
+
                   target="_blank"
+
                   rel="noopener noreferrer"
+
                   className="text-primary hover:text-primary-hover transition-colors text-sm font-medium inline-flex items-center gap-2"
+
                 >
+
                   <MapPin size={16} />
+
                   Open in Google Maps
+
                 </a>
+
               </div>
+
             </div>
+
           </motion.div>
+
         </div>
+
       </section>
 
       <Footer />
