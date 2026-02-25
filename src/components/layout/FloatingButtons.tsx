@@ -2,7 +2,10 @@ import { Phone, MessageCircle } from 'lucide-react';
 
 export const FloatingButtons = () => {
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4">
+    /* Changed 'bottom-6' to 'top-1/2' 
+       Added '-translate-y-1/2' to perfectly center the group vertically
+    */
+    <div className="fixed top-1/2 -translate-y-1/2 right-6 z-[9999] flex flex-col gap-4">
       {/* WhatsApp Button - always green for brand recognition */}
       <a
         href="https://wa.me/919876543210"
