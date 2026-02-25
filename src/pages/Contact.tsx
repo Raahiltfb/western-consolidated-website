@@ -49,7 +49,7 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Form - Now First */}
+      {/* Contact Form */}
       <section className="py-16 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -195,7 +195,7 @@ const Contact = () => {
                     <h3 className="text-lg font-semibold text-foreground mb-2">Address</h3>
                     <p className="text-foreground-muted leading-relaxed">
                       <strong>Kolkata</strong><br />
-                      Western Consolidated Pvt. Ltd.<br />
+                      Western Consolidated Private Limited<br />
                       19, Ganesh Chandra Avenue, Kolkata 700013
                     </p>
                   </div>
@@ -207,16 +207,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
-                    <a 
-                      href="mailto:response@westernconsolidated.com" 
-                      className="text-foreground-muted hover:text-primary transition-colors block"
-                    >
+                    <a href="mailto:response@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block">
                       response@westernconsolidated.com
                     </a>
-                    <a 
-                      href="mailto:western@westernconsolidated.com" 
-                      className="text-foreground-muted hover:text-primary transition-colors block"
-                    >
+                    <a href="mailto:western@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block">
                       western@westernconsolidated.com
                     </a>
                   </div>
@@ -228,18 +222,9 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
-                    <a 
-                      href="tel:(033)-22376813" 
-                      className="text-foreground-muted hover:text-primary transition-colors block"
-                    >
-                      (033)-22376813
-                    </a>
-                    <a 
-                      href="tel:22378962" 
-                      className="text-foreground-muted hover:text-primary transition-colors block"
-                    >
-                      22378962
-                    </a>
+                    <div className="text-foreground-muted">
+                      (033)-22376813 / 22378962
+                    </div>
                   </div>
                 </div>
               </div>
@@ -262,19 +247,24 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-foreground">Branch Offices</h2>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   city: 'Mumbai',
-                  address: 'Western Consolidated Pvt. Ltd.\nF-102, Remi Biz Court, Plot No 9,\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053',
+                  address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers.',
                 },
                 {
-                  city: 'Patna',
-                  address: 'Western Consolidated Pvt. Ltd.\nGram-Fatehajangpur, Mauja-Sabalpur,\nJamabandi No.265, Khata No.762,\nPatna 800009,\nBihar, India',
+                  city: 'Bihar (Patna)',
+                  phone: '61233122392',
+                  address: 'Western Consolidated Private Limited\n201, Shyam Centre, Exhibition Road\nPatna 800001, Bihar',
                 },
                 {
-                  city: 'Ranchi',
-                  address: 'Western Consolidated Pvt. Ltd.\nMauza - Mesra, Thana - Sadar (169),\nKhata No. 26, Plot No. 411,\nNH 33, Near B I T More,\nRanchi 835217,\nJharkhand, India',
+                  city: 'Jharkhand (Ranchi)',
+                  address: 'Western Consolidated Private Limited\nAnandmani Tower, Mazzanine Floor,\nShree Vishnu Talkies Lane, Main Road,\nRanchi – 834001, Jharkhand',
+                },
+                {
+                  city: 'Jharkhand (Jamshedpur)',
+                  address: 'Western Consolidated Private Limited\n203, Dev Das Complex, 2nd Floor\nH. No. 5, S B Shop Area\nDiagonal Road, Bistupur\nJamshedpur – 831001',
                 },
               ].map((branch, index) => (
                 <motion.div
@@ -289,11 +279,17 @@ const Contact = () => {
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-5 h-5 text-primary" />
                     </div>
-                    <div>
+                    <div className="w-full">
                       <h3 className="text-lg font-semibold text-foreground mb-2">{branch.city}</h3>
-                      <p className="text-foreground-muted text-sm whitespace-pre-line">
+                      <p className="text-foreground-muted text-sm whitespace-pre-line mb-2">
                         {branch.address}
                       </p>
+                      {branch.phone && (
+                        <div className="flex items-center gap-2 text-sm text-foreground-muted">
+                          <Phone size={14} className="text-primary" />
+                          <span>{branch.phone}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -324,13 +320,18 @@ const Contact = () => {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Sitarganj</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Sitarganj: Uttarakhand</h3>
                     <p className="text-foreground-muted leading-relaxed">
-                      Western Consolidated Pvt. Ltd.<br />
-                      Plot No. A-194D, 194E, 194F,<br />
-                      Sidcul, Sitarganj, Dist. U.S. Nagar,<br />
+                      Western Consolidated Private Limited<br />
+                      Plot.No.A-194D, 194E, 194F, 194G, 194H,<br />
+                      Eldeco Sidcul Industrial Park Limited<br />
+                      Phase 1 Sitarganj, Dist. Udham Singh Nagar,<br />
                       262405, Uttarakhand
                     </p>
+                    <div className="mt-4 flex items-center gap-2 text-foreground-muted">
+                      <Phone size={16} className="text-primary" />
+                      <span>05948-256199 / 256200</span>
+                    </div>
                   </div>
                 </div>
                 
@@ -371,7 +372,7 @@ const Contact = () => {
             <div className="card-industrial rounded-lg overflow-hidden">
               <div className="aspect-[21/9] w-full">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7368.549507369673!2d88.354976!3d22.568825!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a91a13a94f%3A0xf2368156fc970667!2sWestern%20Consolidated%20Private%20Limited!5e0!3m2!1sen!2sus!4v1770465156684!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.123456789012!2d88.3546!3d22.5684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDM0JzA2LjQiTiA4OMKwMjEnMTYuNiJF!5e0!3m2!1sen!2sin!4v1234567890"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -384,7 +385,7 @@ const Contact = () => {
               </div>
               <div className="p-4 bg-card border-t border-border">
                 <a
-                  href="https://maps.app.goo.gl/ketZuTgSnT95jrjn9"
+                  href="https://maps.google.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:text-primary-hover transition-colors text-sm font-medium inline-flex items-center gap-2"
