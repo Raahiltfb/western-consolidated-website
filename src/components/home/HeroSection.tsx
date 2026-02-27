@@ -181,32 +181,28 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
           </div>
-          
-          {/* 🔥 TRUE CINEMATIC RIGHT SIDE */}
+
+          {/* 🔥 ONLY THIS PART MODIFIED */}
           <AnimatePresence>
             {showContent && (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, x: 120 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-        className="relative hidden lg:flex items-end justify-end h-full"
-        >
-        {/* Directional red glow (top right) */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/25 blur-[180px] rounded-full -z-10" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92, x: 80 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                className="relative hidden lg:flex items-center justify-end"
+              >
+                <div className="absolute right-0 w-[600px] h-[600px] bg-primary/20 blur-[140px] rounded-full" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/40 pointer-events-none" />
 
-        {/* Bottom grounding shadow */}
-        <div className="absolute bottom-0 right-20 w-[600px] h-[200px] bg-black/60 blur-[120px] rounded-full -z-10" />
-
-        {/* Generator Image */}
-        <div className="relative z-10 w-[150%] max-w-[1400px] -mr-32 -mb-10">
-          <img
-            src={heroGenerator}
-            alt="KOEL Green industrial diesel generator set by Western Consolidated"
-            className="w-full h-auto object-contain drop-shadow-[0_60px_120px_rgba(0,0,0,0.8)]"
-            />
-        </div>
-      </motion.div>
-    )}
+                <div className="relative z-10 w-[135%] max-w-3xl -mr-20">
+                  <img
+                    src={heroGenerator}
+                    alt="KOEL Green industrial diesel generator set by Western Consolidated"
+                    className="w-full h-auto object-contain drop-shadow-[0_40px_100px_rgba(0,0,0,0.75)]"
+                  />
+                </div>
+              </motion.div>
+            )}
           </AnimatePresence>
 
         </div>
