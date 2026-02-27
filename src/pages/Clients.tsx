@@ -4,14 +4,14 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
 
 const clientSectors = [
-  { name: 'Manufacturing', count: '500+' },
-  { name: 'Healthcare', count: '200+' },
-  { name: 'Infrastructure', count: '300+' },
-  { name: 'IT & Data Centers', count: '150+' },
-  { name: 'Hospitality', count: '100+' },
-  { name: 'Education', count: '250+' },
-  { name: 'Retail', count: '180+' },
-  { name: 'Banking & Finance', count: '120+' },
+  { name: 'Auto & ancillaries, FMCG.', count: 'Manufacturing' },
+  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process Ind' },
+  { name: 'Hospitals & Clinics', count: 'Healthcare' },
+  { name: 'Hotels & Restaurants', count: 'Hospitality' },
+  { name: 'Infrastructure & Construction', count: 'Infrastructure' },
+  { name: 'Education, Banks/BFSI, IT/ITES, Telecom, Petrol Stations', count: 'Services' },
+  { name: 'Residential & Commercial', count: 'Real Estate' },
+  { name: 'Defence & Railways', count: 'Government' },
 ];
 
 const clientLogos = Array.from({ length: 12 }, (_, i) => ({
