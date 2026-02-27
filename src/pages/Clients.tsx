@@ -8,8 +8,8 @@ const clientSectors = [
   { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process Ind' },
   { name: 'Hospitals & Clinics', count: 'Healthcare' },
   { name: 'Hotels & Restaurants', count: 'Hospitality' },
-  { name: 'Infrastructure & Construction', count: 'Infrastructure' },
-  { name: 'Education, Banks/BFSI, IT/ITES, Telecom, Petrol Stations', count: 'Services' },
+  { name: 'Infrastructure & Construction, Petrol Stations', count: 'Infrastructure' },
+  { name: 'Education, Banks/BFSI, IT/ITES, Telecom', count: 'Services' },
   { name: 'Residential & Commercial', count: 'Real Estate' },
   { name: 'Defence & Railways', count: 'Government' },
 ];
