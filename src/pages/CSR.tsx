@@ -6,12 +6,12 @@ import { Heart, Leaf, GraduationCap, Users, User, FileText, Calendar } from 'luc
 
 const csrCommittee = [
   {
-    name: 'Mr. Vineet Dhingra',
-    designation: 'Chairman',
-  },
-  {
     name: 'Mr. Pranab Biswas',
     designation: 'Member',
+  },
+  {
+    name: 'Mr. Vineet Dhingra',
+    designation: 'Chairman',
   },
   {
     name: 'Mrs. Savita Dhingra',
@@ -264,7 +264,7 @@ const CSR = () => {
           >
             <div className="inline-flex items-center gap-2 text-primary mb-4">
               <Calendar className="w-5 h-5" />
-              <span className="text-sm font-semibold uppercase tracking-wider">Financial Year 2023-24</span>
+              <span className="text-sm font-semibold uppercase tracking-wider">Financial Year 2025-26</span>
             </div>
             <h2 className="text-3xl font-bold text-foreground">
               CSR Programmes Approved by the
