@@ -5,7 +5,7 @@ import { FloatingButtons } from '@/components/layout/FloatingButtons';
 
 const clientSectors = [
   { name: 'Auto & Ancillaries, FMCG.', count: 'Manufacturing' },
-  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process Ind' },
+  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process Industries' },
   { name: 'Hospitals & Clinics', count: 'Healthcare' },
   { name: 'Hotels & Restaurants', count: 'Hospitality' },
   { name: 'Infrastructure & Construction, Petrol Stations', count: 'Infrastructure' },
