@@ -54,6 +54,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
       <div className="lighting-effect" />
       <div className="absolute inset-0 grid-overlay opacity-20" />
       
+      {/* Floating particles — RESTORED */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -79,7 +80,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+          
+          {/* LEFT SIDE — UNTOUCHED */}
           <div className="space-y-8">
             <AnimatePresence>
               {showContent && (
@@ -180,34 +182,33 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             </AnimatePresence>
           </div>
 
-          {/* Right - Placeholder Image Section */}
+          {/* 🔥 ONLY THIS PART MODIFIED */}
           <AnimatePresence>
             {showContent && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, x: 50 }}
+                initial={{ opacity: 0, scale: 0.92, x: 80 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="relative hidden lg:block"
+                transition={{ duration: 1.2, delay: 0.3 }}
+                className="relative hidden lg:flex items-center justify-end"
               >
-                <div className="relative aspect-square max-w-lg mx-auto flex items-center justify-center">
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
-                  
-                  <div className="relative z-10 w-full overflow-hidden rounded-2xl">
-                    <img 
-                      src={heroGenerator} 
-                      alt="KOEL Green industrial diesel generator set by Western Consolidated" 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                <div className="absolute right-0 w-[600px] h-[600px] bg-primary/20 blur-[140px] rounded-full" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/40 pointer-events-none" />
+
+                <div className="relative z-10 w-[135%] max-w-3xl -mr-20">
+                  <img
+                    src={heroGenerator}
+                    alt="KOEL Green industrial diesel generator set by Western Consolidated"
+                    className="w-full h-auto object-contain drop-shadow-[0_40px_100px_rgba(0,0,0,0.75)]"
+                  />
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
+
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — unchanged */}
       <AnimatePresence>
         {animationPhase === 'complete' && (
           <motion.div
@@ -226,8 +227,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* KOEL Badge */}
+
+      {/* KOEL Badge — unchanged */}
       <AnimatePresence>
         {showContent && (
           <motion.div
