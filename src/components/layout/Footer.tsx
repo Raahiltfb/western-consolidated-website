@@ -45,26 +45,20 @@ export const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a 
-                href="#" 
+                href="https://www.linkedin.com/company/western-consolidated-private-ltd/" 
                 className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={18} />
               </a>
               <a 
-                href="#" 
+                href="https://www.facebook.com/people/Western-Consolidated-Pvt-Ltd/100064480881327/#" 
                 className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={18} />
               </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter size={18} />
-              </a>
+
             </div>
           </div>
 
