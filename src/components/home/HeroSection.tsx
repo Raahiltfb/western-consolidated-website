@@ -92,12 +92,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (animationPhase === 'complete') {
-      const scrollTimer = setTimeout(scrollToNext, 500);
-      return () => clearTimeout(scrollTimer);
-    }
-  }, [animationPhase, scrollToNext]);
+
 
   return (
     <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
