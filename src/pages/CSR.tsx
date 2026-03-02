@@ -3,7 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { Heart, Leaf, GraduationCap, Users, User, FileText, Calendar, Droplets, Medal, TreePine, ChevronDown, Download, Activity } from 'lucide-react';
+import { 
+  Heart, 
+  GraduationCap, 
+  User, 
+  FileText, 
+  Calendar, 
+  Droplets, 
+  Medal, 
+  TreePine, 
+  ChevronDown, 
+  Download, 
+  Activity 
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const csrCommittee = [
   { name: 'Mr. Pranab Biswas', designation: 'Member' },
@@ -106,26 +119,26 @@ const chiragStats = [
   { value: '14M+', label: 'Saplings Planted' },
 ];
 
-const PolicyAccordionItem = ({ section, isAmendment = false }: { section: { id?: string; title: string; content: string; definitions?: { term: string; definition: string }[]; activities?: string[] }; isAmendment?: boolean }) => {
+const PolicyAccordionItem = ({ section }: { section: { title: string; content: string; definitions?: { term: string; definition: string }[]; activities?: string[] } }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="card-industrial rounded-lg overflow-hidden">
+    <div className="border-b border-border/50 group transition-colors hover:bg-muted/30">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 text-left"
+        className="w-full flex items-center justify-between py-6 px-4 text-left"
       >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <FileText className="w-5 h-5 text-primary" />
+        <div className="flex items-center gap-6">
+          <div className="relative">
+            <div className={`absolute -left-4 top-0 bottom-0 w-1 bg-primary transition-transform duration-300 origin-top ${isOpen ? 'scale-y-100' : 'scale-y-0'}`} />
+            <span className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors ${isOpen ? 'text-primary' : 'text-muted-foreground'}`}>
+              Section
+            </span>
           </div>
-          <h3 className="text-lg font-semibold text-foreground">{section.title}</h3>
+          <h3 className="text-lg font-bold text-foreground tracking-wide uppercase">{section.title}</h3>
         </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ChevronDown className="w-5 h-5 text-foreground-muted" />
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+          <ChevronDown className={`w-5 h-5 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
         </motion.div>
       </button>
 
@@ -135,32 +148,35 @@ const PolicyAccordionItem = ({ section, isAmendment = false }: { section: { id?:
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6">
-              <div className="text-foreground-muted leading-relaxed whitespace-pre-line">
+            <div className="px-16 pb-8">
+              <div className="text-foreground-muted leading-relaxed whitespace-pre-line text-sm lg:text-base max-w-4xl">
                 {section.content}
               </div>
 
-              {'definitions' in section && section.definitions && (
-                <div className="mt-4 space-y-2">
+              {section.definitions && (
+                <div className="mt-6 space-y-3 bg-background-secondary p-6 border-l-2 border-primary/30">
                   {section.definitions.map((def, idx) => (
-                    <p key={idx} className="text-foreground-muted leading-relaxed">
-                      <span className="font-semibold text-foreground">{def.term}</span> {def.definition}
+                    <p key={idx} className="text-sm text-foreground-muted">
+                      <span className="font-bold text-primary mr-2">{def.term}</span> {def.definition}
                     </p>
                   ))}
                 </div>
               )}
 
-              {'activities' in section && section.activities && (
-                <ol className="mt-4 space-y-3 list-decimal list-outside ml-6">
-                  {section.activities.map((activity, idx) => (
-                    <li key={idx} className="text-foreground-muted leading-relaxed whitespace-pre-line">
-                      {activity}
-                    </li>
-                  ))}
-                </ol>
+              {section.activities && (
+                <div className="mt-8 space-y-4">
+                   <h4 className="text-[10px] font-black text-primary tracking-[0.2em] uppercase mb-4">Specified Activities</h4>
+                   <ul className="space-y-4">
+                    {section.activities.map((activity, idx) => (
+                      <li key={idx} className="flex gap-4 text-sm text-foreground-muted leading-relaxed">
+                        <span className="text-primary font-bold">{(idx + 1).toString().padStart(2, '0')}</span>
+                        {activity}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </div>
           </motion.div>
@@ -172,112 +188,71 @@ const PolicyAccordionItem = ({ section, isAmendment = false }: { section: { id?:
 
 const CSR = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar isVisible={true} />
       
-      {/* Hero */}
-      <section className="pt-32 pb-20 bg-background relative">
-        <div className="container mx-auto px-4 lg:px-8">
+      {/* Hero Section */}
+      <section className="pt-40 pb-24 bg-background relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full -mr-20" />
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="line-accent" />
-              <span className="text-primary font-semibold tracking-wider text-sm uppercase">
-                CSR
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-primary" />
+              <span className="text-primary font-bold tracking-[0.3em] text-xs uppercase">
+                Social Impact
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Corporate Social
-              <br />
-              <span className="text-primary">Responsibility</span>
+            <h1 className="text-6xl md:text-7xl font-black text-foreground mb-8 tracking-tighter leading-[0.9]">
+              CORPORATE <br />
+              <span className="text-primary">RESPONSIBILITY</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed">
+            <p className="text-foreground-muted text-lg lg:text-xl leading-relaxed max-w-2xl font-light">
               Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development - delivering value to society at large.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* CSR Committee */}
-      <section className="py-20 bg-background-secondary">
+      {/* FY 2025-26 Programmes - The Industrial Grid */}
+      <section className="py-24 bg-background-secondary border-y border-border/50">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="mb-16"
           >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              CSR <span className="text-primary">Committee</span>
-            </h2>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {csrCommittee.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg text-center"
-              >
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="w-10 h-10 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-foreground-muted text-sm">
-                  {member.designation}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FY 2025-26 Programmes - Icon Grid */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 text-primary mb-4">
-              <Calendar className="w-5 h-5" />
-              <span className="text-sm font-semibold uppercase tracking-wider">Financial Year 2025-26</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-primary text-white mb-6">
+              <Calendar size={14} />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">FY 2025-26 Approved</span>
             </div>
-            <h2 className="text-3xl font-bold text-foreground">
-              CSR Programmes Approved by the
-              <br />
-              <span className="text-primary">Board of Directors</span>
+            <h2 className="text-4xl font-bold text-foreground tracking-tight">
+              Programmes Approved by the <span className="text-primary">Board</span>
             </h2>
           </motion.div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-border/50 border border-border/50">
             {csrProgrammes.map((programme, index) => (
               <motion.div
                 key={programme.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg text-center group"
+                transition={{ delay: index * 0.1 }}
+                className="bg-background p-10 group hover:bg-muted/20 transition-all"
               >
-                <div className="w-14 h-14 mx-auto mb-4 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <programme.icon className="w-7 h-7 text-primary" />
+                <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+                  <programme.icon className="w-6 h-6 text-primary group-hover:text-white" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2 leading-tight">
+                <h3 className="text-xl font-bold text-foreground mb-4 uppercase tracking-wider leading-tight">
                   {programme.title}
                 </h3>
-                <p className="text-foreground-muted text-xs leading-relaxed">
+                <p className="text-foreground-muted text-sm leading-relaxed font-light">
                   {programme.description}
                 </p>
               </motion.div>
@@ -286,94 +261,90 @@ const CSR = () => {
         </div>
       </section>
 
-      {/* CSR Implementation Partner - CHIRAG */}
-      <section className="py-20 bg-background-secondary">
+      {/* Partner Section - CHIRAG */}
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              CSR Implementation <span className="text-primary">Partner</span>
-            </h2>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="card-industrial p-8 rounded-lg"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Activity className="w-7 h-7 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">Central Himalayan Rural Action Group</h3>
-                  <p className="text-primary text-sm font-semibold">CHIRAG</p>
-                </div>
-              </div>
-              
-              <p className="text-foreground-muted leading-relaxed mb-8">
+          <div className="grid lg:grid-cols-[1fr_400px] gap-16 items-start">
+            <div>
+              <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-8">Implementation Partner</h2>
+              <h3 className="text-4xl font-bold text-foreground mb-6">Central Himalayan Rural Action Group (CHIRAG)</h3>
+              <p className="text-foreground-muted text-lg leading-relaxed font-light mb-8 max-w-3xl">
                 CHIRAG is a non-profit voluntary organization working in the Central Himalayan region of Uttarakhand. 
-                Their holistic approach to rural development focuses on healthcare, education, agriculture, water resource management, 
-                and environmental conservation — aligning with WCPL's CSR vision of creating lasting social impact in underserved communities.
+                Their holistic approach focuses on healthcare, education, agriculture, and environmental conservation — 
+                aligning with WCPL's vision of creating lasting social impact.
               </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                {chiragStats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="text-center p-4 rounded-lg bg-background"
-                  >
-                    <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
-                    <div className="text-foreground-muted text-xs">{stat.label}</div>
-                  </motion.div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                {chiragStats.map((stat) => (
+                  <div key={stat.label} className="p-8 border border-border bg-background-secondary group hover:border-primary transition-colors">
+                    <div className="text-3xl font-black text-primary mb-2 tracking-tighter">{stat.value}</div>
+                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</div>
+                  </div>
                 ))}
               </div>
+            </div>
 
-              <a href="/products/standard-range/7-5-25-kva/brochure.pdf" download className="inline-flex items-center gap-2 text-primary hover:text-primary-hover transition-colors text-sm font-semibold">
-                <Download size={16} />
-                View Partner Profile (PDF)
-              </a>
-            </motion.div>
+            <div className="lg:sticky lg:top-32 p-8 border border-border bg-muted/10">
+               <Activity className="text-primary mb-6" size={40} strokeWidth={1} />
+               <h4 className="text-lg font-bold mb-4 uppercase tracking-tight">Partner Documentation</h4>
+               <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                 Access detailed reports on CHIRAG's regional impact and technical implementation frameworks for the current financial year.
+               </p>
+               <a href="/brochure.pdf" download className="w-full">
+                <Button className="w-full rounded-none h-14 uppercase tracking-widest text-xs font-bold">
+                  <Download className="mr-2" size={16} /> Download Partner Profile
+                </Button>
+               </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CSR Policy - Accordion */}
-      <section className="py-20 bg-background">
+      {/* Policy Accordions */}
+      <section className="py-24 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              CSR <span className="text-primary">Policy</span>
-            </h2>
-          </motion.div>
-          
-          <div className="space-y-4 max-w-4xl mx-auto">
-            {csrPolicySections.map((section) => (
-              <PolicyAccordionItem key={section.id} section={section} />
-            ))}
-            <PolicyAccordionItem
-              section={{
-                title: 'AMENDMENTS TO THIS POLICY',
-                content: amendmentsContent,
-              }}
-              isAmendment
-            />
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-black text-foreground tracking-tighter uppercase">CSR <span className="text-primary">Policy</span></h2>
+              <div className="w-20 h-1 bg-primary mx-auto mt-4" />
+            </div>
+            
+            <div className="border-t border-border/50">
+              {csrPolicySections.map((section) => (
+                <PolicyAccordionItem key={section.id} section={section} />
+              ))}
+              <PolicyAccordionItem
+                section={{
+                  title: 'AMENDMENTS TO THIS POLICY',
+                  content: amendmentsContent,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CSR Committee - Final Footer Section */}
+      <section className="py-24 bg-background border-t border-border/30">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="flex flex-col lg:flex-row justify-between items-end gap-12">
+            <div>
+              <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-8">Governance</h2>
+              <h3 className="text-4xl font-bold text-foreground tracking-tight">CSR Committee</h3>
+            </div>
+            <div className="flex flex-wrap gap-8">
+              {csrCommittee.map((member) => (
+                <div key={member.name} className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-foreground text-sm uppercase tracking-wider">{member.name}</div>
+                    <div className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{member.designation}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
