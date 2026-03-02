@@ -68,7 +68,7 @@ export const LegacySection = () => {
             </p>
 
             <Link to="/about">
-              <Button variant="heroOutline" size="lg" className="group mt-2">
+              <Button variant="heroOutline" size="lg" className="group mt-8">
                 Learn More About Us
                 <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
