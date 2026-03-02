@@ -4,11 +4,11 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const clientLogos = [
-  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Construction' },
+  { name: 'Adyaraj Developers', logo: '/images/clients/adyaraj.png', sector: 'Construction' },
   { name: 'Larsen & Toubro', logo: '/images/clients/lt.png', sector: 'Engineering' },
   { name: 'Topsel Toyota', logo: '/images/clients/topsel.png', sector: 'Automotive' },
   { name: 'Philips', logo: '/images/clients/philips.png', sector: 'Electronics' },
-  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
+  { name: 'Ram Kripal Singh Construction', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
   { name: 'Linde', logo: '/images/clients/linde.png', sector: 'Gases' },
   { name: 'DHL', logo: '/images/clients/dhl.png', sector: 'Logistics' },
   { name: 'Siemens', logo: '/images/clients/siemens.png', sector: 'Technology' },
