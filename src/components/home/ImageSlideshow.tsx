@@ -7,7 +7,7 @@ const slides = [
     id: 1,
     title: 'Industrial Excellence',
     description: 'Powering manufacturing plants across India',
-    image: '/images/showcase1.jpg',
+    image: '/images/showcase4.jpg',
   },
   {
     id: 2,
