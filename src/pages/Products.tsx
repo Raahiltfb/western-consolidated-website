@@ -150,11 +150,11 @@ const ProductCategoryView = ({ category }: ProductCategoryViewProps) => {
                   className="block card-industrial rounded-lg overflow-hidden group h-full"
                 >
                   {/* Image */}
-                  <div className="aspect-video bg-card flex items-center justify-center border-b border-border overflow-hidden">
+                  <div className="aspect-video bg-card flex items-center justify-center border-b border-border overflow-hidden p-4">
                     <img 
                       src={model.image} 
                       alt={model.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         // Fallback to placeholder on error
                         const target = e.target as HTMLImageElement;

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { Award, Shield, Clock, Users } from 'lucide-react';
+import { Award, Shield, Clock, Users, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 const features = [
   {
@@ -64,6 +66,13 @@ export const LegacySection = () => {
               Backed by world-class infrastructure, advanced technology, and round-the-clock customer care, we ensure your operations 
               never stop. Because for us, excellence isn't just about products; it's about service, values, and the relationships we build.
             </p>
+
+            <Link to="/about">
+              <Button variant="heroOutline" size="lg" className="group mt-2">
+                Learn More About Us
+                <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Right - Features Grid */}

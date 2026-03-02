@@ -1,14 +1,17 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const clients = [
-  { name: 'Client 1', sector: 'Manufacturing' },
-  { name: 'Client 2', sector: 'Healthcare' },
-  { name: 'Client 3', sector: 'Infrastructure' },
-  { name: 'Client 4', sector: 'IT Services' },
-  { name: 'Client 5', sector: 'Energy' },
-  { name: 'Client 6', sector: 'Logistics' },
-  { name: 'Client 7', sector: 'Retail' },
-  { name: 'Client 8', sector: 'Hospitality' },
+const clientLogos = [
+  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
+  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
+  { name: 'Kamladityya Construction', logo: '/images/clients/kamladityya.png', sector: 'Construction' },
+  { name: 'Laiba Developers', logo: '/images/clients/laiba.png', sector: 'Construction' },
+  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
+  { name: 'Shanti Construction', logo: '/images/clients/shanti.png', sector: 'Construction' },
+  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
+  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
 ];
 
 export const ClientsSection = () => {
@@ -42,20 +45,22 @@ export const ClientsSection = () => {
 
         {/* Client Logos Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {clients.map((client, index) => (
+          {clientLogos.map((client, index) => (
             <motion.div
-              key={client.name}
+              key={`${client.name}-${index}`}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               className="card-industrial p-8 rounded-lg flex flex-col items-center justify-center text-center group"
             >
-              {/* Logo placeholder */}
-              <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center mb-4 group-hover:bg-muted/80 transition-colors">
-                <span className="text-2xl font-bold text-foreground-muted">
-                  {client.name.charAt(0)}
-                </span>
+              <div className="w-24 h-24 flex items-center justify-center mb-4 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-500">
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className="max-w-full max-h-full object-contain"
+                  loading="lazy"
+                />
               </div>
               <span className="text-foreground text-sm font-medium">
                 {client.name}
@@ -66,6 +71,21 @@ export const ClientsSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-12"
+        >
+          <Link to="/clients">
+            <Button variant="heroOutline" size="lg" className="group">
+              View All Clients
+              <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
