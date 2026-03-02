@@ -208,8 +208,8 @@ const CSR = () => {
               </span>
             </div>
             <h1 className="text-6xl md:text-7xl font-black text-foreground mb-8 tracking-tighter leading-[0.9]">
-              CORPORATE <br />
-              <span className="text-primary">RESPONSIBILITY</span>
+              Corporate <br />
+              <span className="text-primary">Responsibility</span>
             </h1>
             <p className="text-foreground-muted text-lg lg:text-xl leading-relaxed max-w-2xl font-light">
               Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development - delivering value to society at large.
