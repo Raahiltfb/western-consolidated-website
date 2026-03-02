@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Phone, MessageCircle, Mail, MapPin, Linkedin, Facebook } from 'lucide-react';
+import { X, Phone, MessageCircle, Mail, MapPin, Linkedin, Facebook, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme/ThemeProvider';
@@ -33,142 +33,130 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[9999] bg-background/98 backdrop-blur-md"
+          className="fixed inset-0 z-[9999] bg-[#121212] text-white overflow-y-auto lg:overflow-hidden"
         >
-          {/* Logo watermark */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <img
-              src={logo}
-              alt=""
-              className="w-96 h-auto opacity-[0.03]"
-            />
+          {/* Logo Watermark */}
+          <div className="fixed inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] grayscale">
+            <img src={logo} alt="" className="w-[80%] max-w-2xl" />
           </div>
 
-          {/* Close button */}
-          <motion.button
-            initial={{ opacity: 0, rotate: -90 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ delay: 0.2 }}
+          {/* Close Button */}
+          <button 
             onClick={onClose}
-            className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-foreground hover:text-primary transition-colors z-10"
+            className="absolute top-6 right-6 lg:top-10 lg:right-10 p-2 text-white/50 hover:text-white transition-all z-50"
             aria-label="Close menu"
           >
-            <X size={28} />
-          </motion.button>
+            <X size={32} strokeWidth={1.5} />
+          </button>
 
-          <div className="container mx-auto px-4 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 py-20">
-            {/* Left: Navigation */}
-            <nav className="flex flex-col gap-2 lg:gap-3">
-              {menuLinks.map((link, index) => (
-                <motion.div
-                  key={link.path}
-                  initial={{ opacity: 0, x: -40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
-                >
-                  <Link
-                    to={link.path}
-                    onClick={onClose}
-                    className="text-3xl lg:text-5xl font-bold font-display text-foreground hover:text-primary transition-colors duration-300 block py-1"
+          <div className="container mx-auto px-6 lg:px-20 min-h-screen flex flex-col justify-center py-20 lg:py-0">
+            <div className="grid lg:grid-cols-[1fr_450px] gap-12 lg:gap-24 items-start">
+              
+              {/* Left: Navigation Section */}
+              <nav className="flex flex-col border-l border-white/10">
+                {menuLinks.map((link, index) => (
+                  <motion.div
+                    key={link.path}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="border-b border-white/5 last:border-0 group"
                   >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      to={link.path}
+                      onClick={onClose}
+                      className="flex items-center justify-between py-4 lg:py-5 pl-6 lg:pl-8 text-2xl lg:text-3xl font-light tracking-[0.15em] uppercase hover:text-primary transition-all group-hover:bg-white/[0.02]"
+                    >
+                      <span className="relative">
+                        {link.name}
+                        {/* Hover vertical accent */}
+                        <span className="absolute -left-6 lg:-left-8 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-300" />
+                      </span>
+                      <ChevronRight className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary/50" size={24} />
+                    </Link>
+                  </motion.div>
+                ))}
 
-              {/* Mobile: Enquiry, WhatsApp, Call */}
+                {/* Mobile-only Quick Actions */}
+                <div className="flex flex-wrap gap-3 mt-8 pl-6 lg:hidden">
+                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="sm" className="rounded-none border-white/10 bg-transparent text-white uppercase tracking-widest text-[10px]">
+                      <MessageCircle size={14} className="mr-2" /> WhatsApp
+                    </Button>
+                  </a>
+                  <a href="tel:+919876543210">
+                    <Button variant="outline" size="sm" className="rounded-none border-white/10 bg-transparent text-white uppercase tracking-widest text-[10px]">
+                      <Phone size={14} className="mr-2" /> Call
+                    </Button>
+                  </a>
+                </div>
+              </nav>
+
+              {/* Right: Contact Information (Desktop) */}
               <motion.div
-                initial={{ opacity: 0, x: -40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.4 }}
-                className="flex flex-wrap gap-3 mt-6 lg:hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-col space-y-10 lg:space-y-12 lg:border-l lg:border-white/10 lg:pl-16"
               >
-                <Link to="/enquiry" onClick={onClose}>
-                  <Button variant="hero" size="lg">Enquiry</Button>
-                </Link>
-                <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer">
-                  <Button variant="heroOutline" size="lg">
-                    <MessageCircle size={18} className="mr-2" /> WhatsApp
-                  </Button>
-                </a>
-                <a href="tel:+919876543210">
-                  <Button variant="heroOutline" size="lg">
-                    <Phone size={18} className="mr-2" /> Call
-                  </Button>
-                </a>
-              </motion.div>
-            </nav>
+                <div>
+                  <h3 className="flex items-center gap-3 text-xs font-bold tracking-[0.3em] text-white/40 mb-8 uppercase">
+                    <span className="w-1 h-5 bg-primary" /> Quick Contact
+                  </h3>
+                  
+                  <div className="space-y-8">
+                    {/* Address */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <MapPin size={14} className="text-primary" />
+                        <p className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Location</p>
+                      </div>
+                      <p className="text-sm lg:text-base text-white/60 leading-relaxed font-light pl-6">
+                        Western Consolidated Pvt. Ltd.<br />
+                        19, Ganesh Chandra Avenue, Kolkata 700013
+                      </p>
+                    </div>
 
-            {/* Right: Contact Info (Desktop) */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="hidden lg:flex flex-col gap-8 max-w-sm"
-            >
-              <div>
-                <h3 className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">
-                  Quick Contact
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <MapPin size={18} className="text-primary mt-0.5 shrink-0" />
-                    <p className="text-foreground-muted text-sm leading-relaxed">
-                      Western Consolidated Pvt. Ltd.<br />
-                      19, Ganesh Chandra Avenue,<br />
-                      Kolkata 700013
-                    </p>
+                    {/* Phone & Email */}
+                    <div className="grid grid-cols-1 gap-6 border-t border-white/5 pt-8 pl-6">
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Call Us</p>
+                        <a href="tel:(033)-22376813" className="block text-sm lg:text-base text-white/70 hover:text-white transition-colors tracking-wide">
+                          (033)-22376813
+                        </a>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Email Us</p>
+                        <a href="mailto:western@westernconsolidated.com" className="block text-sm lg:text-base text-white/70 hover:text-white transition-colors tracking-wide">
+                          western@westernconsolidated.com
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <a href="tel:(033)-22376813" className="flex items-center gap-3 text-foreground-muted hover:text-primary transition-colors">
-                    <Phone size={18} className="text-primary shrink-0" />
-                    <span className="text-sm">(033)-22376813</span>
-                  </a>
-                  <a href="mailto:western@westernconsolidated.com" className="flex items-center gap-3 text-foreground-muted hover:text-primary transition-colors">
-                    <Mail size={18} className="text-primary shrink-0" />
-                    <span className="text-sm">western@westernconsolidated.com</span>
-                  </a>
                 </div>
-              </div>
 
-              <div>
-                <h3 className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">
-                  Connect
-                </h3>
-                <div className="flex gap-3">
-                  <a
-                    href="https://www.linkedin.com/company/western-consolidated-private-ltd/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
-                  >
-                    <Linkedin size={18} />
-                  </a>
-                  <a
-                    href="https://www.facebook.com/people/Western-Consolidated-Pvt-Ltd/100064480881327/#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
-                  >
-                    <Facebook size={18} />
-                  </a>
-                  <a
-                    href="https://wa.me/919876543210"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary transition-colors"
-                  >
-                    <MessageCircle size={18} />
-                  </a>
+                {/* Connect & CTA */}
+                <div className="space-y-8 lg:pt-4">
+                  <div className="flex gap-4 pl-6">
+                    {[
+                      { icon: <Linkedin size={18} />, href: "https://www.linkedin.com/company/western-consolidated-private-ltd/" },
+                      { icon: <Facebook size={18} />, href: "https://www.facebook.com/people/Western-Consolidated-Pvt-Ltd/100064480881327/#" },
+                      { icon: <MessageCircle size={18} />, href: "https://wa.me/919876543210" }
+                    ].map((item, i) => (
+                      <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center border border-white/10 text-white/40 hover:text-primary hover:border-primary transition-all">
+                        {item.icon}
+                      </a>
+                    ))}
+                  </div>
+
+                  <Link to="/enquiry" onClick={onClose} className="block pl-6">
+                    <Button variant="hero" className="w-full lg:w-auto h-14 px-12 rounded-none uppercase tracking-[0.2em] text-xs font-bold border border-white/10 hover:border-primary shadow-xl shadow-black/50">
+                      Submit Enquiry
+                    </Button>
+                  </Link>
                 </div>
-              </div>
-
-              <Link to="/enquiry" onClick={onClose}>
-                <Button variant="hero" size="lg" className="w-full">
-                  Submit Enquiry
-                </Button>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       )}
