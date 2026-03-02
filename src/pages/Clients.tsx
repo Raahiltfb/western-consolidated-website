@@ -5,7 +5,7 @@ import { FloatingButtons } from '@/components/layout/FloatingButtons';
 
 const clientSectors = [
   { name: 'Auto & Ancillaries, FMCG.', count: 'Manufacturing' },
-  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process Industries' },
+  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process' },
   { name: 'Hospitals & Clinics', count: 'Healthcare' },
   { name: 'Hotels & Restaurants', count: 'Hospitality' },
   { name: 'Infrastructure & Construction, Petrol Stations', count: 'Infrastructure' },
@@ -15,18 +15,18 @@ const clientSectors = [
 ];
 
 const clientLogos = [
-  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
-  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
-  { name: 'Kamladityya Construction', logo: '/images/clients/kamladityya.png', sector: 'Construction' },
-  { name: 'Laiba Developers', logo: '/images/clients/laiba.png', sector: 'Construction' },
-  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
+  { name: 'Adyaraj Developers', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
+  { name: 'Larsen & Toubro', logo: '/images/clients/lt.png', sector: 'Engineering' },
+  { name: 'Topsel Toyota', logo: '/images/clients/topsel.png', sector: 'Automotive' },
+  { name: 'Philips', logo: '/images/clients/philips.png', sector: 'Electronics' },
+  { name: 'Ram Kripal Singh Construction', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
   { name: 'Shanti Construction', logo: '/images/clients/shanti.png', sector: 'Construction' },
-  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
-  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
-  { name: 'Kamladityya Construction', logo: '/images/clients/kamladityya.png', sector: 'Construction' },
-  { name: 'Laiba Developers', logo: '/images/clients/laiba.png', sector: 'Construction' },
-  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
-  { name: 'Shanti Construction', logo: '/images/clients/shanti.png', sector: 'Construction' },
+  { name: 'Linde', logo: '/images/clients/linde.png', sector: 'Gases' },
+  { name: 'DHL', logo: '/images/clients/dhl.png', sector: 'Logistics' },
+  { name: 'Siemens', logo: '/images/clients/siemens.png', sector: 'Technology' },
+  { name: 'SREI Infrastructure', logo: '/images/clients/srei.png', sector: 'Infrastructure' },
+  { name: 'Apeejay Surrendra', logo: '/images/clients/apeejay.png', sector: 'Hospitality' },
+  { name: 'Simplex Infrastructures', logo: '/images/clients/simplex.png', sector: 'Infrastructure' },
 ];
 
 const Clients = () => {
