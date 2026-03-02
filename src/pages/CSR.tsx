@@ -1,22 +1,14 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { Heart, Leaf, GraduationCap, Users, User, FileText, Calendar } from 'lucide-react';
+import { Heart, Leaf, GraduationCap, Users, User, FileText, Calendar, Droplets, Medal, TreePine, ChevronDown, Download, Activity } from 'lucide-react';
 
 const csrCommittee = [
-  {
-    name: 'Mr. Pranab Biswas',
-    designation: 'Member',
-  },
-  {
-    name: 'Mr. Vineet Dhingra',
-    designation: 'Chairman',
-  },
-  {
-    name: 'Mrs. Savita Dhingra',
-    designation: 'Member',
-  },
+  { name: 'Mr. Pranab Biswas', designation: 'Member' },
+  { name: 'Mr. Vineet Dhingra', designation: 'Chairman' },
+  { name: 'Mrs. Savita Dhingra', designation: 'Member' },
 ];
 
 const csrPolicySections = [
@@ -81,26 +73,102 @@ const amendmentsContent = `In case of any subsequent changes in the provisions o
 
 const csrProgrammes = [
   {
-    title: 'Poverty, Health and Nutrition Programme for children',
-    description: 'Eradicating hunger, poverty and malnutrition, promoting health care including preventive health care and sanitation including contribution to the Swach Bharat Kosh set-up by the Central Government for the promotion of sanitation and making available safe drinking water.',
+    title: 'Poverty, Health & Nutrition',
+    description: 'Eradicating hunger, poverty and malnutrition, promoting health care including preventive health care and sanitation.',
+    icon: Heart,
   },
   {
     title: 'Flood Relief',
     description: 'Disaster management, including relief, rehabilitation and reconstruction activities.',
+    icon: Droplets,
   },
   {
     title: 'Promoting Sports',
     description: 'Training to promote rural sports, nationally recognised sports, paralympic sports and olympic sports.',
+    icon: Medal,
   },
   {
-    title: 'Protection of Flora and Fauna',
-    description: 'Ensuring environmental sustainability, ecological balance, protection of flora and fauna, animal welfare, agro forestry, conservation of natural resources and maintaining quality of soil, air and water including contribution to the Clean Ganga Fund set-up by the Central Government for rejuvenation of river Ganga.',
+    title: 'Protection of Flora & Fauna',
+    description: 'Ensuring environmental sustainability, ecological balance, protection of flora and fauna, conservation of natural resources.',
+    icon: TreePine,
   },
   {
     title: 'Promoting Education',
-    description: 'Promoting education, including special education and employment enhancing vocation skills especially among children, women, elderly and the differently abled and livelihood enhancement projects.',
+    description: 'Promoting education, including special education and employment enhancing vocation skills.',
+    icon: GraduationCap,
   },
 ];
+
+const chiragStats = [
+  { value: '3.9L+', label: 'People Impacted' },
+  { value: '25,000+', label: 'Patients Treated Annually' },
+  { value: '747', label: 'Springs Rejuvenated' },
+  { value: '14M+', label: 'Saplings Planted' },
+];
+
+const PolicyAccordionItem = ({ section, isAmendment = false }: { section: { id?: string; title: string; content: string; definitions?: { term: string; definition: string }[]; activities?: string[] }; isAmendment?: boolean }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="card-industrial rounded-lg overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-6 text-left"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <FileText className="w-5 h-5 text-primary" />
+          </div>
+          <h3 className="text-lg font-semibold text-foreground">{section.title}</h3>
+        </div>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ChevronDown className="w-5 h-5 text-foreground-muted" />
+        </motion.div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6">
+              <div className="text-foreground-muted leading-relaxed whitespace-pre-line">
+                {section.content}
+              </div>
+
+              {'definitions' in section && section.definitions && (
+                <div className="mt-4 space-y-2">
+                  {section.definitions.map((def, idx) => (
+                    <p key={idx} className="text-foreground-muted leading-relaxed">
+                      <span className="font-semibold text-foreground">{def.term}</span> {def.definition}
+                    </p>
+                  ))}
+                </div>
+              )}
+
+              {'activities' in section && section.activities && (
+                <ol className="mt-4 space-y-3 list-decimal list-outside ml-6">
+                  {section.activities.map((activity, idx) => (
+                    <li key={idx} className="text-foreground-muted leading-relaxed whitespace-pre-line">
+                      {activity}
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const CSR = () => {
   return (
@@ -173,88 +241,8 @@ const CSR = () => {
         </div>
       </section>
 
-      {/* CSR Policy */}
+      {/* FY 2025-26 Programmes - Icon Grid */}
       <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              CSR <span className="text-primary">Policy</span>
-            </h2>
-          </motion.div>
-          
-          <div className="space-y-8 mb-12">
-            {csrPolicySections.map((section, index) => (
-              <motion.div
-                key={section.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
-                className="card-industrial p-6 lg:p-8 rounded-lg"
-              >
-                <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-5 h-5 text-primary" />
-                  </div>
-                  {section.title}
-                </h3>
-                
-                <div className="text-foreground-muted leading-relaxed whitespace-pre-line">
-                  {section.content}
-                </div>
-
-                {/* Definitions */}
-                {'definitions' in section && section.definitions && (
-                  <div className="mt-4 space-y-2">
-                    {section.definitions.map((def, idx) => (
-                      <p key={idx} className="text-foreground-muted leading-relaxed">
-                        <span className="font-semibold text-foreground">{def.term}</span> {def.definition}
-                      </p>
-                    ))}
-                  </div>
-                )}
-
-                {/* Activities List */}
-                {'activities' in section && section.activities && (
-                  <ol className="mt-4 space-y-3 list-decimal list-outside ml-6">
-                    {section.activities.map((activity, idx) => (
-                      <li key={idx} className="text-foreground-muted leading-relaxed whitespace-pre-line">
-                        {activity}
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Amendments */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="card-industrial p-6 lg:p-8 rounded-lg"
-          >
-            <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <FileText className="w-5 h-5 text-primary" />
-              </div>
-              AMENDMENTS TO THIS POLICY
-            </h3>
-            <p className="text-foreground-muted leading-relaxed whitespace-pre-line">
-              {amendmentsContent}
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CSR Programmes */}
-      <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -273,67 +261,119 @@ const CSR = () => {
             </h2>
           </motion.div>
           
-          <div className="space-y-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
             {csrProgrammes.map((programme, index) => (
               <motion.div
                 key={programme.title}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="card-industrial p-6 rounded-lg text-center group"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0 text-primary-foreground font-bold">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
-                      {programme.title}
-                    </h3>
-                    <p className="text-foreground-muted leading-relaxed">
-                      {programme.description}
-                    </p>
-                  </div>
+                <div className="w-14 h-14 mx-auto mb-4 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <programme.icon className="w-7 h-7 text-primary" />
                 </div>
+                <h3 className="text-sm font-semibold text-foreground mb-2 leading-tight">
+                  {programme.title}
+                </h3>
+                <p className="text-foreground-muted text-xs leading-relaxed">
+                  {programme.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Image Gallery Placeholder */}
-      <section className="py-20 bg-background">
+      {/* CSR Implementation Partner - CHIRAG */}
+      <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-foreground mb-12 text-center"
+            className="text-center mb-12"
           >
-            Our <span className="text-primary">Impact</span>
-          </motion.h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((_, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="aspect-video bg-card border border-border rounded-lg flex items-center justify-center"
-              >
-                <div className="text-center">
-                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-muted flex items-center justify-center">
-                    <svg className="w-6 h-6 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <p className="text-foreground-muted text-sm">CSR Activity Image</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              CSR Implementation <span className="text-primary">Partner</span>
+            </h2>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="card-industrial p-8 rounded-lg"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Activity className="w-7 h-7 text-primary" />
                 </div>
-              </motion.div>
+                <div>
+                  <h3 className="text-xl font-bold text-foreground">Central Himalayan Rural Action Group</h3>
+                  <p className="text-primary text-sm font-semibold">CHIRAG</p>
+                </div>
+              </div>
+              
+              <p className="text-foreground-muted leading-relaxed mb-8">
+                CHIRAG is a non-profit voluntary organization working in the Central Himalayan region of Uttarakhand. 
+                Their holistic approach to rural development focuses on healthcare, education, agriculture, water resource management, 
+                and environmental conservation — aligning with WCPL's CSR vision of creating lasting social impact in underserved communities.
+              </p>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                {chiragStats.map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="text-center p-4 rounded-lg bg-background"
+                  >
+                    <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
+                    <div className="text-foreground-muted text-xs">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <a href="/products/standard-range/7-5-25-kva/brochure.pdf" download className="inline-flex items-center gap-2 text-primary hover:text-primary-hover transition-colors text-sm font-semibold">
+                <Download size={16} />
+                View Partner Profile (PDF)
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* CSR Policy - Accordion */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              CSR <span className="text-primary">Policy</span>
+            </h2>
+          </motion.div>
+          
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {csrPolicySections.map((section) => (
+              <PolicyAccordionItem key={section.id} section={section} />
             ))}
+            <PolicyAccordionItem
+              section={{
+                title: 'AMENDMENTS TO THIS POLICY',
+                content: amendmentsContent,
+              }}
+              isAmendment
+            />
           </div>
         </div>
       </section>

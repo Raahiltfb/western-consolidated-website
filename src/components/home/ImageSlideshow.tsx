@@ -7,21 +7,25 @@ const slides = [
     id: 1,
     title: 'Industrial Excellence',
     description: 'Powering manufacturing plants across India',
+    image: '/images/showcase1.jpg',
   },
   {
     id: 2,
-    title: 'Healthcare Solutions',
-    description: 'Critical backup power for hospitals and medical facilities',
+    title: 'Product Launch',
+    description: 'Launching next-generation KOEL Green generator sets',
+    image: '/images/showcase2.jpg',
   },
   {
     id: 3,
-    title: 'Infrastructure Projects',
-    description: 'Supporting India\'s growing infrastructure development',
+    title: 'Heavy-Duty Solutions',
+    description: 'Engineering precision for mission-critical power delivery',
+    image: '/images/showcase3.jpg',
   },
   {
     id: 4,
-    title: 'Data Centers',
-    description: 'Uninterrupted power for digital infrastructure',
+    title: 'Manufacturing Facility',
+    description: 'State-of-the-art production at our Sitarganj plant',
+    image: '/images/showcase1.jpg',
   },
 ];
 
@@ -78,26 +82,23 @@ export const ImageSlideshow = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex items-center justify-center"
+                className="absolute inset-0"
               >
-                {/* Placeholder image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-card to-muted" />
+                <img
+                  src={slides[currentSlide].image}
+                  alt={slides[currentSlide].title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
                 
                 {/* Content overlay */}
-                <div className="relative z-10 text-center p-8">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
-                    <svg className="w-10 h-10 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">
                     {slides[currentSlide].title}
                   </h3>
-                  <p className="text-foreground-muted">
+                  <p className="text-white/80">
                     {slides[currentSlide].description}
-                  </p>
-                  <p className="text-muted-foreground text-sm mt-4">
-                    Image Placeholder
                   </p>
                 </div>
               </motion.div>

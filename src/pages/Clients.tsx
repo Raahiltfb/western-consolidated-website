@@ -14,10 +14,20 @@ const clientSectors = [
   { name: 'Defence & Railways', count: 'Government' },
 ];
 
-const clientLogos = Array.from({ length: 12 }, (_, i) => ({
-  name: `Client ${i + 1}`,
-  sector: clientSectors[i % clientSectors.length].name,
-}));
+const clientLogos = [
+  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
+  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
+  { name: 'Kamladityya Construction', logo: '/images/clients/kamladityya.png', sector: 'Construction' },
+  { name: 'Laiba Developers', logo: '/images/clients/laiba.png', sector: 'Construction' },
+  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
+  { name: 'Shanti Construction', logo: '/images/clients/shanti.png', sector: 'Construction' },
+  { name: 'Adyaraj', logo: '/images/clients/adyaraj.png', sector: 'Infrastructure' },
+  { name: 'CSN Developers', logo: '/images/clients/csn.png', sector: 'Real Estate' },
+  { name: 'Kamladityya Construction', logo: '/images/clients/kamladityya.png', sector: 'Construction' },
+  { name: 'Laiba Developers', logo: '/images/clients/laiba.png', sector: 'Construction' },
+  { name: 'Ram Kripal', logo: '/images/clients/ramkripal.png', sector: 'Infrastructure' },
+  { name: 'Shanti Construction', logo: '/images/clients/shanti.png', sector: 'Construction' },
+];
 
 const Clients = () => {
   return (
@@ -97,18 +107,22 @@ const Clients = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {clientLogos.map((client, index) => (
               <motion.div
-                key={client.name}
+                key={`${client.name}-${index}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.03 }}
-                className="card-industrial p-6 rounded-lg flex flex-col items-center justify-center text-center"
+                className="card-industrial p-6 rounded-lg flex flex-col items-center justify-center text-center group"
               >
-                <div className="w-12 h-12 rounded bg-muted flex items-center justify-center mb-3">
-                  <span className="text-lg font-bold text-foreground-muted">
-                    {client.name.charAt(0)}
-                  </span>
+                <div className="w-20 h-20 flex items-center justify-center mb-3 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-500">
+                  <img
+                    src={client.logo}
+                    alt={client.name}
+                    className="max-w-full max-h-full object-contain"
+                    loading="lazy"
+                  />
                 </div>
+                <span className="text-foreground text-xs font-medium">{client.name}</span>
                 <span className="text-foreground-muted text-xs">{client.sector}</span>
               </motion.div>
             ))}

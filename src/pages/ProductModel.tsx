@@ -67,11 +67,11 @@ const ProductModel = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="aspect-square bg-card border border-border rounded-lg flex items-center justify-center sticky top-28 overflow-hidden">
+              <div className="aspect-square bg-card border border-border rounded-lg flex items-center justify-center sticky top-28 overflow-hidden p-6">
                 <img 
                   src={displayImage} 
                   alt={displayName}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     // Fallback to placeholder on error
                     const target = e.target as HTMLImageElement;

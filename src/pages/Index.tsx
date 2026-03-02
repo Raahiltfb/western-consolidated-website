@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
+import { EnquiryWidget } from '@/components/layout/EnquiryWidget';
 import { HeroSection } from '@/components/home/HeroSection';
 import { LegacySection } from '@/components/home/LegacySection';
 import { ProductsGrid } from '@/components/home/ProductsGrid';
@@ -31,6 +32,7 @@ const Index = () => {
       <CTASection />
       <Footer />
       <FloatingButtons />
+      <EnquiryWidget />
     </div>
   );
 };
