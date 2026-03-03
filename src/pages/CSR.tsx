@@ -207,7 +207,7 @@ const CSR = () => {
                 Social Impact
               </span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-normal text-foreground mb-8 tracking-tighter leading-[0.9]">
+            <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-8 tracking-tighter leading-[0.9]">
               Corporate <br />
               <span className="text-primary">Responsibility</span>
             </h1>
