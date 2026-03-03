@@ -270,8 +270,8 @@ const CSR = () => {
               <h3 className="text-4xl font-bold text-foreground mb-6">Central Himalayan Rural Action Group (CHIRAG)</h3>
               <p className="text-foreground-muted text-lg leading-relaxed font-light mb-8 max-w-3xl">
                 CHIRAG is a non-profit voluntary organization working in the Central Himalayan region of Uttarakhand. 
-                Their holistic approach focuses on healthcare, education, agriculture, and environmental conservation — 
-                aligning with WCPL's vision of creating lasting social impact.
+                Their holistic approach focuses on healthcare, education, agriculture, and environmental conservation - 
+                aligning with Western Consolidated's vision of creating lasting social impact.
               </p>
               
               <div className="grid grid-cols-2 gap-4">
