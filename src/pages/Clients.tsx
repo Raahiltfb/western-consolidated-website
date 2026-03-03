@@ -2,16 +2,59 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
+// Note: You may need to install lucide-react if not already present
+import { 
+  Factory, 
+  FlaskConical, 
+  Stethoscope, 
+  Hotel, 
+  Building2, 
+  Briefcase, 
+  Home, 
+  ShieldCheck 
+} from 'lucide-react';
 
 const clientSectors = [
-  { name: 'Auto & Ancillaries, FMCG.', count: 'Manufacturing' },
-  { name: 'Pharma & Biotech, Textile, Chemical, Cement, Steel ', count: 'Process' },
-  { name: 'Hospitals & Clinics', count: 'Healthcare' },
-  { name: 'Hotels & Restaurants', count: 'Hospitality' },
-  { name: 'Infrastructure & Construction, Petrol Stations', count: 'Infrastructure' },
-  { name: 'Education, Banks/BFSI, IT/ITES, Telecom', count: 'Services' },
-  { name: 'Residential & Commercial', count: 'Real Estate' },
-  { name: 'Defence & Railways', count: 'Government' },
+  { 
+    title: 'Manufacturing', 
+    description: 'Auto & Ancillaries, FMCG, and Heavy Engineering.',
+    icon: <Factory className="w-6 h-6" />
+  },
+  { 
+    title: 'Process Industry', 
+    description: 'Pharma, Biotech, Chemical, Cement, and Steel.',
+    icon: <FlaskConical className="w-6 h-6" />
+  },
+  { 
+    title: 'Healthcare', 
+    description: 'Specialty Hospitals, Clinics, and Diagnostic Centers.',
+    icon: <Stethoscope className="w-6 h-6" />
+  },
+  { 
+    title: 'Hospitality', 
+    description: 'Luxury Hotels, Restaurants, and Quick Service Outlets.',
+    icon: <Hotel className="w-6 h-6" />
+  },
+  { 
+    title: 'Infrastructure', 
+    description: 'Construction, Petrol Stations, and Smart Cities.',
+    icon: <Building2 className="w-6 h-6" />
+  },
+  { 
+    title: 'Services & IT', 
+    description: 'Banking, BFSI, IT/ITES, and Telecom Hubs.',
+    icon: <Briefcase className="w-6 h-6" />
+  },
+  { 
+    title: 'Real Estate', 
+    description: 'Residential Complexes and Commercial Workspaces.',
+    icon: <Home className="w-6 h-6" />
+  },
+  { 
+    title: 'Government', 
+    description: 'Defence Establishments and Railway Infrastructure.',
+    icon: <ShieldCheck className="w-6 h-6" />
+  },
 ];
 
 const clientLogos = [
@@ -34,7 +77,7 @@ const Clients = () => {
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
       
-      {/* Hero */}
+      {/* Hero - Kept as per your instruction */}
       <section className="pt-32 pb-20 bg-background relative">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -62,37 +105,47 @@ const Clients = () => {
         </div>
       </section>
 
-      {/* Sectors */}
+      {/* Refined Sectors Section */}
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-foreground mb-12 text-center"
+            className="text-center mb-16"
           >
-            Industries We <span className="text-primary">Serve</span>
-          </motion.h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Industries We <span className="text-primary">Serve</span>
+            </h2>
+            <p className="text-foreground-muted max-w-2xl mx-auto">
+              Delivering specialized solutions tailored to the unique operational demands of diverse sectors.
+            </p>
+          </motion.div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {clientSectors.map((sector, index) => (
               <motion.div
-                key={sector.name}
+                key={sector.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="card-industrial p-6 rounded-lg text-center"
+                className="card-industrial p-8 rounded-xl bg-background border border-border/50 hover:border-primary/50 transition-colors group flex flex-col h-full"
               >
-                <div className="text-3xl font-bold text-primary mb-2">{sector.count}</div>
-                <div className="text-foreground text-sm">{sector.name}</div>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {sector.icon}
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{sector.title}</h3>
+                <p className="text-foreground-muted text-sm leading-relaxed">
+                  {sector.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Client Logos */}
+      {/* Client Logos - Kept as per your instruction */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.h2
