@@ -290,7 +290,7 @@ const CSR = () => {
                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
                  Access detailed reports on CHIRAG's regional impact and technical implementation frameworks for the current financial year.
                </p>
-               <a href="/brochure.pdf" download className="w-full">
+               <a href="/Chirag.pdf" download className="w-full">
                 <Button className="w-full rounded-none h-14 uppercase tracking-widest text-xs font-bold">
                   <Download className="mr-2" size={16} /> Download Partner Profile
                 </Button>
