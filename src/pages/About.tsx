@@ -93,7 +93,7 @@ const About = () => {
                 Our <span className="text-primary">Story</span>
               </h2>
               <p className="text-foreground-muted leading-relaxed">
-                Established in the 1960s, WCPL began its journey with a vision to provide 
+                Established in 1957, WCPL began its journey with a vision to provide 
                 reliable power solutions to India&apos;s growing industrial sector. What started 
                 as a small enterprise has grown into one of the most trusted names in the 
                 power generation industry.
