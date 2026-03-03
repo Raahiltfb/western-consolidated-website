@@ -32,7 +32,7 @@ const defaultHighlights = [
 
 const createSpecifications = (powerRating: string, fuel: string = 'Diesel') => [
   { label: 'Power Rating', value: powerRating },
-  { label: 'Engine', value: 'KOEL' },
+  { label: 'Engine', value: 'WCPL' },
   { label: 'Frequency', value: '50 Hz' },
   { label: 'Voltage', value: '415V / 240V' },
   { label: 'Fuel', value: fuel },
