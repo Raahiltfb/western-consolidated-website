@@ -138,7 +138,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                 animate={{ opacity: 0.5 }}
                 className="text-foreground-muted text-sm uppercase tracking-[0.3em] mt-8"
               >
-                Engineering Power
+                WESTERN CONSOLIDATED
               </motion.p>
             </div>
           </motion.div>
