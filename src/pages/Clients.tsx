@@ -27,12 +27,12 @@ const clientSectors = [
   },
   { 
     title: 'Healthcare', 
-    description: 'Specialty Hospitals, Clinics, and Diagnostic Centers.',
+    description: 'Hospitals, Clinics, and Diagnostic Centers.',
     icon: <Stethoscope className="w-6 h-6" />
   },
   { 
     title: 'Hospitality', 
-    description: 'Luxury Hotels, Restaurants, and Quick Service Outlets.',
+    description: 'Hotels, Restaurants, and Quick Service Outlets.',
     icon: <Hotel className="w-6 h-6" />
   },
   { 
