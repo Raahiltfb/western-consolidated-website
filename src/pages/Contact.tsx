@@ -247,12 +247,8 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-foreground">Branch Offices</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                {
-                  city: 'Mumbai',
-                  address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers',
-                },
                 {
                   city: 'Bihar (Patna)',
                   phone: '61233122392',
@@ -263,9 +259,10 @@ const Contact = () => {
                   address: 'Western Consolidated Private Limited\nAnandmani Tower, Mazzanine Floor,\nShree Vishnu Talkies Lane, Main Road,\nRanchi – 834001, Jharkhand',
                 },
                 {
-                  city: 'Jharkhand (Jamshedpur)',
-                  address: 'Western Consolidated Private Limited\n203, Dev Das Complex, 2nd Floor\nH. No. 5, S B Shop Area\nDiagonal Road, Bistupur\nJamshedpur – 831001',
+                  city: 'Mumbai',
+                  address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers',
                 },
+
               ].map((branch, index) => (
                 <motion.div
                   key={branch.city}
