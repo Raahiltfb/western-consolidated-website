@@ -43,7 +43,7 @@ export const ClientsSection = () => {
           </p>
         </motion.div>
 
-        {/* Client Logos Grid */}
+        {/* Client Logos Grid - Updated for constant color and hover elevation */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {clientLogos.map((client, index) => (
             <motion.div
@@ -52,9 +52,9 @@ export const ClientsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="card-industrial p-8 rounded-lg flex flex-col items-center justify-center text-center group"
+              className="card-industrial p-8 rounded-lg flex flex-col items-center justify-center text-center group hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
             >
-              <div className="w-24 h-24 flex items-center justify-center mb-4 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-500">
+              <div className="w-24 h-24 flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110">
                 <img
                   src={client.logo}
                   alt={client.name}
