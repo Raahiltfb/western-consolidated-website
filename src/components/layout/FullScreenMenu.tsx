@@ -128,8 +128,8 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                       </div>
                       <div className="space-y-1">
                         <p className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Email Us</p>
-                        <a href="mailto:western@westernconsolidated.com" className="block text-sm lg:text-base text-foreground/80 hover:text-primary transition-colors tracking-wide">
-                          western@westernconsolidated.com
+                        <a href="mailto:response@westernconsolidated.com" className="block text-sm lg:text-base text-foreground/80 hover:text-primary transition-colors tracking-wide">
+                          response@westernconsolidated.com
                         </a>
                       </div>
                     </div>
