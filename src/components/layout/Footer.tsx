@@ -118,10 +118,10 @@ export const Footer = () => {
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-primary shrink-0" />
                 <a 
-                  href="western@westernconsolidated.com" 
+                  href="response@westernconsolidated.com" 
                   className="text-foreground-muted hover:text-primary transition-colors text-sm"
                 >
-                  western@westernconsolidated.com
+                  response@westernconsolidated.com
                 </a>
               </li>
             </ul>
