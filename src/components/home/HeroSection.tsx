@@ -238,7 +238,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   </div>
                   <div className="stat-divider" />
                   <div>
-                    <div className="text-4xl font-bold text-foreground">5000+</div>
+                    <div className="text-4xl font-bold text-foreground">100000+</div>
                     <div className="text-foreground-muted text-sm">Installations</div>
                   </div>
                   <div className="stat-divider" />
