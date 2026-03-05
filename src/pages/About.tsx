@@ -22,7 +22,7 @@ const sections = [
     id: 'vision',
     icon: Eye,
     title: 'Vision',
-    content: 'To be the most admired power solutions provider with international standards, delivering sustainable values to all customers.',
+    content: 'To be the most admired power solutions provider with international standards, delivering sustainable value to all our customers.',
   },
   {
     id: 'mission',
