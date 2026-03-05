@@ -21,7 +21,7 @@ const features = [
   },
   {
     icon: Users,
-    title: '100000+ Installations',
+    title: '100,000+ Installations',
     description: 'Trusted by leading enterprises and private customers across industrial, cellular, and commercial sectors.',
   },
 ];
