@@ -98,7 +98,7 @@ const Clients = () => {
               <span className="text-primary">Industry Leaders</span>
             </h1>
             <p className="text-foreground-muted text-lg leading-relaxed">
-              Over 5000 installations across India, powering enterprises 
+              Over 100,000 installations across India, powering enterprises 
               in manufacturing, healthcare, infrastructure, and more.
             </p>
           </motion.div>
@@ -145,7 +145,7 @@ const Clients = () => {
         </div>
       </section>
 
-      {/* Client Logos - Kept as per your instruction */}
+      {/* Client Logos - Modified for constant color and new animation */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.h2
@@ -154,7 +154,7 @@ const Clients = () => {
             viewport={{ once: true }}
             className="text-3xl font-bold text-foreground mb-12 text-center"
           >
-            Our <span className="text-primary">Partners</span>
+            Our <span className="text-primary">Top Clients</span>
           </motion.h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -165,9 +165,9 @@ const Clients = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.03 }}
-                className="card-industrial p-6 rounded-lg flex flex-col items-center justify-center text-center group"
+                className="card-industrial p-6 rounded-lg flex flex-col items-center justify-center text-center group hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="w-20 h-20 flex items-center justify-center mb-3 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-500">
+                <div className="w-20 h-20 flex items-center justify-center mb-3 transition-transform duration-500 group-hover:scale-110">
                   <img
                     src={client.logo}
                     alt={client.name}
