@@ -138,12 +138,10 @@ const ProductModel = () => {
                     <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <a href={displayBrochure} download>
-                  <Button variant="heroOutline" size="lg">
-                    <Download size={18} className="mr-2" />
-                    Download Brochure
-                  </Button>
-                </a>
+                <Button variant="heroOutline" size="lg" onClick={() => setIsBrochureModalOpen(true)}>
+                  <Download size={18} className="mr-2" />
+                  Download Brochure
+                </Button>
               </div>
 
               {/* Specifications */}
