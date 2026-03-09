@@ -163,6 +163,12 @@ const ProductModel = () => {
 
       <Footer />
       <FloatingButtons />
+      <BrochureEnquiryModal
+        isOpen={isBrochureModalOpen}
+        onClose={() => setIsBrochureModalOpen(false)}
+        brochureUrl={displayBrochure}
+        productName={displayName}
+      />
     </div>
   );
 };
