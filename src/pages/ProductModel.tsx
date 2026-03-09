@@ -11,6 +11,7 @@ import { getModelWithCategory } from '@/data/productCatalogue';
 
 const ProductModel = () => {
   const { categoryId, modelId } = useParams();
+  const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
   
   const data = categoryId && modelId ? getModelWithCategory(categoryId, modelId) : null;
   
