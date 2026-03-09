@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
+import { BrochureEnquiryModal } from '@/components/layout/BrochureEnquiryModal';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Download, CheckCircle } from 'lucide-react';
 import { getModelWithCategory } from '@/data/productCatalogue';
