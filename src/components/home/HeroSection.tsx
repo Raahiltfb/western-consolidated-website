@@ -131,14 +131,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center px-4">
               <div className="h-64 w-64 flex items-center justify-center">
                 <AssemblyParts />
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.8 }}
-                className="text-foreground text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-12"
+                className="text-foreground text-center text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
               >
                 WESTERN CONSOLIDATED
               </motion.p>
@@ -151,7 +151,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
           {/* LEFT SIDE */}
-          <div className="space-y-8">
+          <div className="space-y-8 pt-4 md:pt-0">
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -161,7 +161,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   className="flex items-center gap-3"
                 >
                   <div className="line-accent" />
-                  <span className="text-primary font-semibold tracking-wider text-sm uppercase">
+                  <span className="text-primary font-semibold tracking-wider text-sm uppercase whitespace-nowrap">
                     KOEL Authorized Manufacturer
                   </span>
                 </motion.div>
