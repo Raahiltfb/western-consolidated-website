@@ -151,14 +151,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
           {/* LEFT SIDE */}
-          <div className="space-y-6 pt-12 md:pt-0">
+          <div className="space-y-4 pt-4 md:pt-0">
             <AnimatePresence>
               {showContent && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="mt-4 md:mt-8"
+                  className="mt-12 md:mt-20"
                 >
                   <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                     <span className="text-foreground">Extensive</span>
@@ -171,14 +171,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               )}
             </AnimatePresence>
 
-            
+            {/* KOEL Line - Spacing reduced around this element */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="flex items-center gap-3 py-2"
+                  className="flex items-center gap-3 py-1"
                 >
                   <div className="line-accent" />
                   <span className="text-primary font-semibold tracking-wider text-sm uppercase whitespace-nowrap">
@@ -194,7 +194,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="text-foreground-muted text-lg max-w-lg leading-relaxed"
+                  className="text-foreground-muted text-lg max-w-lg leading-relaxed mt-0"
                 >
                   Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
                   Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
@@ -208,7 +208,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
-                  className="flex flex-wrap gap-4"
+                  className="flex flex-wrap gap-4 pt-4"
                 >
                   <Link to="/products">
                     <Button variant="hero" size="lg" className="group">
