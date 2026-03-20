@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
 import heroGenerator from '@/assets/hero-generator.png';
+import heroBg from '@/assets/hero-bg.jpg';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
@@ -95,33 +96,23 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
 
   return (
-    <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
-      <div className="lighting-effect" />
-      <div className="absolute inset-0 grid-overlay opacity-20" />
-      
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full"
-            initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000), 
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-              opacity: 0 
-            }}
-            animate={{ 
-              y: [null, Math.random() * -200],
-              opacity: [0, 0.5, 0]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Full-bleed background image */}
+      <div className="absolute inset-0">
+        <img
+          src={heroBg}
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        {/* Cinematic gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+        {/* Subtle warm accent glow from the welding light */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
       </div>
+
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 grid-overlay opacity-10" />
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
@@ -132,13 +123,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             transition={{ duration: 0.5 }}
           >
             <div className="flex flex-col items-center px-4 w-full">
-              <div className="h-64 w-64 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+              <div className="relative h-64 w-64 flex items-center justify-center">
                 <AssemblyParts />
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.8 }}
-                className="text-foreground text-center w-full text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
+                className="relative text-white text-center w-full text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
               >
                 WESTERN CONSOLIDATED
               </motion.p>
@@ -161,17 +153,16 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   className="mt-12 md:mt-20"
                 >
                   <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                    <span className="text-foreground">Extensive</span>
+                    <span className="text-white">Extensive</span>
                     <br />
                     <span className="text-primary">Power</span>
                     <br />
-                    <span className="text-foreground">Solutions</span>
+                    <span className="text-white">Solutions</span>
                   </h1>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* KOEL Line - Spacing reduced around this element */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -194,7 +185,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="text-foreground-muted text-lg max-w-lg leading-relaxed mt-0"
+                  className="text-white/70 text-lg max-w-lg leading-relaxed mt-0"
                 >
                   Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
                   Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
@@ -232,21 +223,21 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.8 }}
-                  className="flex items-center gap-8 pt-8 border-t border-border"
+                  className="flex items-center gap-8 pt-8 border-t border-white/20"
                 >
                   <div>
-                    <div className="text-4xl font-bold text-foreground">60+</div>
-                    <div className="text-foreground-muted text-sm">Years Engineering</div>
+                    <div className="text-4xl font-bold text-white">60+</div>
+                    <div className="text-white/50 text-sm">Years Engineering</div>
                   </div>
-                  <div className="stat-divider" />
+                  <div className="w-px h-10 bg-white/20" />
                   <div>
-                    <div className="text-4xl font-bold text-foreground">100,000+</div>
-                    <div className="text-foreground-muted text-sm">Installations</div>
+                    <div className="text-4xl font-bold text-white">100,000+</div>
+                    <div className="text-white/50 text-sm">Installations</div>
                   </div>
-                  <div className="stat-divider" />
+                  <div className="w-px h-10 bg-white/20" />
                   <div>
-                    <div className="text-4xl font-bold text-foreground">24/7</div>
-                    <div className="text-foreground-muted text-sm">Support</div>
+                    <div className="text-4xl font-bold text-white">24/7</div>
+                    <div className="text-white/50 text-sm">Support</div>
                   </div>
                 </motion.div>
               )}
@@ -254,22 +245,20 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           </div>
 
           {/* RIGHT SIDE - Generator Image */}
+          {/* RIGHT SIDE - Generator product floating over background */}
           <AnimatePresence>
             {showContent && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.92, x: 80 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 1.2, delay: 0.3 }}
-                className="relative hidden lg:flex items-center justify-end"
+                initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.5 }}
+                className="relative hidden lg:flex items-center justify-center"
               >
-                <div className="absolute right-0 w-[600px] h-[600px] bg-primary/20 blur-[140px] rounded-full" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/40 pointer-events-none" />
-
-                <div className="relative z-10 w-[135%] max-w-3xl -mr-20">
+                <div className="relative z-10 w-full max-w-xl">
                   <img
                     src={heroGenerator}
                     alt="KOEL Green industrial diesel generator set by Western Consolidated"
-                    className="w-full h-auto object-contain drop-shadow-[0_40px_100px_rgba(0,0,0,0.75)]"
+                    className="w-full h-auto object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
                   />
                 </div>
               </motion.div>
@@ -291,9 +280,9 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-6 h-10 border-2 border-foreground-muted rounded-full flex items-start justify-center p-2"
+              className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2"
             >
-              <div className="w-1.5 h-3 bg-foreground-muted rounded-full" />
+              <div className="w-1.5 h-3 bg-white/40 rounded-full" />
             </motion.div>
           </motion.div>
         )}
@@ -306,14 +295,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
-            className="absolute bottom-8 right-8 hidden lg:block"
+            className="absolute bottom-8 right-8 hidden lg:block z-10"
           >
-            <div className="bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-sm">
+            <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
                 <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
               </div>
               <div>
-                <div className="text-[10px] leading-tight font-medium text-white uppercase">
+                <div className="text-[10px] leading-tight font-medium text-white/70 uppercase">
                   AUTHORIZED GOEM
                 </div>
                 <div className="text-sm font-bold text-white">
