@@ -256,7 +256,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               >
                 <div className="relative z-10 w-full max-w-xl">
                   <img
-                    src={heroGenerator}
+                    src=""
                     alt="KOEL Green industrial diesel generator set by Western Consolidated"
                     className="w-full h-auto object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
                   />
