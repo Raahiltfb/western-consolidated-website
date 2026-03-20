@@ -96,33 +96,23 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
 
   return (
-    <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
-      <div className="lighting-effect" />
-      <div className="absolute inset-0 grid-overlay opacity-20" />
-      
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full"
-            initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000), 
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-              opacity: 0 
-            }}
-            animate={{ 
-              y: [null, Math.random() * -200],
-              opacity: [0, 0.5, 0]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Full-bleed background image */}
+      <div className="absolute inset-0">
+        <img
+          src={heroBg}
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        {/* Cinematic gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+        {/* Subtle warm accent glow from the welding light */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
       </div>
+
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 grid-overlay opacity-10" />
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
