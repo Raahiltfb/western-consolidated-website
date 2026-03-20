@@ -123,13 +123,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             transition={{ duration: 0.5 }}
           >
             <div className="flex flex-col items-center px-4 w-full">
-              <div className="h-64 w-64 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+              <div className="relative h-64 w-64 flex items-center justify-center">
                 <AssemblyParts />
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.8 }}
-                className="text-foreground text-center w-full text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
+                className="relative text-white text-center w-full text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
               >
                 WESTERN CONSOLIDATED
               </motion.p>
