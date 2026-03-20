@@ -153,17 +153,16 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   className="mt-12 md:mt-20"
                 >
                   <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                    <span className="text-foreground">Extensive</span>
+                    <span className="text-white">Extensive</span>
                     <br />
                     <span className="text-primary">Power</span>
                     <br />
-                    <span className="text-foreground">Solutions</span>
+                    <span className="text-white">Solutions</span>
                   </h1>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* KOEL Line - Spacing reduced around this element */}
             <AnimatePresence>
               {showContent && (
                 <motion.div
@@ -186,7 +185,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="text-foreground-muted text-lg max-w-lg leading-relaxed mt-0"
+                  className="text-white/70 text-lg max-w-lg leading-relaxed mt-0"
                 >
                   Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
                   Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
@@ -224,21 +223,21 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.8 }}
-                  className="flex items-center gap-8 pt-8 border-t border-border"
+                  className="flex items-center gap-8 pt-8 border-t border-white/20"
                 >
                   <div>
-                    <div className="text-4xl font-bold text-foreground">60+</div>
-                    <div className="text-foreground-muted text-sm">Years Engineering</div>
+                    <div className="text-4xl font-bold text-white">60+</div>
+                    <div className="text-white/50 text-sm">Years Engineering</div>
                   </div>
-                  <div className="stat-divider" />
+                  <div className="w-px h-10 bg-white/20" />
                   <div>
-                    <div className="text-4xl font-bold text-foreground">100,000+</div>
-                    <div className="text-foreground-muted text-sm">Installations</div>
+                    <div className="text-4xl font-bold text-white">100,000+</div>
+                    <div className="text-white/50 text-sm">Installations</div>
                   </div>
-                  <div className="stat-divider" />
+                  <div className="w-px h-10 bg-white/20" />
                   <div>
-                    <div className="text-4xl font-bold text-foreground">24/7</div>
-                    <div className="text-foreground-muted text-sm">Support</div>
+                    <div className="text-4xl font-bold text-white">24/7</div>
+                    <div className="text-white/50 text-sm">Support</div>
                   </div>
                 </motion.div>
               )}
