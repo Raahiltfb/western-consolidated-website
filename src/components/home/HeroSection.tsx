@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, FileText } from 'lucide-react';
+import { ArrowRight, FileText, Menu } from 'lucide-react'; // Added Menu icon
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
@@ -93,10 +93,42 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
     }
   }, []);
 
-
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
+      
+      {/* NAVBAR - Locked to Dark Style */}
+      <nav className="absolute top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-6 lg:px-12 bg-transparent">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5 shadow-lg">
+            <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
+          </div>
+          <span className="text-white font-bold tracking-tighter text-xl hidden sm:block">
+            WESTERN CONSOLIDATED
+          </span>
+        </Link>
+
+        {/* Desktop Links & CTA */}
+        <div className="hidden md:flex items-center gap-8">
+          <div className="flex gap-6 text-white/80 font-medium text-sm uppercase tracking-widest">
+            <Link to="/products" className="hover:text-primary transition-colors">Products</Link>
+            <Link to="/about" className="hover:text-primary transition-colors">About</Link>
+            <Link to="/contact" className="hover:text-primary transition-colors">Contact</Link>
+          </div>
+          <Link to="/enquiry">
+            <Button variant="heroOutline" size="sm" className="border-white/20 text-white hover:bg-white/10">
+              <FileText size={16} className="mr-2" />
+              Get Quote
+            </Button>
+          </Link>
+        </div>
+
+        {/* Hamburger for Mobile - Locked to White */}
+        <button className="md:hidden text-white p-2">
+          <Menu size={28} />
+        </button>
+      </nav>
+
       {/* Full-bleed background image */}
       <div className="absolute inset-0">
         <img
@@ -245,7 +277,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           </div>
 
           {/* RIGHT SIDE - Generator Image */}
-          {/* RIGHT SIDE - Generator product floating over background */}
           <AnimatePresence>
             {showContent && (
               <motion.div
@@ -256,8 +287,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               >
                 <div className="relative z-10 w-full max-w-xl">
                   <img
-                    src=""
-                    alt="KOEL Green industrial diesel generator set by Western Consolidated"
+                    src={heroGenerator}
+                    alt="Generator"
                     className="w-full h-auto object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
                   />
                 </div>
