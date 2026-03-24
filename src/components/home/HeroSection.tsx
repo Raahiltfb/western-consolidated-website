@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
 import heroGenerator from '@/assets/hero-generator.png';
-import heroBg from '@/assets/ysbg.jpg';
+import heroBg from '@/assets/ysrana.jpg';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
