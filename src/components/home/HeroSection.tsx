@@ -99,7 +99,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <img
           src={heroBg}
           alt=""
-          className="hidden md:block w-full h-full object-cover brightness-110 contrast-110 scale-[1.1] md:scale-100"
+          className="hidden md:block w-full h-full object-cover brightness-150 contrast-110 scale-[1.1] md:scale-100"
         />
 
         {/* Mobile */}
@@ -110,10 +110,10 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         />
 
         {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/5" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
       </div>
 
       {/* Subtle grid overlay */}
@@ -191,7 +191,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="text-white/70 text-lg max-w-lg leading-relaxed mt-0"
+                    className="text-white text-lg max-w-lg leading-relaxed mt-0 [text-shadow:_0_1px_10px_rgb(0_0_0_/_60%)]"
                   >
                     Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
                     Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
