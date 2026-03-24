@@ -29,7 +29,11 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
-  const logo = theme === 'dark' ? wcplLogoDark : wcplLogoLight;
+
+  // 🔥 FORCE DARK WHEN ON HERO
+  const effectiveTheme = !isScrolled ? 'dark' : theme;
+
+  const logo = effectiveTheme === 'dark' ? wcplLogoDark : wcplLogoLight;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,10 +63,14 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             <div className="container mx-auto px-4 lg:px-8">
               <div className="flex items-center justify-between h-20">
 
-                {/* Hamburger (overlay trigger) */}
+                {/* Hamburger */}
                 <button
                   onClick={() => setIsMenuOpen(true)}
-                  className="p-2 text-foreground hover:text-primary transition-colors"
+                  className={`p-2 transition-colors ${
+                    effectiveTheme === 'dark'
+                      ? 'text-white hover:text-primary'
+                      : 'text-foreground hover:text-primary'
+                  }`}
                   aria-label="Open menu"
                 >
                   <Menu size={24} />
@@ -88,7 +96,9 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                         className={`relative px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider transition-all duration-300 ${
                           isActive
                             ? 'text-primary'
-                            : 'text-foreground-muted hover:text-primary'
+                            : effectiveTheme === 'dark'
+                              ? 'text-white/80 hover:text-primary'
+                              : 'text-foreground-muted hover:text-primary'
                         }`}
                       >
                         <span className="relative z-10">{link.name}</span>
@@ -108,19 +118,27 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
 
                 {/* CTA, Contact Icons & Theme Toggle */}
                 <div className="flex items-center gap-2">
-                  {/* Desktop WhatsApp & Call */}
                   <a
                     href="https://wa.me/919876543210"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden lg:flex items-center justify-center w-9 h-9 rounded-full text-foreground-muted hover:text-[#25D366] transition-colors"
+                    className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                      effectiveTheme === 'dark'
+                        ? 'text-white/70 hover:text-[#25D366]'
+                        : 'text-foreground-muted hover:text-[#25D366]'
+                    }`}
                     aria-label="WhatsApp"
                   >
                     <MessageCircle size={18} />
                   </a>
+
                   <a
                     href="tel:+919876543210"
-                    className="hidden lg:flex items-center justify-center w-9 h-9 rounded-full text-foreground-muted hover:text-primary transition-colors"
+                    className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                      effectiveTheme === 'dark'
+                        ? 'text-white/70 hover:text-primary'
+                        : 'text-foreground-muted hover:text-primary'
+                    }`}
                     aria-label="Call"
                   >
                     <Phone size={18} />
@@ -132,6 +150,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                     <Button variant="hero">Enquiry</Button>
                   </Link>
                 </div>
+
               </div>
             </div>
           </motion.header>
