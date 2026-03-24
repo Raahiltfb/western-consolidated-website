@@ -39,31 +39,36 @@ export const ImageSlideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeSlides, setActiveSlides] = useState(allSlides);
 
-  // 1. Handle Responsive Filtering
+  // 1. Preload Images
+  useEffect(() => {
+    allSlides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
+
+  // 2. Responsive Filtering
   useEffect(() => {
     const handleResize = () => {
-      // If mobile (less than 768px), remove ID 5
       if (window.innerWidth < 768) {
-        const filtered = allSlides.filter(slide => slide.id !== 5);
-        setActiveSlides(filtered);
+        setActiveSlides(allSlides.filter(slide => slide.id !== 5));
       } else {
         setActiveSlides(allSlides);
       }
     };
-
-    handleResize(); // Run on mount
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 2. Safety check: Reset index if it exceeds the new array length after resize
+  // 3. Safety Check
   useEffect(() => {
     if (currentSlide >= activeSlides.length) {
       setCurrentSlide(0);
     }
   }, [activeSlides, currentSlide]);
 
-  // 3. Auto-play Logic
+  // 4. Auto-play
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
@@ -71,103 +76,95 @@ export const ImageSlideshow = () => {
     return () => clearInterval(timer);
   }, [activeSlides.length]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
-  };
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
-  };
-
-  // Safeguard against empty array or undefined access during initial render
   if (!activeSlides[currentSlide]) return null;
 
   return (
     <section className="py-24 bg-background-secondary relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="line-accent" />
-            <span className="text-primary font-semibold tracking-wider text-sm uppercase">
-              Our Work
-            </span>
+            <span className="text-primary font-semibold tracking-wider text-sm uppercase">Our Work</span>
             <div className="line-accent" />
           </div>
-          
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Installations
-            <span className="text-primary"> Showcase</span>
+            Installations<span className="text-primary"> Showcase</span>
           </h2>
         </motion.div>
 
-        {/* Slideshow Container */}
+        {/* Slideshow */}
         <div className="relative max-w-5xl mx-auto">
-          <div className="aspect-[16/9] bg-card border border-border rounded-xl overflow-hidden relative">
-            <AnimatePresence mode="wait">
+          <div className="aspect-[16/9] bg-black border border-border rounded-xl overflow-hidden relative">
+            {/* 🔥 REMOVED mode="wait" to allow cross-fade */}
+            <AnimatePresence initial={false}>
               <motion.div
                 key={activeSlides[currentSlide].id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
                 <img
                   src={activeSlides[currentSlide].image}
                   alt={activeSlides[currentSlide].title}
                   className="w-full h-full object-cover"
-                  loading="lazy"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                 
-                {/* Content overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <motion.h3 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-2xl font-bold text-white mb-2"
+                  >
                     {activeSlides[currentSlide].title}
-                  </h3>
-                  <p className="text-white/80">
+                  </motion.h3>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-white/80"
+                  >
                     {activeSlides[currentSlide].description}
-                  </p>
+                  </motion.p>
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Arrows */}
+            {/* Navigation */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center text-foreground hover:bg-card transition-colors z-20"
-              aria-label="Previous slide"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary transition-all z-30"
             >
               <ChevronLeft size={24} />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center text-foreground hover:bg-card transition-colors z-20"
-              aria-label="Next slide"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary transition-all z-30"
             >
               <ChevronRight size={24} />
             </button>
           </div>
 
-          {/* Slide indicators - These now automatically hide the 5th dot on mobile */}
+          {/* Indicators */}
           <div className="flex justify-center gap-2 mt-6">
             {activeSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentSlide 
-                    ? 'w-8 bg-primary' 
-                    : 'bg-muted hover:bg-muted-foreground'
+                  index === currentSlide ? 'w-8 bg-primary' : 'bg-muted hover:bg-muted-foreground'
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
