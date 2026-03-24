@@ -140,6 +140,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* ✅ FORCE DARK MODE ONLY HERE */}
         <div className="dark">
+            <div className="absolute inset-0 grid-overlay opacity-10 pointer-events-none" />
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* LEFT SIDE */}
