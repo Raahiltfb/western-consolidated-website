@@ -102,14 +102,14 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <img
           src={heroBg}
           alt=""
-          className="w-full h-full object-cover brightness-110 contrast-110"
+          className="w-full h-full object-cover object-[70%_50%] scale-[0.95] brightness-95 contrast-115 saturate-105"
         />
         {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/5" />
         {/* Subtle warm accent glow from the welding light */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.08),transparent_60%)]" />
       </div>
 
       {/* Subtle grid overlay */}
