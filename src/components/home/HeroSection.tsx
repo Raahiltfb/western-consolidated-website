@@ -99,7 +99,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <img
           src={heroBg}
           alt=""
-          className="w-full h-full object-cover brightness-110 contrast-110"
+          className="w-full h-full object-cover brightness-110 contrast-110 scale-[1.1] md:scale-100"
         />
         {/* Cinematic gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
@@ -110,7 +110,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
       </div>
 
       {/* Subtle grid overlay */}
-      <div className="absolute inset-0 grid-overlay opacity-10" />
+      
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
