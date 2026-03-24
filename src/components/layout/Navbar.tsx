@@ -30,8 +30,12 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
   const location = useLocation();
   const { theme } = useTheme();
 
-  // 🔥 FORCE DARK WHEN ON HERO
-  const effectiveTheme = !isScrolled ? 'dark' : theme;
+  // Identify if we are on the Home Page and specifically the Hero section
+  const isHomePage = location.pathname === '/';
+  const isAtHero = isHomePage && !isScrolled;
+
+  // Force dark styling only on the Home Hero
+  const effectiveTheme = isAtHero ? 'dark' : theme;
 
   const logo = effectiveTheme === 'dark' ? wcplLogoDark : wcplLogoLight;
 
@@ -56,8 +60,8 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -80, opacity: 0 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
-            className={`fixed top-0 left-0 right-0 z-50 ${
-              isScrolled ? 'navbar-solid' : 'navbar-transparent'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+              isAtHero ? 'navbar-transparent' : 'navbar-solid shadow-sm'
             }`}
           >
             <div className="container mx-auto px-4 lg:px-8">
@@ -81,7 +85,7 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                   <img
                     src={logo}
                     alt="Western Consolidated"
-                    className="h-16 w-auto"
+                    className="h-16 w-auto transition-opacity duration-300"
                   />
                 </Link>
 
@@ -106,7 +110,9 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                         {isActive && (
                           <motion.div
                             layoutId="nav-active"
-                            className="absolute inset-0 bg-primary/5 rounded-md border-b-2 border-primary"
+                            className={`absolute inset-0 rounded-md border-b-2 border-primary ${
+                                effectiveTheme === 'dark' ? 'bg-primary/10' : 'bg-primary/5'
+                            }`}
                             initial={false}
                             transition={{ type: "spring", stiffness: 380, damping: 30 }}
                           />
@@ -147,7 +153,10 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                   <ThemeToggle />
                   
                   <Link to="/enquiry" className="hidden sm:block">
-                    <Button variant="hero">Enquiry</Button>
+                    <Button 
+                    >
+                      Enquiry
+                    </Button>
                   </Link>
                 </div>
 

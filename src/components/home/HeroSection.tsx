@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import kirloskarLogo from '@/assets/kirloskar-logo.png';
 import heroBg from '@/assets/bgagain.jpg';
+import mobileBg from '@/assets/hero-bg.jpg';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
@@ -61,18 +62,15 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    // Phase 1: Assembly animation plays for 2s
     const transitionTimer = setTimeout(() => {
       setAnimationPhase('transition');
     }, 2000);
 
-    // Phase 2: Transition to main content
     const mainTimer = setTimeout(() => {
       setAnimationPhase('main');
       setShowContent(true);
     }, 2500);
 
-    // Phase 3: Complete
     const completeTimer = setTimeout(() => {
       setAnimationPhase('complete');
       onAnimationComplete();
@@ -96,21 +94,29 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Full-bleed background image */}
       <div className="absolute inset-0">
+
+        {/* Desktop */}
         <img
           src={heroBg}
           alt=""
-          className="w-full h-full object-cover brightness-110 contrast-110 scale-[1.1] md:scale-100"
+          className="hidden md:block w-full h-full object-cover brightness-110 contrast-110 scale-[1.1] md:scale-100"
         />
+
+        {/* Mobile */}
+        <img
+          src={mobileBg}
+          alt=""
+          className="md:hidden w-full h-full object-cover brightness-110 contrast-110 scale-[1.1]"
+        />
+
         {/* Cinematic gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
-        {/* Subtle warm accent glow from the welding light */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
       </div>
 
       {/* Subtle grid overlay */}
-      
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
@@ -138,9 +144,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
       </AnimatePresence>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        {/* ✅ FORCE DARK MODE ONLY HERE */}
         <div className="dark">
-            <div className="absolute inset-0 grid-overlay opacity-10 pointer-events-none" />
+          <div className="absolute inset-0 grid-overlay opacity-10 pointer-events-none" />
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* LEFT SIDE */}
@@ -209,7 +214,6 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                       </Button>
                     </Link>
 
-                    {/* ✅ FIXED BUTTON */}
                     <Link to="/enquiry">
                       <Button
                         variant="heroOutline"

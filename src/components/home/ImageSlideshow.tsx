@@ -2,50 +2,85 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const slides = [
+const allSlides = [
   {
     id: 1,
-    title: 'Industrial Excellence',
-    description: 'Powering manufacturing plants across India',
-    image: '/images/showcase4.jpg',
+    title: 'Precision Assembly',
+    description: 'Expert integration of high-performance alternators and engines',
+    image: '/images/showcase1.jpg',
   },
   {
     id: 2,
-    title: 'Product Launch',
-    description: 'Launching next-generation KOEL Green generator sets',
+    title: 'Digital Diagnostics',
+    description: 'Advanced smart monitoring and real-time system testing',
     image: '/images/showcase2.jpg',
   },
   {
     id: 3,
-    title: 'Heavy-Duty Solutions',
-    description: 'Engineering precision for mission-critical power delivery',
+    title: 'Scalable Production',
+    description: 'Streamlined assembly of acoustic enclosures for rapid deployment',
     image: '/images/showcase3.jpg',
   },
   {
     id: 4,
-    title: 'Manufacturing Facility',
-    description: 'State-of-the-art production at our Sitarganj plant',
-    image: '/images/showcase1.jpg',
+    title: 'Core Integration',
+    description: 'Precision coupling of high-capacity cooling and drive systems',
+    image: '/images/showcase4.jpg',
+  },
+  {
+    id: 5,
+    title: 'Master Fabrication',
+    description: 'Precision welding and assembly of heavy-duty acoustic enclosures',
+    image: '/images/showcase5.jpg'
   },
 ];
 
 export const ImageSlideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeSlides, setActiveSlides] = useState(allSlides);
 
+  // 1. Handle Responsive Filtering
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    const handleResize = () => {
+      // If mobile (less than 768px), remove ID 5
+      if (window.innerWidth < 768) {
+        const filtered = allSlides.filter(slide => slide.id !== 5);
+        setActiveSlides(filtered);
+      } else {
+        setActiveSlides(allSlides);
+      }
+    };
+
+    handleResize(); // Run on mount
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 2. Safety check: Reset index if it exceeds the new array length after resize
+  useEffect(() => {
+    if (currentSlide >= activeSlides.length) {
+      setCurrentSlide(0);
+    }
+  }, [activeSlides, currentSlide]);
+
+  // 3. Auto-play Logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [activeSlides.length]);
+
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
   };
+
+  // Safeguard against empty array or undefined access during initial render
+  if (!activeSlides[currentSlide]) return null;
 
   return (
     <section className="py-24 bg-background-secondary relative overflow-hidden">
@@ -72,12 +107,12 @@ export const ImageSlideshow = () => {
           </h2>
         </motion.div>
 
-        {/* Slideshow */}
+        {/* Slideshow Container */}
         <div className="relative max-w-5xl mx-auto">
           <div className="aspect-[16/9] bg-card border border-border rounded-xl overflow-hidden relative">
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentSlide}
+                key={activeSlides[currentSlide].id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -85,8 +120,8 @@ export const ImageSlideshow = () => {
                 className="absolute inset-0"
               >
                 <img
-                  src={slides[currentSlide].image}
-                  alt={slides[currentSlide].title}
+                  src={activeSlides[currentSlide].image}
+                  alt={activeSlides[currentSlide].title}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
@@ -95,10 +130,10 @@ export const ImageSlideshow = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <h3 className="text-2xl font-bold text-white mb-2">
-                    {slides[currentSlide].title}
+                    {activeSlides[currentSlide].title}
                   </h3>
                   <p className="text-white/80">
-                    {slides[currentSlide].description}
+                    {activeSlides[currentSlide].description}
                   </p>
                 </div>
               </motion.div>
@@ -121,9 +156,9 @@ export const ImageSlideshow = () => {
             </button>
           </div>
 
-          {/* Slide indicators */}
+          {/* Slide indicators - These now automatically hide the 5th dot on mobile */}
           <div className="flex justify-center gap-2 mt-6">
-            {slides.map((_, index) => (
+            {activeSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
