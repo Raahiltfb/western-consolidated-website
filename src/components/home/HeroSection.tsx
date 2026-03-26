@@ -91,7 +91,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center overflow-hidden pb-20 md:pb-0">
       {/* Full-bleed background image */}
       <div className="absolute inset-0">
 
@@ -110,13 +110,11 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         />
 
         {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
       </div>
-
-      {/* Subtle grid overlay */}
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
@@ -143,7 +141,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-10 md:pt-0">
         <div className="dark">
           <div className="absolute inset-0 grid-overlay opacity-10 pointer-events-none" />
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -156,7 +154,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="mt-12 md:mt-20"
+                    className="mt-8 md:mt-20"
                   >
                     <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                       <span className="text-white">Extensive</span>
@@ -177,8 +175,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="flex items-center gap-3 py-1"
                   >
-                    <div className="line-accent" />
-                    <span className="text-primary font-semibold tracking-wider text-sm uppercase whitespace-nowrap">
+                    <div className="line-accent bg-primary h-[2px] w-12" />
+                    <span className="text-primary font-bold tracking-[0.15em] text-sm uppercase whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                       KOEL Authorized Manufacturer
                     </span>
                   </motion.div>
@@ -187,15 +185,17 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
               <AnimatePresence>
                 {showContent && (
-                  <motion.p
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="text-white text-lg max-w-lg leading-relaxed mt-0 [text-shadow:_0_1px_10px_rgb(0_0_0_/_60%)]"
+                    className="bg-black/40 backdrop-blur-sm border-l-4 border-primary/60 p-5 rounded-r-lg max-w-lg mt-4"
                   >
-                    Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
-                    Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
-                  </motion.p>
+                    <p className="text-white text-lg font-medium leading-relaxed [text-shadow:_0_1px_8px_rgb(0_0_0_/_80%)]">
+                      Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
+                      Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
+                    </p>
+                  </motion.div>
                 )}
               </AnimatePresence>
 
@@ -234,21 +234,21 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
-                    className="flex items-center gap-8 pt-8 border-t border-white/20"
+                    className="flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
                   >
                     <div>
-                      <div className="text-4xl font-bold text-white">60+</div>
-                      <div className="text-white/50 text-sm">Years Engineering</div>
+                      <div className="text-3xl md:text-4xl font-bold text-white">60+</div>
+                      <div className="text-white/50 text-xs md:text-sm">Years Engineering</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
-                      <div className="text-4xl font-bold text-white">100,000+</div>
-                      <div className="text-white/50 text-sm">Installations</div>
+                      <div className="text-3xl md:text-4xl font-bold text-white">100,000+</div>
+                      <div className="text-white/50 text-xs md:text-sm">Installations</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
-                      <div className="text-4xl font-bold text-white">24/7</div>
-                      <div className="text-white/50 text-sm">Support</div>
+                      <div className="text-3xl md:text-4xl font-bold text-white">24/7</div>
+                      <div className="text-white/50 text-xs md:text-sm">Support</div>
                     </div>
                   </motion.div>
                 )}
@@ -286,7 +286,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20"
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}
@@ -306,7 +306,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
-            className="absolute bottom-8 right-8 hidden lg:block z-10"
+            className="absolute bottom-6 right-4 md:bottom-8 md:right-8 hidden sm:block z-10"
           >
             <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">

@@ -106,10 +106,10 @@ const Services = () => {
               <span className="text-primary">Whenever & Wherever</span>
             </h1>
             {/* Added drop-shadow and subtle blur/bg for legibility */}
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:bg-background/5 p-1 -ml-1 rounded-sm">
-              After-sales support is the cornerstone of long-term business viability. 
-              With <strong>60+ years of service excellence</strong>, we believe in the "Think Global, Act Local" 
-              philosophy, building enduring relationships with every customer through 
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm p-1 -ml-1 rounded-sm">
+              After-sales support is the cornerstone of long-term business viability.<br></br> 
+              With <strong>60+ years of service excellence</strong>, we believe in the<br></br> "Think Global, Act Local" 
+              philosophy, building enduring relationships<br></br> with every customer through 
               full dedication and world-class support.
             </p>
           </motion.div>

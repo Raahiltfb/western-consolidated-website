@@ -67,9 +67,9 @@ const Products = () => {
               <span className="text-primary">For Every Need</span>
             </h1>
             {/* Added drop-shadow and backdrop-blur for maximum legibility */}
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:backdrop-blur-[4px] md:bg-background/10 p-2 -ml-2 rounded-lg">
-              From compact 7.5 kVA units to powerful 1500 kVA generators, 
-              explore our comprehensive range of diesel and natural gas power solutions.
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm p-2 -ml-2 rounded-lg">
+              From compact 7.5 kVA units to powerful 1500 kVA generators,<br></br> 
+              explore our comprehensive range of diesel<br></br> and natural gas power solutions.
             </p>
           </motion.div>
         </div>

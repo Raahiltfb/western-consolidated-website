@@ -127,7 +127,7 @@ const Clients = () => {
             {/* Added drop-shadow for legibility and backdrop-blur for desktop contrast */}
             <p className="text-foreground-muted text-lg leading-relaxed font-medium dark:font-normal drop-shadow-sm md:bg-background/5 p-1 -ml-1 rounded-sm">
               Over 100,000 installations across India, powering <br></br>enterprises 
-              in manufacturing, healthcare, infrastructure, and more.
+              in manufacturing, healthcare,<br></br> infrastructure, and more.
             </p>
           </motion.div>
         </div>

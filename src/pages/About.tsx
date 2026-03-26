@@ -40,7 +40,7 @@ const sections = [
     id: 'infrastructure',
     icon: Building,
     title: 'Infrastructure',
-    content: 'Excellence in quality is embedded in WCPL through our advanced infrastructure and skilled workforce. Technology is our power, our people are our strength - together, they drive our commitment to quality.\n\nWCPL operates a state-of-the-art manufacturing facility in Sitarganj, Uttarakhand, capable of producing diesel generating sets from 3 kVA to 1010 kVA. Partnered with KOEL Green for sound-proof canopies, our facility has an annual production capacity of 5,000 units.\n\nOur nationwide network operates through strategically located branch offices, with robust presence across Bengal, Bihar, Jharkhand, and Sikkim, ensuring comprehensive coverage and responsive service throughout India.',
+    content: 'Excellence in quality is embedded in WCPL through our advanced infrastructure and skilled workforce. Technology is our power, and our team drives our commitment to quality.\n\nWCPL operates a state-of-the-art manufacturing facility in Sitarganj, Uttarakhand, capable of producing diesel generating sets from 3 kVA to 1010 kVA. Partnered with KOEL Green for sound-proof canopies, our facility has an annual production capacity of 5,000 units.\n\nOur nationwide network operates through strategically located branch offices, with robust presence across Bengal, Bihar, Jharkhand, and Sikkim, ensuring comprehensive coverage and responsive service throughout India.',
   },
 ];
 
@@ -49,12 +49,11 @@ const About = () => {
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
       
-      {/* Hero */}
+      {/* Hero Section */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
-        {/* Desktop Background */}
         <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
           <div 
-            className="absolute inset-0 z-0 opacity-100 dark:opacity-100 transition-opacity duration-500"
+            className="absolute inset-0 z-0 transition-opacity duration-500"
             style={{
               backgroundImage: 'url("/images/about-bg.jpg")',
               backgroundSize: 'cover',
@@ -63,14 +62,12 @@ const About = () => {
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
           />
-          {/* Max Brightness Reduction: Solid overlays */}
           <div className="absolute inset-0 bg-white/10 dark:bg-black/40 z-10" />
         </div>
 
-        {/* Mobile background (stays full width for small screens) */}
         <div className="absolute inset-0 z-0 md:hidden opacity-10">
            <div 
-            className="absolute inset-0 brightness-[0.3]"
+            className="absolute inset-0 brightness-[0.4]"
             style={{
               backgroundImage: 'url("/images/about-bg.jpg")',
               backgroundSize: 'cover',
@@ -92,16 +89,15 @@ const About = () => {
                 About Us
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
               Powering India&apos;s
               <br />
               <span className="text-primary">Industrial Growth</span>
             </h1>
-            {/* Added drop-shadow and backdrop-blur for maximum legibility */}
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:backdrop-blur-[4px] md:bg-background/10 p-2 -ml-2 rounded-lg">
-              For over six decades, Western Consolidated Private Limited has been 
-              at the forefront of industrial power solutions, delivering reliable 
-              generator sets that power India&apos;s industrial backbone.
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-md">
+              For over six decades, Western Consolidated Private Limited<br></br> has been 
+              at the forefront of industrial power solutions,<br></br> delivering reliable 
+              generator sets that power India&apos;s <br></br>industrial backbone.
             </p>
           </motion.div>
         </div>
@@ -128,12 +124,12 @@ const About = () => {
                 power generation industry.
               </p>
               <p className="text-foreground-muted leading-relaxed">
-                As an authorized GOEM (Generator OEM) of Kirloskar Oil Engines Limited (KOEL), 
+                As an authorized GOEM of Kirloskar Oil Engines Limited (KOEL), 
                 we bring together cutting-edge technology with decades of engineering expertise 
                 to deliver power solutions that exceed expectations.
               </p>
               <ul className="space-y-3">
-                {['60+ Years of Experience', 'KOEL Authorized Partner', '5000+ Installations', 'Pan-India Service Network'].map((item) => (
+                {['60+ Years of Experience', 'KOEL Authorized Partner', '100,000+ Installations', 'Pan-India Service Network'].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-foreground">
                     <CheckCircle className="w-5 h-5 text-primary" />
                     {item}
@@ -147,11 +143,11 @@ const About = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="aspect-[4/3] bg-card border border-border rounded-lg overflow-hidden"
+              className="aspect-[4/3] rounded-2xl overflow-hidden border border-primary/20 shadow-2xl"
             >
               <img
                 src="/images/about-team.jpg"
-                alt="Western Consolidated team at KOEL-KGD Annual Conference"
+                alt="Western Consolidated team"
                 className="w-full h-full object-cover"
               />
             </motion.div>
@@ -159,14 +155,13 @@ const About = () => {
         </div>
       </section>
 
-      {/* Vision, Mission, Growth, Infrastructure */}
+      {/* Drivers Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -181,17 +176,15 @@ const About = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-8 rounded-lg"
+                transition={{ delay: index * 0.1 }}
+                className="card-industrial p-8 rounded-xl"
               >
                 <div className="flex flex-col md:flex-row md:items-start gap-6">
                   <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <section.icon className="w-7 h-7 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3">
-                      {section.title}
-                    </h3>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">{section.title}</h3>
                     <p className="text-foreground-muted leading-relaxed text-lg whitespace-pre-line">
                       {section.content}
                     </p>
@@ -203,21 +196,14 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-20 bg-background">
+      {/* Timeline Section */}
+      <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
+          <motion.div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Our <span className="text-primary">Journey</span>
             </h2>
           </motion.div>
-          
           <div className="grid md:grid-cols-4 gap-6">
             {milestones.map((milestone, index) => (
               <motion.div
@@ -225,11 +211,11 @@ const About = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg text-center"
+                transition={{ delay: index * 0.1 }}
+                className="card-industrial p-6 rounded-xl text-center"
               >
                 <div className="text-3xl font-bold text-primary mb-2">{milestone.year}</div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{milestone.title}</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">{milestone.title}</h3>
                 <p className="text-foreground-muted text-sm">{milestone.description}</p>
               </motion.div>
             ))}
@@ -237,21 +223,14 @@ const About = () => {
         </div>
       </section>
       
-      {/* Values */}
-      <section className="py-20 bg-background-secondary">
+      {/* Values Section */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-            >
+          <motion.div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Our <span className="text-primary">Values</span>
             </h2>
           </motion.div>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {values.map((value, index) => (
               <motion.div
@@ -259,13 +238,13 @@ const About = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="card-industrial p-6 rounded-lg text-center"
+                transition={{ delay: index * 0.1 }}
+                className="card-industrial p-6 rounded-xl text-center group"
               >
-                <div className="w-14 h-14 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <value.icon className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">{value.title}</h3>
                 <p className="text-foreground-muted text-sm">{value.description}</p>
               </motion.div>
             ))}
