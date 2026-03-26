@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-import { Award, Users, Clock, Target, CheckCircle, Eye, Compass, Heart, TrendingUp, Building } from 'lucide-react';
+import { Award, Users, Clock, CheckCircle, Eye, Compass, TrendingUp, Building } from 'lucide-react';
 
 const milestones = [
   { year: '1960s', title: 'Foundation', description: 'WCPL established as a power solutions provider.' },
@@ -50,8 +50,35 @@ const About = () => {
       <Navbar isVisible={true} />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-background relative">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
+        {/* Adjusted Background: 70% width and moved to the right */}
+        <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
+          <div 
+            className="absolute inset-0 opacity-60 dark:opacity-30 saturate-[1.1] transition-opacity duration-500"
+            style={{
+              backgroundImage: 'url("/images/about-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center left',
+              // Creates a smooth fade from the left side
+              maskImage: 'linear-gradient(to right, transparent, black 40%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
+            }}
+          />
+        </div>
+
+        {/* Mobile background (stays full width for small screens) */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-20">
+           <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url("/images/about-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,7 +96,7 @@ const About = () => {
               <br />
               <span className="text-primary">Industrial Growth</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed">
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
               For over six decades, Western Consolidated Private Limited has been 
               at the forefront of industrial power solutions, delivering reliable 
               generator sets that power India&apos;s industrial backbone.

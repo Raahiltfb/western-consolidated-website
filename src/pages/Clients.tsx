@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-// Note: You may need to install lucide-react if not already present
 import { 
   Factory, 
   FlaskConical, 
@@ -77,9 +76,35 @@ const Clients = () => {
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
       
-      {/* Hero - Kept as per your instruction */}
-      <section className="pt-32 pb-20 bg-background relative">
-        <div className="container mx-auto px-4 lg:px-8">
+      {/* Hero Section with Adjusted Background */}
+      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
+        {/* Desktop Background: 70% width on the right with smooth mask */}
+        <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
+          <div 
+            className="absolute inset-0 opacity-50 dark:opacity-25 saturate-[1.1] transition-opacity duration-500"
+            style={{
+              backgroundImage: 'url("/images/client-bg.jpeg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center left',
+              maskImage: 'linear-gradient(to right, transparent, black 40%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
+            }}
+          />
+        </div>
+
+        {/* Mobile background: Full width low opacity */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-15">
+           <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url("/images/client-bg.jpeg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,7 +122,7 @@ const Clients = () => {
               <br />
               <span className="text-primary">Industry Leaders</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed">
+            <p className="text-foreground-muted text-lg leading-relaxed font-medium dark:font-normal">
               Over 100,000 installations across India, powering enterprises 
               in manufacturing, healthcare, infrastructure, and more.
             </p>
@@ -145,7 +170,7 @@ const Clients = () => {
         </div>
       </section>
 
-      {/* Client Logos - Modified for constant color and new animation */}
+      {/* Client Logos */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.h2

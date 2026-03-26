@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
-// Added CheckCircle and Activity for the new content
 import { Wrench, Clock, Shield, Users, Phone, Truck, CheckCircle, Activity, Globe } from 'lucide-react';
 
 const services = [
@@ -59,8 +58,34 @@ const Services = () => {
       <Navbar isVisible={true} />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-background relative">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
+        {/* Adjusted Background: 70% width and moved to the right */}
+        <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
+          <div 
+            className="absolute inset-0 opacity-60 dark:opacity-50 saturate-[1.1] transition-opacity duration-500"
+            style={{
+              backgroundImage: 'url("/images/services-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              maskImage: 'linear-gradient(to right, transparent, black 40%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
+            }}
+          />
+        </div>
+
+        {/* Mobile background (full width low opacity) */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-10">
+           <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url("/images/services-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -78,7 +103,7 @@ const Services = () => {
               <br />
               <span className="text-primary">Whenever & Wherever</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl">
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
               After-sales support is the cornerstone of long-term business viability. 
               With <strong>60+ years of service excellence</strong>, we believe in the "Think Global, Act Local" 
               philosophy, building enduring relationships with every customer through 

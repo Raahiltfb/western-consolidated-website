@@ -19,8 +19,26 @@ const Products = () => {
       <Navbar isVisible={true} />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-background relative">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
+        {/* Optimized Background Image Container */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div 
+            className="absolute inset-0 opacity-90 dark:opacity-50 saturate-[1.2] transition-opacity duration-500"
+            style={{
+              backgroundImage: 'url("/images/product-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center right',
+            }}
+          />
+          
+          {/* Dynamic Overlay: Darker on the left (text side) in light mode to ensure readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent dark:from-background dark:via-background/40" />
+          
+          {/* Bottom fade to transition smoothly into the next section */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -33,12 +51,12 @@ const Products = () => {
                 Our Products
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 drop-shadow-sm">
               Power Solutions
               <br />
               <span className="text-primary">For Every Need</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed">
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
               From compact 7.5 kVA units to powerful 1500 kVA generators, 
               explore our comprehensive range of diesel and natural gas power solutions.
             </p>
@@ -149,14 +167,12 @@ const ProductCategoryView = ({ category }: ProductCategoryViewProps) => {
                   to={`/products/${category.id}/${model.id}`}
                   className="block card-industrial rounded-lg overflow-hidden group h-full"
                 >
-                  {/* Image */}
                   <div className="aspect-video bg-card flex items-center justify-center border-b border-border overflow-hidden p-4">
                     <img 
                       src={model.image} 
                       alt={model.name}
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
-                        // Fallback to placeholder on error
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         target.parentElement!.innerHTML = `
