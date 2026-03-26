@@ -20,25 +20,35 @@ const Products = () => {
       
       {/* Hero */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
-        {/* Optimized Background Image Container */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Desktop Background */}
+        <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
           <div 
-            className="absolute inset-0 opacity-90 dark:opacity-50 saturate-[1.2] transition-opacity duration-500"
+            className="absolute inset-0 z-0 opacity-100 dark:opacity-70 transition-opacity duration-500"
             style={{
               backgroundImage: 'url("/images/product-bg.jpg")',
               backgroundSize: 'cover',
               backgroundPosition: 'center right',
+              maskImage: 'linear-gradient(to right, transparent, black 40%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
           />
-          
-          {/* Dynamic Overlay: Darker on the left (text side) in light mode to ensure readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent dark:from-background dark:via-background/40" />
-          
-          {/* Bottom fade to transition smoothly into the next section */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+          {/* Max Brightness Reduction: Solid overlays */}
+          <div className="absolute inset-0 bg-white/10 dark:bg-black/70 z-10" />
         </div>
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        {/* Mobile background (stays full width for small screens) */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-10">
+           <div 
+            className="absolute inset-0 brightness-[0.3]"
+            style={{
+              backgroundImage: 'url("/images/product-bg.jpg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -51,12 +61,13 @@ const Products = () => {
                 Our Products
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 drop-shadow-sm">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
               Power Solutions
               <br />
               <span className="text-primary">For Every Need</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
+            {/* Added drop-shadow and backdrop-blur for maximum legibility */}
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:backdrop-blur-[4px] md:bg-background/10 p-2 -ml-2 rounded-lg">
               From compact 7.5 kVA units to powerful 1500 kVA generators, 
               explore our comprehensive range of diesel and natural gas power solutions.
             </p>

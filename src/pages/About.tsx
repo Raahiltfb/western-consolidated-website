@@ -51,25 +51,26 @@ const About = () => {
       
       {/* Hero */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
-        {/* Adjusted Background: 70% width and moved to the right */}
+        {/* Desktop Background */}
         <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
           <div 
-            className="absolute inset-0 opacity-60 dark:opacity-30 saturate-[1.1] transition-opacity duration-500"
+            className="absolute inset-0 z-0 opacity-100 dark:opacity-100 transition-opacity duration-500"
             style={{
               backgroundImage: 'url("/images/about-bg.jpg")',
               backgroundSize: 'cover',
               backgroundPosition: 'center left',
-              // Creates a smooth fade from the left side
               maskImage: 'linear-gradient(to right, transparent, black 40%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
           />
+          {/* Max Brightness Reduction: Solid overlays */}
+          <div className="absolute inset-0 bg-white/10 dark:bg-black/40 z-10" />
         </div>
 
         {/* Mobile background (stays full width for small screens) */}
-        <div className="absolute inset-0 z-0 md:hidden opacity-20">
+        <div className="absolute inset-0 z-0 md:hidden opacity-10">
            <div 
-            className="absolute inset-0"
+            className="absolute inset-0 brightness-[0.3]"
             style={{
               backgroundImage: 'url("/images/about-bg.jpg")',
               backgroundSize: 'cover',
@@ -78,7 +79,7 @@ const About = () => {
           />
         </div>
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,7 +97,8 @@ const About = () => {
               <br />
               <span className="text-primary">Industrial Growth</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
+            {/* Added drop-shadow and backdrop-blur for maximum legibility */}
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:backdrop-blur-[4px] md:bg-background/10 p-2 -ml-2 rounded-lg">
               For over six decades, Western Consolidated Private Limited has been 
               at the forefront of industrial power solutions, delivering reliable 
               generator sets that power India&apos;s industrial backbone.

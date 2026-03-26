@@ -91,7 +91,7 @@ const Clients = () => {
             }}
           />
           {/* Max Brightness Reduction: Solid overlays */}
-          <div className="absolute inset-0 bg-white/20 dark:bg-black/60 z-10" />
+          <div className="absolute inset-0 bg-white/5 dark:bg-black/60 z-10" />
         </div>
 
         {/* Mobile background: Very Dim */}

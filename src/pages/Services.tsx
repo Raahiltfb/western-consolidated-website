@@ -62,7 +62,7 @@ const Services = () => {
         {/* Adjusted Background: 70% width and moved to the right */}
         <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
           <div 
-            className="absolute inset-0 opacity-60 dark:opacity-50 saturate-[1.1] transition-opacity duration-500"
+            className="absolute inset-0 opacity-100 dark:opacity-100 transition-opacity duration-500"
             style={{
               backgroundImage: 'url("/images/services-bg.jpg")',
               backgroundSize: 'cover',
@@ -71,12 +71,14 @@ const Services = () => {
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
           />
+          {/* Max Brightness Reduction: Solid overlays */}
+          <div className="absolute inset-0 bg-white/15 dark:bg-black/20 z-10" />
         </div>
 
         {/* Mobile background (full width low opacity) */}
         <div className="absolute inset-0 z-0 md:hidden opacity-10">
            <div 
-            className="absolute inset-0"
+            className="absolute inset-0 brightness-[0.4]"
             style={{
               backgroundImage: 'url("/images/services-bg.jpg")',
               backgroundSize: 'cover',
@@ -85,7 +87,7 @@ const Services = () => {
           />
         </div>
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -103,7 +105,8 @@ const Services = () => {
               <br />
               <span className="text-primary">Whenever & Wherever</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
+            {/* Added drop-shadow and subtle blur/bg for legibility */}
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm md:bg-background/5 p-1 -ml-1 rounded-sm">
               After-sales support is the cornerstone of long-term business viability. 
               With <strong>60+ years of service excellence</strong>, we believe in the "Think Global, Act Local" 
               philosophy, building enduring relationships with every customer through 
