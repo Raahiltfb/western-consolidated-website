@@ -76,12 +76,12 @@ const Clients = () => {
     <div className="min-h-screen bg-background">
       <Navbar isVisible={true} />
       
-      {/* Hero Section with Adjusted Background */}
+      {/* Hero Section */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
-        {/* Desktop Background: 70% width on the right with smooth mask */}
+        {/* Desktop Background */}
         <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
           <div 
-            className="absolute inset-0 opacity-50 dark:opacity-25 saturate-[1.1] transition-opacity duration-500"
+            className="absolute inset-0 z-0 opacity-100 dark:opacity-100"
             style={{
               backgroundImage: 'url("/images/client-bg.jpeg")',
               backgroundSize: 'cover',
@@ -90,12 +90,14 @@ const Clients = () => {
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
           />
+          {/* Max Brightness Reduction: Solid overlays */}
+          <div className="absolute inset-0 bg-white/20 dark:bg-black/60 z-10" />
         </div>
 
-        {/* Mobile background: Full width low opacity */}
-        <div className="absolute inset-0 z-0 md:hidden opacity-15">
+        {/* Mobile background: Very Dim */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-10">
            <div 
-            className="absolute inset-0"
+            className="absolute inset-0 brightness-[0.4]"
             style={{
               backgroundImage: 'url("/images/client-bg.jpeg")',
               backgroundSize: 'cover',
@@ -104,7 +106,7 @@ const Clients = () => {
           />
         </div>
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,15 +124,16 @@ const Clients = () => {
               <br />
               <span className="text-primary">Industry Leaders</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed font-medium dark:font-normal">
-              Over 100,000 installations across India, powering enterprises 
+            {/* Added drop-shadow for legibility and backdrop-blur for desktop contrast */}
+            <p className="text-foreground-muted text-lg leading-relaxed font-medium dark:font-normal drop-shadow-sm md:bg-background/5 p-1 -ml-1 rounded-sm">
+              Over 100,000 installations across India, powering <br></br>enterprises 
               in manufacturing, healthcare, infrastructure, and more.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Refined Sectors Section */}
+      {/* Sectors Section */}
       <section className="py-20 bg-background-secondary">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
