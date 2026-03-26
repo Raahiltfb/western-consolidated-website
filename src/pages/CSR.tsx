@@ -7,7 +7,6 @@ import {
   Heart, 
   GraduationCap, 
   User, 
-  FileText, 
   Calendar, 
   Droplets, 
   Medal, 
@@ -19,9 +18,9 @@ import {
 import { Button } from '@/components/ui/button';
 
 const csrCommittee = [
-  { name: 'Mr. Pranab Biswas', designation: 'Member' },
   { name: 'Mr. Vineet Dhingra', designation: 'Chairman' },
   { name: 'Mrs. Savita Dhingra', designation: 'Member' },
+  { name: 'Mr. Pranab Biswas', designation: 'Member' },
 ];
 
 const csrPolicySections = [
@@ -191,34 +190,33 @@ const CSR = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar isVisible={true} />
       
-      {/* Hero Section */}
-      <section className="pt-40 pb-24 bg-background relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full -mr-20" />
+      {/* Hero Section - Header Fonts fixed to match Clients page */}
+      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-[2px] bg-primary" />
-              <span className="text-primary font-bold tracking-[0.3em] text-xs uppercase">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="line-accent" />
+              <span className="text-primary font-semibold tracking-wider text-sm uppercase">
                 Social Impact
               </span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-8 tracking-tighter leading-[0.9]">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
               Corporate <br />
               <span className="text-primary">Responsibility</span>
             </h1>
-            <p className="text-foreground-muted text-lg lg:text-xl leading-relaxed max-w-2xl font-light">
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
               Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development - delivering value to society at large.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* FY 2025-26 Programmes - The Industrial Grid */}
+      {/* FY 2025-26 Programmes */}
       <section className="py-24 bg-background-secondary border-y border-border/50">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -231,7 +229,7 @@ const CSR = () => {
               <Calendar size={14} />
               <span className="text-[10px] font-bold uppercase tracking-[0.2em]">FY 2025-26 Approved</span>
             </div>
-            <h2 className="text-4xl font-bold text-foreground tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
               Programmes Approved by the <span className="text-primary">Board</span>
             </h2>
           </motion.div>
@@ -313,6 +311,7 @@ const CSR = () => {
               {csrPolicySections.map((section) => (
                 <PolicyAccordionItem key={section.id} section={section} />
               ))}
+              {/* Restored the Amendments section */}
               <PolicyAccordionItem
                 section={{
                   title: 'AMENDMENTS TO THIS POLICY',
@@ -324,7 +323,7 @@ const CSR = () => {
         </div>
       </section>
 
-      {/* CSR Committee - Final Footer Section */}
+      {/* CSR Committee */}
       <section className="py-24 bg-background border-t border-border/30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex flex-col lg:flex-row justify-between items-end gap-12">
