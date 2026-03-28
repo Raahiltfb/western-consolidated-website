@@ -157,8 +157,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     className="mt-8 md:mt-20"
                   >
                     <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                      <span className="text-white">Extensive</span>
-                      <br />
+                      <span className="text-white">Extensive </span>
+                      
                       <span className="text-primary">Power</span>
                       <br />
                       <span className="text-white">Solutions</span>
