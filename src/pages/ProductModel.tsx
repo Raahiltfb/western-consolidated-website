@@ -1,31 +1,32 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
 import { BrochureEnquiryModal } from '@/components/layout/BrochureEnquiryModal';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Download, CheckCircle, List } from 'lucide-react';
+import { ArrowRight, Download, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { getModelWithCategory } from '@/data/productCatalogue';
 
 const ProductModel = () => {
   const { categoryId, modelId } = useParams();
   const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
+  const [showVariants, setShowVariants] = useState(false);
   
   const data = categoryId && modelId ? getModelWithCategory(categoryId, modelId) : null;
   
   const category = data?.category;
   const model = data?.model;
   
-  const displayName = model?.name || modelId?.replace(/-/g, ' ') || 'Product';
-  const displayDescription = model?.description || 'High-performance diesel generator set designed for reliable power supply in industrial applications.';
+  const displayName = model?.name || 'Product';
+  const displayDescription = model?.description || '';
   const displayHighlights = model?.highlights || [];
   const displaySpecs = model?.specifications || [];
   const displayVariants = model?.variants || [];
   const displayImage = model?.image || '/placeholder.svg';
   const displayBrochure = model?.brochure || '#';
-  const displayCategoryName = category?.name || categoryId?.replace(/-/g, ' ') || 'Category';
+  const displayCategoryName = category?.name || 'Category';
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,16 +58,7 @@ const ProductModel = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="aspect-square bg-card border border-border rounded-lg flex items-center justify-center sticky top-28 overflow-hidden p-6 shadow-sm">
-                <img 
-                  src={displayImage} 
-                  alt={displayName}
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.parentElement!.innerHTML = `<div class="text-muted-foreground italic">Image Preview</div>`;
-                  }}
-                />
+                <img src={displayImage} alt={displayName} className="w-full h-full object-contain" />
               </div>
             </motion.div>
 
@@ -92,31 +84,42 @@ const ProductModel = () => {
                 </p>
               </div>
 
-              {/* Range Breakdown (IF VARIANTS EXIST) */}
+              {/* Collapsible Ratings List */}
               {displayVariants.length > 0 && (
-                <div className="bg-muted/30 border border-border rounded-lg p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <List size={20} className="text-primary" />
-                    <h2 className="text-lg font-semibold text-foreground">Gensets in this Range</h2>
-                  </div>
-                  <div className="overflow-hidden rounded-md border border-border bg-background">
-                    <table className="w-full text-left text-sm">
-                      <thead className="bg-muted text-foreground font-semibold">
-                        <tr>
-                          <th className="px-4 py-2">Model</th>
-                          <th className="px-4 py-2 text-right">Rating</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {displayVariants.map((v, i) => (
-                          <tr key={i} className="hover:bg-muted/50 transition-colors">
-                            <td className="px-4 py-2 text-foreground-muted font-mono">{v.model}</td>
-                            <td className="px-4 py-2 text-right font-medium">{v.rating}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <button 
+                    onClick={() => setShowVariants(!showVariants)}
+                    className="w-full flex items-center justify-between p-4 bg-muted/30 hover:bg-muted/50 transition-colors group"
+                  >
+                    <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Available Ratings in this Range
+                    </span>
+                    {showVariants ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  
+                  <AnimatePresence>
+                    {showVariants && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="p-6 border-t border-border bg-background">
+                          <div className="flex flex-wrap gap-3">
+                            {displayVariants.map((v, i) => (
+                              <div 
+                                key={i} 
+                                className="px-4 py-2 border border-border rounded-full bg-card hover:border-primary hover:text-primary transition-all cursor-default text-sm font-medium shadow-sm"
+                              >
+                                {v.rating}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
 
@@ -148,7 +151,7 @@ const ProductModel = () => {
               </div>
 
               {/* Specifications */}
-              <div className="card-industrial p-6 rounded-lg bg-card border border-border">
+              <div className="card-industrial p-6 rounded-lg bg-card border border-border shadow-sm">
                 <h2 className="text-lg font-semibold text-foreground mb-4">Common Specifications</h2>
                 <div className="space-y-3">
                   {displaySpecs.map((spec) => (
