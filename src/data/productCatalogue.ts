@@ -41,9 +41,9 @@ const createSpecifications = (powerRating: string, fuel: string = 'Diesel') => [
 
 export const productCatalogue: ProductCategory[] = [
   {
-    id: 'standard-range',
-    name: '7.5–750 kVA & HHP',
-    description: 'Industrial diesel generator sets for diverse applications.',
+    id: 'lhp',
+    name: 'LHP',
+    description: 'Low horsepower industrial diesel generator sets.',
     icon: Factory,
     models: [
       {
@@ -82,9 +82,17 @@ export const productCatalogue: ProductCategory[] = [
         highlights: defaultHighlights,
         specifications: createSpecifications('200–250 kVA'),
       },
+    ],
+  },
+  {
+    id: 'mhp',
+    name: 'MHP',
+    description: 'Medium horsepower industrial diesel generator sets.',
+    icon: Factory,
+    models: [
       {
         id: 'hd-200-625-kva',
-        name: 'HD 200–625 kVA',
+        name: '200–625 kVA',
         description: 'Heavy-duty generators for extreme industrial environments.',
         image: '/products/standard-range/hd-200-625-kva/image.png',
         brochure: '/products/standard-range/hd-200-625-kva/brochure.pdf',
@@ -100,6 +108,14 @@ export const productCatalogue: ProductCategory[] = [
         highlights: defaultHighlights,
         specifications: createSpecifications('320–750 kVA'),
       },
+    ],
+  },
+  {
+    id: 'hhp',
+    name: 'HHP',
+    description: 'High horsepower industrial diesel generator sets.',
+    icon: Factory,
+    models: [
       {
         id: '1010-1500-kva',
         name: '1010–1500 kVA',
@@ -119,7 +135,7 @@ export const productCatalogue: ProductCategory[] = [
     models: [
       {
         id: 'hybrid-series',
-        name: 'Hybrid Series',
+        name: 'Hybrid',
         description: 'Diesel + renewable hybrid power solutions.',
         image: '/products/hybrid/hybrid-series/image.png',
         brochure: '/products/hybrid/hybrid-series/brochure.pdf',
@@ -137,13 +153,13 @@ export const productCatalogue: ProductCategory[] = [
   },
   {
     id: 'optiprime',
-    name: 'Optiprime Series',
+    name: 'Optiprime',
     description: 'Premium optimized generators.',
     icon: Shield,
     models: [
       {
         id: 'optiprime-series',
-        name: 'Optiprime Series',
+        name: 'Optiprime',
         description: 'High-performance premium generator series.',
         image: '/products/optiprime/optiprime-series/image.png',
         brochure: '/products/optiprime/optiprime-series/brochure.pdf',
@@ -154,6 +170,30 @@ export const productCatalogue: ProductCategory[] = [
           'Extended service intervals',
           'High efficiency',
           'Reliable operation',
+        ],
+        specifications: createSpecifications('Various capacities'),
+      },
+    ],
+  },
+  {
+    id: 'sentinel',
+    name: 'Sentinel Series',
+    description: 'Mission-critical power solutions.',
+    icon: Sun,
+    models: [
+      {
+        id: 'sentinel-series',
+        name: 'Sentinel',
+        description: 'High-reliability generators for critical infrastructure.',
+        image: '/products/sentinel/sentinel-series/image.png',
+        brochure: '/products/sentinel/sentinel-series/brochure.pdf',
+        highlights: [
+          '24/7 continuous operation',
+          'Redundant systems',
+          'Remote monitoring',
+          'Rapid service support',
+          'High autonomy',
+          'Mission-critical reliability',
         ],
         specifications: createSpecifications('Various capacities'),
       },
@@ -189,30 +229,6 @@ export const productCatalogue: ProductCategory[] = [
         brochure: '/products/png-range/natural-gas-250/brochure.pdf',
         highlights: defaultHighlights,
         specifications: createSpecifications('250 kVA', 'Natural Gas'),
-      },
-    ],
-  },
-  {
-    id: 'sentinel',
-    name: 'Sentinel Range',
-    description: 'Mission-critical power solutions.',
-    icon: Sun,
-    models: [
-      {
-        id: 'sentinel-series',
-        name: 'Sentinel Series',
-        description: 'High-reliability generators for critical infrastructure.',
-        image: '/products/sentinel/sentinel-series/image.png',
-        brochure: '/products/sentinel/sentinel-series/brochure.pdf',
-        highlights: [
-          '24/7 continuous operation',
-          'Redundant systems',
-          'Remote monitoring',
-          'Rapid service support',
-          'High autonomy',
-          'Mission-critical reliability',
-        ],
-        specifications: createSpecifications('Various capacities'),
       },
     ],
   },
