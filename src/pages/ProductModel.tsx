@@ -6,7 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingButtons } from '@/components/layout/FloatingButtons';
 import { BrochureEnquiryModal } from '@/components/layout/BrochureEnquiryModal';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Download, CheckCircle } from 'lucide-react';
+import { ArrowRight, Download, CheckCircle, List } from 'lucide-react';
 import { getModelWithCategory } from '@/data/productCatalogue';
 
 const ProductModel = () => {
@@ -15,28 +15,14 @@ const ProductModel = () => {
   
   const data = categoryId && modelId ? getModelWithCategory(categoryId, modelId) : null;
   
-  // Fallback data if model not found
   const category = data?.category;
   const model = data?.model;
   
   const displayName = model?.name || modelId?.replace(/-/g, ' ') || 'Product';
-  const displayDescription = model?.description || 'High-performance diesel generator set designed for reliable power supply in industrial applications. Built with precision engineering and manufactured to meet the highest quality standards.';
-  const displayHighlights = model?.highlights || [
-    'Advanced noise reduction technology',
-    'Fuel-efficient engine design',
-    'Robust industrial-grade construction',
-    'Easy maintenance access',
-    'Digital control panel',
-    'Auto start/stop capability',
-  ];
-  const displaySpecs = model?.specifications || [
-    { label: 'Power Rating', value: 'As per model' },
-    { label: 'Engine', value: 'KOEL' },
-    { label: 'Frequency', value: '50 Hz' },
-    { label: 'Voltage', value: '415V / 240V' },
-    { label: 'Fuel', value: 'Diesel' },
-    { label: 'Cooling', value: 'Water Cooled' },
-  ];
+  const displayDescription = model?.description || 'High-performance diesel generator set designed for reliable power supply in industrial applications.';
+  const displayHighlights = model?.highlights || [];
+  const displaySpecs = model?.specifications || [];
+  const displayVariants = model?.variants || [];
   const displayImage = model?.image || '/placeholder.svg';
   const displayBrochure = model?.brochure || '#';
   const displayCategoryName = category?.name || categoryId?.replace(/-/g, ' ') || 'Category';
@@ -70,26 +56,15 @@ const ProductModel = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="aspect-square bg-card border border-border rounded-lg flex items-center justify-center sticky top-28 overflow-hidden p-6">
+              <div className="aspect-square bg-card border border-border rounded-lg flex items-center justify-center sticky top-28 overflow-hidden p-6 shadow-sm">
                 <img 
                   src={displayImage} 
                   alt={displayName}
                   className="w-full h-full object-contain"
                   onError={(e) => {
-                    // Fallback to placeholder on error
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
-                    target.parentElement!.innerHTML = `
-                      <div class="text-center p-8">
-                        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                          <svg class="w-12 h-12 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                        <p class="text-foreground-muted">Product Image</p>
-                        <p class="text-muted-foreground text-sm">Placeholder</p>
-                      </div>
-                    `;
+                    target.parentElement!.innerHTML = `<div class="text-muted-foreground italic">Image Preview</div>`;
                   }}
                 />
               </div>
@@ -116,6 +91,34 @@ const ProductModel = () => {
                   {displayDescription}
                 </p>
               </div>
+
+              {/* Range Breakdown (IF VARIANTS EXIST) */}
+              {displayVariants.length > 0 && (
+                <div className="bg-muted/30 border border-border rounded-lg p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <List size={20} className="text-primary" />
+                    <h2 className="text-lg font-semibold text-foreground">Gensets in this Range</h2>
+                  </div>
+                  <div className="overflow-hidden rounded-md border border-border bg-background">
+                    <table className="w-full text-left text-sm">
+                      <thead className="bg-muted text-foreground font-semibold">
+                        <tr>
+                          <th className="px-4 py-2">Model</th>
+                          <th className="px-4 py-2 text-right">Rating</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border">
+                        {displayVariants.map((v, i) => (
+                          <tr key={i} className="hover:bg-muted/50 transition-colors">
+                            <td className="px-4 py-2 text-foreground-muted font-mono">{v.model}</td>
+                            <td className="px-4 py-2 text-right font-medium">{v.rating}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
               {/* Key Highlights */}
               <div>
@@ -145,8 +148,8 @@ const ProductModel = () => {
               </div>
 
               {/* Specifications */}
-              <div className="card-industrial p-6 rounded-lg">
-                <h2 className="text-lg font-semibold text-foreground mb-4">Specifications</h2>
+              <div className="card-industrial p-6 rounded-lg bg-card border border-border">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Common Specifications</h2>
                 <div className="space-y-3">
                   {displaySpecs.map((spec) => (
                     <div key={spec.label} className="flex justify-between items-center py-2 border-b border-border last:border-0">
