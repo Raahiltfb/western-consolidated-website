@@ -20,6 +20,8 @@ const allSlides = [
     title: 'Scalable Production',
     description: 'Streamlined assembly of acoustic enclosures for rapid deployment',
     image: '/images/showcase3.jpg',
+    // 💡 Brightness adjustment added here
+    style: { filter: 'brightness(1.5) ' }
   },
   {
     id: 4,
@@ -104,7 +106,6 @@ export const ImageSlideshow = () => {
         {/* Slideshow */}
         <div className="relative max-w-5xl mx-auto">
           <div className="aspect-[16/9] bg-black border border-border rounded-xl overflow-hidden relative">
-            {/* 🔥 REMOVED mode="wait" to allow cross-fade */}
             <AnimatePresence initial={false}>
               <motion.div
                 key={activeSlides[currentSlide].id}
@@ -118,9 +119,14 @@ export const ImageSlideshow = () => {
                   src={activeSlides[currentSlide].image}
                   alt={activeSlides[currentSlide].title}
                   className="w-full h-full object-cover"
+                  // 💡 Applies the style object if it exists (e.g. for slide 3)
+                  style={activeSlides[currentSlide].style || {}}
                 />
+                
+                {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                 
+                {/* Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <motion.h3 
                     initial={{ opacity: 0, y: 10 }}
@@ -144,12 +150,14 @@ export const ImageSlideshow = () => {
             {/* Navigation */}
             <button
               onClick={prevSlide}
+              aria-label="Previous slide"
               className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary transition-all z-30"
             >
               <ChevronLeft size={24} />
             </button>
             <button
               onClick={nextSlide}
+              aria-label="Next slide"
               className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary transition-all z-30"
             >
               <ChevronRight size={24} />

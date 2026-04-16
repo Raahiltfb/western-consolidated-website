@@ -99,7 +99,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         <img
           src={heroBg}
           alt=""
-          className="hidden md:block w-full h-full object-cover brightness-200 contrast-110 scale-[1.1] md:scale-100"
+          className="hidden md:block w-full h-full object-cover brightness-200 contrast-10 scale-[1.1] md:scale-100"
         />
 
         {/* Mobile */}
@@ -110,10 +110,10 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         />
 
         {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.1),transparent_90%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/0 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-black/0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(255,255,255,0.1),transparent_100%)]" />
       </div>
 
       {/* Assembly Animation Overlay */}
@@ -154,7 +154,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="mt-8 md:mt-20"
+                    className="mt-1 md:mt-4"
                   >
                     <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                       <span className="text-white">Extensive </span>
@@ -177,7 +177,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   >
                     <div className="line-accent bg-primary h-[2px] w-12" />
                     <span className="text-primary font-bold tracking-[0.15em] text-sm uppercase whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                      KOEL Authorized Manufacturer
+                      
                     </span>
                   </motion.div>
                 )}
@@ -216,9 +216,9 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
 
                     <Link to="/enquiry">
                       <Button
-                        variant="heroOutline"
+                        variant="hero"
                         size="lg"
-                        className="border-white/40 text-white hover:bg-white/10"
+                        className="border-white/40 text-white group-hover:translate-x-1"
                       >
                         <FileText size={18} className="mr-2" />
                         Get Quote
@@ -236,19 +236,20 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     transition={{ duration: 0.6, delay: 0.8 }}
                     className="flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
                   >
+                    
                     <div>
                       <div className="text-3xl md:text-4xl font-bold text-white">60+</div>
-                      <div className="text-white/50 text-xs md:text-sm">Years Engineering</div>
+                      <div className="text-white/50 text-xs font-bold md:text-sm">Years Engineering</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
                       <div className="text-3xl md:text-4xl font-bold text-white">100,000+</div>
-                      <div className="text-white/50 text-xs md:text-sm">Installations</div>
+                      <div className="text-white/50 text-xs font-bold md:text-sm">Installations</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
                       <div className="text-3xl md:text-4xl font-bold text-white">24/7</div>
-                      <div className="text-white/50 text-xs md:text-sm">Support</div>
+                      <div className="text-white/50 text-xs font-bold md:text-sm">Support</div>
                     </div>
                   </motion.div>
                 )}
