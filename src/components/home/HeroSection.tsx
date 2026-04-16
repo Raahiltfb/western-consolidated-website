@@ -3,74 +3,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import kirloskarLogo from '@/assets/kirloskar-logo.png';
-import heroBg from '@/assets/bgagain.jpg';
-import mobileBg from '@/assets/hero-bg.jpg';
+import heroBg from '@/assets/hero-bg.jpg';
+import { AssemblyParts } from './hero/AssemblyAnimation';
+import { SparkParticles } from './hero/SparkParticles';
+import { HeroStats } from './hero/HeroStats';
+import { KoelBadge } from './hero/KoelBadge';
 
 interface HeroSectionProps {
   onAnimationComplete: () => void;
 }
-
-// Assembly component parts for the intro animation
-const AssemblyParts = () => {
-  return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      {/* Engine block */}
-      <motion.div
-        className="absolute w-32 h-24 border-2 border-primary/40 rounded-md bg-primary/5"
-        initial={{ x: -200, opacity: 0, rotate: -15 }}
-        animate={{ x: 0, opacity: 1, rotate: 0 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-      />
-      {/* Radiator */}
-      <motion.div
-        className="absolute w-20 h-28 border-2 border-primary/30 rounded-sm bg-primary/5"
-        style={{ left: '55%' }}
-        initial={{ x: 200, opacity: 0, rotate: 10 }}
-        animate={{ x: 0, opacity: 1, rotate: 0 }}
-        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-      />
-      {/* Control panel */}
-      <motion.div
-        className="absolute w-16 h-16 border-2 border-primary/40 rounded bg-primary/10"
-        style={{ top: '20%', right: '30%' }}
-        initial={{ y: -150, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.6, ease: 'easeOut' }}
-      />
-      {/* Base frame */}
-      <motion.div
-        className="absolute bottom-[30%] w-48 h-4 border-2 border-primary/30 rounded-sm bg-primary/5"
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
-      />
-      {/* Exhaust */}
-      <motion.div
-        className="absolute w-6 h-20 border-2 border-primary/20 rounded-full bg-primary/5"
-        style={{ top: '15%', left: '40%' }}
-        initial={{ y: -100, opacity: 0, scale: 0.5 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.8, ease: 'easeOut' }}
-      />
-    </div>
-  );
-};
 
 export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
   const [animationPhase, setAnimationPhase] = useState<'assembly' | 'transition' | 'main' | 'complete'>('assembly');
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    const transitionTimer = setTimeout(() => {
-      setAnimationPhase('transition');
-    }, 2000);
-
+    const transitionTimer = setTimeout(() => setAnimationPhase('transition'), 2000);
     const mainTimer = setTimeout(() => {
       setAnimationPhase('main');
       setShowContent(true);
     }, 2500);
-
     const completeTimer = setTimeout(() => {
       setAnimationPhase('complete');
       onAnimationComplete();
@@ -84,200 +36,164 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
   }, [onAnimationComplete]);
 
   const scrollToNext = useCallback(() => {
-    const nextSection = document.getElementById('legacy-section');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('legacy-section')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   return (
-    <section className="relative min-h-[100dvh] flex items-center overflow-hidden pb-20 md:pb-0">
-      {/* Full-bleed background image */}
-      <div className="absolute inset-0">
-
-        {/* Desktop */}
+    <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
+      {/* Background with Ken Burns zoom */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1.15 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 12, ease: 'easeOut' }}
+      >
         <img
           src={heroBg}
           alt=""
-          className="hidden md:block w-full h-full object-cover brightness-200 contrast-110 scale-[1.1] md:scale-100"
+          className="w-full h-full object-cover"
         />
+      </motion.div>
 
-        {/* Mobile */}
-        <img
-          src={mobileBg}
-          alt=""
-          className="md:hidden w-full h-full object-cover brightness-110 contrast-110 scale-[1.1]"
-        />
+      {/* Cinematic overlay stack */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[hsl(350,80%,45%)]/[0.06] via-transparent to-transparent" />
+      
+      {/* Bottom fade to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[6]" />
 
-        {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.1),transparent_90%)]" />
-      </div>
+      {/* Industrial spark particles */}
+      {showContent && <SparkParticles />}
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
-        {(animationPhase === 'assembly') && (
+        {animationPhase === 'assembly' && (
           <motion.div
             className="absolute inset-0 z-20 flex items-center justify-center"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
             <div className="flex flex-col items-center px-4 w-full">
-              <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
               <div className="relative h-64 w-64 flex items-center justify-center">
                 <AssemblyParts />
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.8 }}
-                className="relative text-white text-center w-full text-2xl md:text-3xl font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
+                className="relative text-white text-center w-full text-2xl md:text-3xl font-display font-bold uppercase tracking-[0.4em] mt-8 md:mt-12"
               >
-                WESTERN CONSOLIDATED
+                Western Consolidated
               </motion.p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-10 md:pt-0">
-        <div className="dark">
-          <div className="absolute inset-0 grid-overlay opacity-10 pointer-events-none" />
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* LEFT SIDE */}
-            <div className="space-y-4 pt-4 md:pt-0">
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="mt-8 md:mt-20"
+      {/* Main Content */}
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-24 pb-32 md:pt-0 md:pb-0">
+        <div className="max-w-3xl">
+          
+          {/* Eyebrow tag */}
+          <AnimatePresence>
+            {showContent && (
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="flex items-center gap-3 mb-6"
+              >
+                <div className="h-px w-10 bg-primary" />
+                <span className="text-primary font-semibold tracking-[0.2em] text-xs uppercase">
+                  KOEL Authorized Manufacturer
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Main heading */}
+          <AnimatePresence>
+            {showContent && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.25 }}
+              >
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-[0.95] tracking-tight">
+                  <span className="text-white">Extensive</span>
+                  <br />
+                  <span className="text-gradient-primary">Power</span>
+                  <br />
+                  <span className="text-white">Solutions</span>
+                </h1>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Description */}
+          <AnimatePresence>
+            {showContent && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="mt-8 max-w-xl"
+              >
+                <p className="text-white/60 text-base md:text-lg leading-relaxed">
+                  Precision-engineered diesel generator sets from{' '}
+                  <span className="text-white/90 font-medium">3 kVA to 1010 kVA</span>.
+                  Trusted across India for mission-critical power solutions
+                  and emergency backup systems.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* CTAs */}
+          <AnimatePresence>
+            {showContent && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                className="flex flex-wrap gap-4 mt-10"
+              >
+                <Link to="/products">
+                  <Button variant="hero" size="lg" className="group">
+                    Explore Generator Sets
+                    <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to="/enquiry">
+                  <Button
+                    variant="heroOutline"
+                    size="lg"
+                    className="border-white/20 text-white hover:bg-white/10"
                   >
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                      <span className="text-white">Extensive </span>
-                      
-                      <span className="text-primary">Power</span>
-                      <br />
-                      <span className="text-white">Solutions</span>
-                    </h1>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <FileText size={18} className="mr-2" />
+                    Get Quote
+                  </Button>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex items-center gap-3 py-1"
-                  >
-                    <div className="line-accent bg-primary h-[2px] w-12" />
-                    <span className="text-primary font-bold tracking-[0.15em] text-sm uppercase whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                      KOEL Authorized Manufacturer
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="bg-black/40 backdrop-blur-sm border-l-4 border-primary/60 p-5 rounded-r-lg max-w-lg mt-4"
-                  >
-                    <p className="text-white text-lg font-medium leading-relaxed [text-shadow:_0_1px_8px_rgb(0_0_0_/_80%)]">
-                      Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
-                      Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-wrap gap-4 pt-4"
-                  >
-                    <Link to="/products">
-                      <Button variant="hero" size="lg" className="group">
-                        Explore Generator Sets
-                        <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-
-                    <Link to="/enquiry">
-                      <Button
-                        variant="heroOutline"
-                        size="lg"
-                        className="border-white/40 text-white hover:bg-white/10"
-                      >
-                        <FileText size={18} className="mr-2" />
-                        Get Quote
-                      </Button>
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                    className="flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
-                  >
-                    <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">60+</div>
-                      <div className="text-white/50 text-xs md:text-sm">Years Engineering</div>
-                    </div>
-                    <div className="w-px h-10 bg-white/20" />
-                    <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">100,000+</div>
-                      <div className="text-white/50 text-xs md:text-sm">Installations</div>
-                    </div>
-                    <div className="w-px h-10 bg-white/20" />
-                    <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">24/7</div>
-                      <div className="text-white/50 text-xs md:text-sm">Support</div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* RIGHT SIDE */}
-            <AnimatePresence>
-              {showContent && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 40 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 1.2, delay: 0.5 }}
-                  className="relative hidden lg:flex items-center justify-center"
-                >
-                  <div className="relative z-10 w-full max-w-xl">
-                    <img
-                      src=""
-                      alt=""
-                      className="w-full h-auto object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
-                    />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-          </div>
+          {/* Stats */}
+          <AnimatePresence>
+            {showContent && (
+              <div className="mt-14 pt-8 border-t border-white/10">
+                <HeroStats />
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
+
+      {/* KOEL Badge */}
+      <AnimatePresence>
+        {showContent && <KoelBadge />}
+      </AnimatePresence>
 
       {/* Scroll indicator */}
       <AnimatePresence>
@@ -286,41 +202,16 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 cursor-pointer"
+            onClick={scrollToNext}
           >
             <motion.div
-              animate={{ y: [0, 10, 0] }}
+              animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2"
+              className="w-5 h-9 border-2 border-white/30 rounded-full flex items-start justify-center p-1.5"
             >
-              <div className="w-1.5 h-3 bg-white/40 rounded-full" />
+              <div className="w-1 h-2.5 bg-white/30 rounded-full" />
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* KOEL Badge */}
-      <AnimatePresence>
-        {showContent && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="absolute bottom-6 right-4 md:bottom-8 md:right-8 hidden sm:block z-10"
-          >
-            <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded flex items-center justify-center p-1.5">
-                <img src={kirloskarLogo} alt="Kirloskar" className="w-full h-full object-contain" />
-              </div>
-              <div>
-                <div className="text-[10px] leading-tight font-medium text-white/70 uppercase">
-                  AUTHORIZED GOEM
-                </div>
-                <div className="text-sm font-bold text-white">
-                  of KOEL
-                </div>
-              </div>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
