@@ -9,11 +9,12 @@ import {
   User, 
   Calendar, 
   Droplets, 
-  Medal, 
-  TreePine, 
   ChevronDown, 
   Download, 
-  Activity 
+  X,
+  ArrowUpRight,
+  ShieldCheck,
+  Users
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -83,61 +84,89 @@ const csrPolicySections = [
 
 const amendmentsContent = `In case of any subsequent changes in the provisions of the Act or any other regulations which makes any of the provisions in the Policy inconsistent with the Act or regulations, then the provisions of the Act or regulations would prevail over the Policy and the provisions in the Policy would be modified in due course to make it consistent with the law.\n\nThis Policy will be reviewed by the Board, on the recommendation of the CSR Committee, as and when deemed necessary.`;
 
-const csrProgrammes = [
+const activityCategories = [
   {
-    title: 'Poverty, Health & Nutrition',
-    description: 'Eradicating hunger, poverty and malnutrition, promoting health care including preventive health care and sanitation.',
-    icon: Heart,
-  },
-  {
-    title: 'Flood Relief',
-    description: 'Disaster management, including relief, rehabilitation and reconstruction activities.',
-    icon: Droplets,
-  },
-  {
-    title: 'Promoting Sports',
-    description: 'Training to promote rural sports, nationally recognised sports, paralympic sports and olympic sports.',
-    icon: Medal,
-  },
-  {
-    title: 'Protection of Flora & Fauna',
-    description: 'Ensuring environmental sustainability, ecological balance, protection of flora and fauna, conservation of natural resources.',
-    icon: TreePine,
-  },
-  {
-    title: 'Promoting Education',
-    description: 'Promoting education, including special education and employment enhancing vocation skills.',
+    id: 'education',
+    title: 'Education & Skill Development',
+    shortDesc: 'Empowering the next generation through digital literacy and academic support.',
     icon: GraduationCap,
+    partners: [
+      {
+        name: 'Apna Ghar Welfare Society',
+        content: 'Formed with the sole purpose of serving the community, Apna Ghar focuses on underprivileged children. Through our advisor Mr. Vijay Raina, we identified academic gaps and developed "India eschool"—a customized web platform mapping classes and subjects to digital content. This initiative has diversified from its roots into successful branches in Rishikesh and Vrindavan.',
+        images: ['/images/csrimage/apnaghar.jpg'],
+      },
+      {
+        name: 'The Chirag School',
+        content: 'Nestled in the beautiful Kumaon hills and established in 2006, the school provides high-quality education to village children at an affordable cost. It serves as a model for education outreach, working with government schools across four districts of Uttarakhand to improve systemic education quality.',
+        images: [],
+        downloadUrl: '/csrpdfs/Chirag.pdf',
+        downloadLabel: 'Download CHIRAG Profile'
+      },
+      {
+        name: 'National Association for the Blind (NAB)',
+        content: 'Based in Haldwani, NAB is a specialized non-profit established in 2003 to empower children with visual impairments. It operates as a residential boarding school providing CBSE education, vocational training, and essential rehabilitation services.',
+        images: [],
+      },
+      {
+        name: 'Dayanand Primary School',
+        content: 'Support and donations provided to facilitate primary education and infrastructure improvements for students.',
+        images: ['/images/csrimage/dayanand.jpg'],
+      }
+    ]
   },
+  {
+    id: 'healthcare',
+    title: 'Healthcare & Social Welfare',
+    shortDesc: 'Promoting the well-being of vulnerable groups, from migrants to the elderly.',
+    icon: Heart,
+    partners: [
+      {
+        name: 'Disha Foundation',
+        content: 'A community-centered NGO working since 2002 to create an enabling environment for migrant workers and marginal groups across India. With 150+ successful projects, they use a multi-approach of research and policy advocacy combined with on-ground implementation.',
+        images: ['/images/csrimage/disha.jpg'],
+        downloadUrl: '/csrpdfs/Dishapdf.pdf',
+        downloadLabel: 'Download Disha Foundation Report'
+      },
+      {
+        name: 'Parvatiya Nav Jagran Samiti',
+        content: 'Located in Bageshwar district of Uttarakhand, this organization primarily works to promote social development and de-addiction within the local communities, fostering a healthier and more stable social structure.',
+        images: [],
+      },
+      {
+        name: 'My Life Foundation',
+        content: 'Established by development professionals and educationists, My Life Foundation (registered under NGO Darpan, NITI Ayog) shields the vulnerable. Their multi-disciplinary teams work across education, health, and environment to change lifestyles and ensure a sustainable future for the needy.',
+        images: ['/images/csrimage/mylife1.jpg', '/images/csrimage/mylife2.jpg'],
+      }
+    ]
+  },
+  {
+    id: 'hunger-elderly',
+    title: 'Hunger Alleviation & Elderly Care',
+    shortDesc: 'Providing nutrition and emotional support to the underprivileged and homeless.',
+    icon: Users,
+    partners: [
+      {
+        name: 'Uday Foundation',
+        content: 'Addressing the crisis of 18 million homeless elderly in India, Uday Foundation conducts "Sing & Dance" programmes at old age homes to provide emotional healing. Additionally, they organize monthly food and grocery distribution drives across urban and rural Mumbai, ensuring the less privileged are healthy enough to be active citizens.',
+        images: [],
+      }
+    ]
+  }
 ];
 
-const chiragStats = [
-  { value: '3.9L+', label: 'People Impacted' },
-  { value: '25,000+', label: 'Patients Treated Annually' },
-  { value: '747', label: 'Springs Rejuvenated' },
-  { value: '14M+', label: 'Saplings Planted' },
-];
-
-const PolicyAccordionItem = ({ section }: { section: { title: string; content: string; definitions?: { term: string; definition: string }[]; activities?: string[] } }) => {
+const PolicyAccordionItem = ({ section }: { section: any }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-border/50 group transition-colors hover:bg-muted/30">
+    <div className="border-b border-border/50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-6 px-4 text-left"
+        className="w-full flex items-center justify-between py-5 px-6 text-left hover:bg-muted/20 transition-colors"
       >
-        <div className="flex items-center gap-6">
-          <div className="relative">
-            <div className={`absolute -left-4 top-0 bottom-0 w-1 bg-primary transition-transform duration-300 origin-top ${isOpen ? 'scale-y-100' : 'scale-y-0'}`} />
-            <span className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors ${isOpen ? 'text-primary' : 'text-muted-foreground'}`}>
-              Section
-            </span>
-          </div>
-          <h3 className="text-lg font-bold text-foreground tracking-wide uppercase">{section.title}</h3>
-        </div>
+        <h3 className="text-sm font-bold text-foreground tracking-wider uppercase">{section.title}</h3>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-          <ChevronDown className={`w-5 h-5 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
+          <ChevronDown className="w-4 h-4 text-primary" />
         </motion.div>
       </button>
 
@@ -147,16 +176,16 @@ const PolicyAccordionItem = ({ section }: { section: { title: string; content: s
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
+            className="overflow-hidden bg-muted/10"
           >
-            <div className="px-16 pb-8">
-              <div className="text-foreground-muted leading-relaxed whitespace-pre-line text-sm lg:text-base max-w-4xl">
+            <div className="px-10 py-8">
+              <div className="text-foreground-muted leading-relaxed whitespace-pre-line text-sm max-w-4xl">
                 {section.content}
               </div>
 
               {section.definitions && (
-                <div className="mt-6 space-y-3 bg-background-secondary p-6 border-l-2 border-primary/30">
-                  {section.definitions.map((def, idx) => (
+                <div className="mt-6 space-y-3 border-l-2 border-primary/30 pl-6">
+                  {section.definitions.map((def: any, idx: number) => (
                     <p key={idx} className="text-sm text-foreground-muted">
                       <span className="font-bold text-primary mr-2">{def.term}</span> {def.definition}
                     </p>
@@ -167,9 +196,9 @@ const PolicyAccordionItem = ({ section }: { section: { title: string; content: s
               {section.activities && (
                 <div className="mt-8 space-y-4">
                    <h4 className="text-[10px] font-black text-primary tracking-[0.2em] uppercase mb-4">Specified Activities</h4>
-                   <ul className="space-y-4">
-                    {section.activities.map((activity, idx) => (
-                      <li key={idx} className="flex gap-4 text-sm text-foreground-muted leading-relaxed">
+                   <ul className="space-y-3">
+                    {section.activities.map((activity: string, idx: number) => (
+                      <li key={idx} className="flex gap-4 text-xs text-foreground-muted leading-relaxed">
                         <span className="text-primary font-bold">{(idx + 1).toString().padStart(2, '0')}</span>
                         {activity}
                       </li>
@@ -185,12 +214,93 @@ const PolicyAccordionItem = ({ section }: { section: { title: string; content: s
   );
 };
 
+const ActivityOverlay = ({ category, onClose }: { category: any; onClose: () => void }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+    >
+      <div className="absolute inset-0 bg-background/95 backdrop-blur-md" onClick={onClose} />
+      
+      <motion.div 
+        initial={{ y: 50, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 50, opacity: 0, scale: 0.95 }}
+        className="relative w-full max-w-6xl max-h-[90vh] bg-card border border-border shadow-2xl overflow-y-auto rounded-none"
+      >
+        <div className="sticky top-0 z-10 bg-card/80 backdrop-blur-md p-6 border-b border-border flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-primary/10 text-primary">
+              <category.icon size={24} />
+            </div>
+            <h2 className="text-2xl font-bold uppercase tracking-tighter">{category.title}</h2>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-muted transition-colors text-foreground-muted hover:text-foreground">
+            <X size={24} />
+          </button>
+        </div>
+
+        <div className="p-8 lg:p-12 space-y-20">
+          {category.partners.map((partner: any, idx: number) => {
+            const imageCount = partner.images?.length || 0;
+            const hasImages = imageCount > 0;
+            
+            return (
+              <div key={idx} className={`grid ${hasImages ? 'lg:grid-cols-[1.2fr_1fr]' : 'grid-cols-1'} gap-12 lg:gap-20 items-center border-b border-border/30 pb-20 last:border-0`}>
+                <div className={hasImages ? '' : 'max-w-4xl mx-auto text-center lg:text-left'}>
+                  <div className={`flex items-center gap-3 mb-4 ${!hasImages ? 'justify-center lg:justify-start' : ''}`}>
+                    <div className="w-8 h-[2px] bg-primary" />
+                    <span className="text-primary font-bold text-xs uppercase tracking-widest">Partner Organisation</span>
+                  </div>
+                  <h3 className="text-4xl font-bold mb-6 text-foreground tracking-tight uppercase">{partner.name}</h3>
+                  <p className="text-foreground-muted leading-relaxed mb-8 text-lg font-light">
+                    {partner.content}
+                  </p>
+                  
+                  {partner.downloadUrl && (
+                    <a href={partner.downloadUrl} download>
+                      <Button variant="hero" size="sm" className="rounded-none px-10">
+                        <Download className="mr-2" size={16} /> {partner.downloadLabel}
+                      </Button>
+                    </a>
+                  )}
+                </div>
+
+                {hasImages && (
+                  <div className="w-full">
+                    <div className={`grid ${imageCount === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
+                      {partner.images.map((img: string, i: number) => (
+                        <div key={i} className="overflow-hidden bg-muted aspect-[4/3] relative">
+                          <img 
+                            src={img} 
+                            alt={`${partner.name} CSR activity`} 
+                            className="w-full h-full object-cover" 
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const CSR = () => {
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [isPolicyVisible, setIsPolicyVisible] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar isVisible={true} />
       
-      {/* Hero Section - Header Fonts fixed to match Clients page */}
+      {/* Hero Section */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div
@@ -205,142 +315,115 @@ const CSR = () => {
                 Social Impact
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 tracking-tighter">
               Corporate <br />
-              <span className="text-primary"> Social Responsibility</span>
+              <span className="text-primary">Social Responsibility</span>
             </h1>
-            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal">
-              Corporate social responsibility is integral to WCPL. Our programs focus on education, healthcare, environment, poverty alleviation, and community development - delivering value to society at large.
+            <p className="text-foreground-muted text-xl leading-relaxed max-w-2xl font-light">
+              At Western Consolidated, our success is measured by the strength of the communities we build. We go beyond compliance to create tangible, lasting impact through strategic partnerships and transparent governance.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* FY 2025-26 Programmes */}
+      {/* Interactive Activity Categories */}
       <section className="py-24 bg-background-secondary border-y border-border/50">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-primary text-white mb-6">
-              <Calendar size={14} />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">FY 2025-26 Approved</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-              Programmes Approved by the <span className="text-primary">Board</span>
-            </h2>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-border/50 border border-border/50">
-            {csrProgrammes.map((programme, index) => (
+          <div className="mb-16">
+            <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-4">Focus Areas</h2>
+            <h3 className="text-4xl font-bold tracking-tight">Approved <span className="text-primary">Programmes</span></h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {activityCategories.map((category) => (
               <motion.div
-                key={programme.title}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-background p-10 group hover:bg-muted/20 transition-all"
+                key={category.id}
+                whileHover={{ y: -5 }}
+                className="bg-background border border-border p-10 flex flex-col justify-between group cursor-pointer hover:border-primary transition-colors"
+                onClick={() => setSelectedCategory(category)}
               >
-                <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
-                  <programme.icon className="w-6 h-6 text-primary group-hover:text-white" />
+                <div>
+                  <category.icon className="w-10 h-10 text-primary mb-8" strokeWidth={1.5} />
+                  <h4 className="text-2xl font-bold mb-4 uppercase tracking-tighter leading-none group-hover:text-primary transition-colors">
+                    {category.title}
+                  </h4>
+                  <p className="text-foreground-muted text-sm font-light leading-relaxed mb-8">
+                    {category.shortDesc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-4 uppercase tracking-wider leading-tight">
-                  {programme.title}
-                </h3>
-                <p className="text-foreground-muted text-sm leading-relaxed font-light">
-                  {programme.description}
-                </p>
+                <div className="flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                  View Programmes <ArrowUpRight size={14} className="ml-2" />
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Partner Section - CHIRAG */}
-      <section className="py-24 bg-background">
+      {/* Governance & Policy Toggle */}
+      <section className="py-32 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-[1fr_400px] gap-16 items-start">
-            <div>
-              <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-8">Implementation Partner</h2>
-              <h3 className="text-4xl font-bold text-foreground mb-6">Central Himalayan Rural Action Group (CHIRAG)</h3>
-              <p className="text-foreground-muted text-lg leading-relaxed font-light mb-8 max-w-3xl">
-                CHIRAG is a non-profit voluntary organization working in the Central Himalayan region of Uttarakhand. 
-                Their holistic approach focuses on healthcare, education, agriculture, and environmental conservation - 
-                aligning with Western Consolidated's vision of creating lasting social impact.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {chiragStats.map((stat) => (
-                  <div key={stat.label} className="p-8 border border-border bg-background-secondary group hover:border-primary transition-colors">
-                    <div className="text-3xl font-black text-primary mb-2 tracking-tighter">{stat.value}</div>
-                    <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</div>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+              <div>
+                <h2 className="text-4xl font-bold tracking-tighter uppercase mb-4">Governance <br/>& <span className="text-primary">Policy</span></h2>
+                <p className="text-foreground-muted text-sm font-light leading-relaxed">
+                  Our CSR framework is anchored in transparency and strict adherence to the Companies Act, 2013, overseen by our dedicated committee.
+                </p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <Button 
+                  onClick={() => setIsPolicyVisible(!isPolicyVisible)}
+                  variant="heroOutline" 
+                  className="rounded-none h-16 justify-between px-8 text-xs tracking-widest uppercase font-bold"
+                >
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck size={20} className="text-primary" />
+                    View CSR Policy
                   </div>
-                ))}
+                  <ChevronDown className={`transition-transform duration-300 ${isPolicyVisible ? 'rotate-180' : ''}`} />
+                </Button>
               </div>
             </div>
 
-            <div className="lg:sticky lg:top-32 p-8 border border-border bg-muted/10">
-               <Activity className="text-primary mb-6" size={40} strokeWidth={1} />
-               <h4 className="text-lg font-bold mb-4 uppercase tracking-tight">Partner Documentation</h4>
-               <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
-                 Access detailed reports on CHIRAG's regional impact and technical implementation frameworks for the current financial year.
-               </p>
-               <a href="/Chirag.pdf" download className="w-full">
-                <Button className="w-full rounded-none h-14 uppercase tracking-widest text-xs font-bold">
-                  <Download className="mr-2" size={16} /> Download Partner Profile
-                </Button>
-               </a>
-            </div>
+            <AnimatePresence>
+              {isPolicyVisible && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden border border-border bg-background-secondary"
+                >
+                  {csrPolicySections.map((section) => (
+                    <PolicyAccordionItem key={section.id} section={section} />
+                  ))}
+                  <PolicyAccordionItem
+                    section={{
+                      title: 'AMENDMENTS TO THIS POLICY',
+                      content: amendmentsContent,
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
 
-      {/* Policy Accordions */}
-      <section className="py-24 bg-background-secondary">
+      {/* CSR Committee Section */}
+      <section className="py-24 bg-background-secondary border-t border-border/50">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-black text-foreground tracking-tighter uppercase">CSR <span className="text-primary">Policy</span></h2>
-              <div className="w-20 h-1 bg-primary mx-auto mt-4" />
-            </div>
-            
-            <div className="border-t border-border/50">
-              {csrPolicySections.map((section) => (
-                <PolicyAccordionItem key={section.id} section={section} />
-              ))}
-              {/* Restored the Amendments section */}
-              <PolicyAccordionItem
-                section={{
-                  title: 'AMENDMENTS TO THIS POLICY',
-                  content: amendmentsContent,
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CSR Committee */}
-      <section className="py-24 bg-background border-t border-border/30">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex flex-col lg:flex-row justify-between items-end gap-12">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12">
             <div>
-              <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-8">Governance</h2>
+              <h2 className="text-xs font-black text-primary tracking-[0.4em] uppercase mb-4">Advisory Board</h2>
               <h3 className="text-4xl font-bold text-foreground tracking-tight">CSR Committee</h3>
             </div>
-            <div className="flex flex-wrap gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
               {csrCommittee.map((member) => (
-                <div key={member.name} className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-foreground text-sm uppercase tracking-wider">{member.name}</div>
-                    <div className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{member.designation}</div>
-                  </div>
+                <div key={member.name} className="space-y-2">
+                  <div className="text-[10px] font-bold text-primary uppercase tracking-[0.3em]">{member.designation}</div>
+                  <div className="font-bold text-xl text-foreground tracking-tighter uppercase leading-none">{member.name}</div>
+                  <div className="w-8 h-[1px] bg-border" />
                 </div>
               ))}
             </div>
@@ -350,6 +433,16 @@ const CSR = () => {
 
       <Footer />
       <FloatingButtons />
+
+      {/* Overlay Interaction */}
+      <AnimatePresence>
+        {selectedCategory && (
+          <ActivityOverlay 
+            category={selectedCategory} 
+            onClose={() => setSelectedCategory(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
