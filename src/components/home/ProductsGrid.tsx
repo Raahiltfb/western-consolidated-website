@@ -37,7 +37,7 @@ export const ProductsGrid = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productCatalogue.map((category, index) => (
+          {productCatalogue.slice(0, 5).map((category, index) => (
             <motion.div
               key={category.id}
               initial={{ opacity: 0, y: 20 }}

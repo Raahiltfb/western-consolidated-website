@@ -6,9 +6,6 @@ import { FloatingButtons } from '@/components/layout/FloatingButtons';
 import { 
   Heart, 
   GraduationCap, 
-  User, 
-  Calendar, 
-  Droplets, 
   ChevronDown, 
   Download, 
   X,
@@ -302,12 +299,40 @@ const CSR = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        {/* Desktop Background */}
+        <div className="absolute top-0 right-0 bottom-0 w-[70%] z-0 hidden md:block">
+          <div 
+            className="absolute inset-0 z-0 opacity-100 dark:opacity-100"
+            style={{
+              backgroundImage: 'url("/images/csr-bg.jpeg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center left',
+              maskImage: 'linear-gradient(to right, transparent, black 40%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
+            }}
+          />
+          {/* Max Brightness Reduction: Solid overlays */}
+          <div className="absolute inset-0 bg-white/5 dark:bg-black/60 z-10" />
+        </div>
+
+        {/* Mobile background: Very Dim */}
+        <div className="absolute inset-0 z-0 md:hidden opacity-10">
+           <div 
+            className="absolute inset-0 brightness-[0.4]"
+            style={{
+              backgroundImage: 'url("/images/csr-bg.jpeg")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl"
+            className="max-w-3xl"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="line-accent" />
@@ -315,11 +340,11 @@ const CSR = () => {
                 Social Impact
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 tracking-tighter">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
               Corporate <br />
               <span className="text-primary">Social Responsibility</span>
             </h1>
-            <p className="text-foreground-muted text-xl leading-relaxed max-w-2xl font-light">
+            <p className="text-foreground-muted text-lg leading-relaxed font-medium dark:font-normal drop-shadow-sm md:bg-background/5 p-1 -ml-1 rounded-sm">
               At Western Consolidated, our success is measured by the strength of the communities we build. We go beyond compliance to create tangible, lasting impact through strategic partnerships and transparent governance.
             </p>
           </motion.div>

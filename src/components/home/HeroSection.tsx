@@ -239,7 +239,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     
                     <div>
                       <div className="text-3xl md:text-4xl font-bold text-white">60+</div>
-                      <div className="text-white/50 text-xs font-bold md:text-sm">Years Engineering</div>
+                      <div className="text-white/50 text-xs font-bold md:text-sm">Years</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>

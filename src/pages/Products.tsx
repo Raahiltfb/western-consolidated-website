@@ -19,15 +19,16 @@ const Products = () => {
       <Navbar isVisible={true} />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-background relative overflow-hidden">
+      <section className="pt-36 pb-20 bg-background relative overflow-hidden">
         {/* Desktop Background */}
         <div className="absolute top-0 right-0 bottom-0 w-[100%] z-0 hidden md:block">
           <div 
             className="absolute inset-0 z-0 opacity-100 dark:opacity-70 transition-opacity duration-500"
             style={{
               backgroundImage: 'url("/images/product-bg.jpg")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center right',
+              backgroundSize: 'contain',
+              backgroundPosition: 'right 120%',
+              backgroundRepeat: 'no-repeat',
               maskImage: 'linear-gradient(to right, transparent, black 40%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)'
             }}
@@ -42,8 +43,9 @@ const Products = () => {
             className="absolute inset-0 brightness-[0.3]"
             style={{
               backgroundImage: 'url("/images/product-bg.jpg")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              backgroundPosition: 'center 95%',
+              backgroundRepeat: 'no-repeat',
             }}
           />
         </div>
@@ -67,7 +69,7 @@ const Products = () => {
               <span className="text-primary">For Every Need</span>
             </h1>
             {/* Added drop-shadow and backdrop-blur for maximum legibility */}
-            <p className="text-foreground-muted text<-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm p-2 -ml-2 rounded-lg">
+            <p className="text-foreground-muted text-lg leading-relaxed max-w-2xl font-medium dark:font-normal drop-shadow-sm p-2 -ml-2 rounded-lg">
               From compact 7.5 kVA units to powerful<br></br> 1500 kVA generators,<br></br> 
               explore our comprehensive range of diesel<br></br> and natural gas power solutions.
             </p>
