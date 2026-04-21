@@ -184,7 +184,7 @@ const Career = () => {
                 </Button>
               </a>
               <Link to="/contact">
-                <Button variant="outline" size="lg" className="px-12 border-primary/20 hover:bg-primary/5">
+                <Button variant="heroOutline" size="lg" className="px-12 border-primary/20 hover:bg-primary/5">
                   General Inquiry
                 </Button>
               </Link>
