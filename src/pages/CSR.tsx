@@ -105,11 +105,6 @@ const activityCategories = [
         content: 'Based in Haldwani, NAB is a specialized non-profit established in 2003 to empower children with visual impairments. It operates as a residential boarding school providing CBSE education, vocational training, and essential rehabilitation services.',
         images: [],
       },
-      {
-        name: 'Dayanand Primary School',
-        content: 'Support and donations provided to facilitate primary education and infrastructure improvements for students.',
-        images: ['/images/csrimage/dayanand.jpg'],
-      }
     ]
   },
   {
