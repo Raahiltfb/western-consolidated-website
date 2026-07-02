@@ -7,14 +7,71 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Phone, Mail, MapPin, Building2, Factory, ArrowRight, CheckCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Building2, Factory, ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form Field States
+  const [fullName, setFullName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [category, setCategory] = useState('');
+  const [power, setPower] = useState('');
+  const [city, setCity] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    // Grouping the new fields into the "Comment" section so the old mail.php captures them cleanly
+    const fullComment = `
+Company Name: ${companyName || 'Not Provided'}
+Product Category: ${category || 'Not Provided'}
+Power Requirement: ${power || 'Not Provided'}
+Location / City: ${city}
+
+Message:
+${message}
+    `.trim();
+
+    // Map your states to the exact capitalized fields the old HTML used
+    const formData = new FormData();
+    formData.append('Name', fullName);
+    formData.append('Email', email);
+    formData.append('Phone', phone);
+    formData.append('Subject', companyName ? `Industrial Enquiry from ${companyName}` : 'New Website Enquiry');
+    formData.append('Comment', fullComment);
+
+    try {
+      const response = await fetch('/mail.php', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        // Clear all states
+        setFullName('');
+        setCompanyName('');
+        setEmail('');
+        setPhone('');
+        setCategory('');
+        setPower('');
+        setCity('');
+        setMessage('');
+      } else {
+        alert('There was a problem sending your message. Please try again or contact us directly.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Network error. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,6 +142,8 @@ const Contact = () => {
                       <Input 
                         placeholder="Enter your name" 
                         required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         className="bg-background border-border"
                       />
                     </div>
@@ -92,6 +151,8 @@ const Contact = () => {
                       <label className="text-sm font-medium text-foreground">Company Name</label>
                       <Input 
                         placeholder="Enter company name"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
                         className="bg-background border-border"
                       />
                     </div>
@@ -104,6 +165,8 @@ const Contact = () => {
                         type="email" 
                         placeholder="Enter your email" 
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="bg-background border-border"
                       />
                     </div>
@@ -113,6 +176,8 @@ const Contact = () => {
                         type="tel" 
                         placeholder="Enter phone number" 
                         required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         className="bg-background border-border"
                       />
                     </div>
@@ -121,16 +186,16 @@ const Contact = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Product Category</label>
-                      <Select>
+                      <Select value={category} onValueChange={(value) => setCategory(value)}>
                         <SelectTrigger className="bg-background border-border">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="standard">7.5–750 kVA & HHP</SelectItem>
-                          <SelectItem value="hybrid">Hybrid Series</SelectItem>
-                          <SelectItem value="optiprime">Optiprime Series</SelectItem>
-                          <SelectItem value="png">PNG Range</SelectItem>
-                          <SelectItem value="sentinel">Sentinel Range</SelectItem>
+                          <SelectItem value="7.5–750 kVA & HHP">7.5–750 kVA & HHP</SelectItem>
+                          <SelectItem value="Hybrid Series">Hybrid Series</SelectItem>
+                          <SelectItem value="Optiprime Series">Optiprime Series</SelectItem>
+                          <SelectItem value="PNG Range">PNG Range</SelectItem>
+                          <SelectItem value="Sentinel Range">Sentinel Range</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -138,6 +203,8 @@ const Contact = () => {
                       <label className="text-sm font-medium text-foreground">Power Requirement (kVA)</label>
                       <Input 
                         placeholder="e.g., 250 kVA"
+                        value={power}
+                        onChange={(e) => setPower(e.target.value)}
                         className="bg-background border-border"
                       />
                     </div>
@@ -148,6 +215,8 @@ const Contact = () => {
                     <Input 
                       placeholder="Enter your city" 
                       required
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
                       className="bg-background border-border"
                     />
                   </div>
@@ -156,13 +225,24 @@ const Contact = () => {
                     <label className="text-sm font-medium text-foreground">Message / Requirements</label>
                     <Textarea 
                       placeholder="Describe your requirements..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       className="bg-background border-border min-h-[120px]"
                     />
                   </div>
 
-                  <Button type="submit" variant="hero" size="lg" className="w-full group">
-                    Enquiry
-                    <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  <Button type="submit" variant="hero" size="lg" className="w-full group" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        Sending...
+                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                      </>
+                    ) : (
+                      <>
+                        Enquiry
+                        <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
                   </Button>
                 </form>
               )}
@@ -207,12 +287,17 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
-                    <a href="mailto:response@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block">
-                      response@westernconsolidated.com
-                    </a>
-                    <a href="mailto:western@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block">
-                      western@westernconsolidated.com
-                    </a>
+                    <div className="space-y-2">
+                      <div>
+                        <a href="mailto:response@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block font-medium">
+                          response@westernconsolidated.com
+                        </a>
+                        <span className="text-xs text-foreground-muted block mt-0.5 font-mono">Mob: +91 9339570035</span>
+                      </div>
+                      <a href="mailto:western@westernconsolidated.com" className="text-foreground-muted hover:text-primary transition-colors block pt-1">
+                        western@westernconsolidated.com
+                      </a>
+                    </div>
                   </div>
                 </div>
                 
@@ -222,8 +307,9 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
-                    <div className="text-foreground-muted">
-                      (033)-22376813 / 22378962
+                    <div className="text-foreground-muted font-mono text-sm leading-relaxed">
+                      (033)-22376813<br />
+                      (033)-22378962
                     </div>
                   </div>
                 </div>
@@ -262,7 +348,6 @@ const Contact = () => {
                   city: 'Mumbai',
                   address: 'Western Consolidated Private Limited\nF-102, Remi Biz Court, Plot No 9\nShah Industrial Estate, Veera Desai Road,\nAndheri (W), Mumbai, 400053,\nOpposite Supreme Chambers',
                 },
-
               ].map((branch, index) => (
                 <motion.div
                   key={branch.city}
@@ -282,7 +367,7 @@ const Contact = () => {
                         {branch.address}
                       </p>
                       {branch.phone && (
-                        <div className="flex items-center gap-2 text-sm text-foreground-muted">
+                        <div className="flex items-center gap-2 text-sm text-foreground-muted font-mono">
                           <Phone size={14} className="text-primary" />
                           <span>{branch.phone}</span>
                         </div>
@@ -325,9 +410,14 @@ const Contact = () => {
                       Phase 1 Sitarganj, Dist. Udham Singh Nagar,<br />
                       262405, Uttarakhand
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-foreground-muted">
-                      <Phone size={16} className="text-primary" />
-                      <span>05948-256199 / 256200</span>
+                    <div className="mt-4 flex flex-col gap-1.5 text-foreground-muted font-mono text-sm">
+                      <div className="flex items-center gap-2">
+                        <Phone size={14} className="text-primary" />
+                        <span>Mob: +91 9720105262</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-foreground-muted/80 pl-5">
+                        <span>Tel: 05948-256199 / 256200</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -340,7 +430,7 @@ const Contact = () => {
                     <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
                     <a 
                       href="mailto:wcplsitarganj@westernconsolidated.com" 
-                      className="text-foreground-muted hover:text-primary transition-colors"
+                      className="text-foreground-muted hover:text-primary transition-colors font-medium block"
                     >
                       wcplsitarganj@westernconsolidated.com
                     </a>
@@ -352,90 +442,48 @@ const Contact = () => {
         </div>
       </section>
 
-{/* Map Section */}
-
+      {/* Map Section */}
       <section className="py-16 bg-background-secondary">
-
         <div className="container mx-auto px-4 lg:px-8">
-
           <motion.div
-
             initial={{ opacity: 0, y: 20 }}
-
             whileInView={{ opacity: 1, y: 0 }}
-
             viewport={{ once: true }}
-
             transition={{ duration: 0.6 }}
-
           >
-
             <div className="flex items-center gap-3 mb-8">
-
               <MapPin className="w-6 h-6 text-primary" />
-
               <h2 className="text-2xl font-bold text-foreground">Location</h2>
-
             </div>
-
             
-
             <div className="card-industrial rounded-lg overflow-hidden">
-
               <div className="aspect-[21/9] w-full">
-
                 <iframe
-
                   src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7368.549507369673!2d88.354976!3d22.568825!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a91a13a94f%3A0xf2368156fc970667!2sWestern%20Consolidated%20Private%20Limited!5e0!3m2!1sen!2sus!4v1770465156684!5m2!1sen!2sus"
-
                   width="100%"
-
                   height="100%"
-
                   style={{ border: 0 }}
-
                   allowFullScreen
-
                   loading="lazy"
-
                   referrerPolicy="no-referrer-when-downgrade"
-
                   title="WCPL Location"
-
                   className="w-full h-full"
-
                 />
-
               </div>
-
               <div className="p-4 bg-card border-t border-border">
-
                 <a
-
                   href="https://maps.app.goo.gl/ketZuTgSnT95jrjn9"
-
                   target="_blank"
-
                   rel="noopener noreferrer"
-
                   className="text-primary hover:text-primary-hover transition-colors text-sm font-medium inline-flex items-center gap-2"
-
                 >
-
                   <MapPin size={16} />
-
                   Open in Google Maps
-
                 </a>
-
               </div>
-
             </div>
-
           </motion.div>
-
         </div>
-
       </section>
 
       <Footer />
