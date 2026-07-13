@@ -147,7 +147,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* LEFT SIDE */}
-            <div className="space-y-4 pt-4 md:pt-0">
+            <div className="space-y-4 pt-2 md:pt-0 -mt-4 md:mt-0">
               <AnimatePresence>
                 {showContent && (
                   <motion.div
@@ -191,7 +191,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4 mb-8 md:mb-0"
+                    className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 mb-8 md:mb-0"
                   >
                     <Link to="/products" className="w-full sm:w-auto">
                       <Button variant="hero" size="lg" className="group w-full sm:w-auto">
@@ -221,7 +221,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
-                    className="hidden md:flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
+                    className="hidden md:flex items-center gap-6 md:gap-8 mt-8 md:mt-12 pt-8 border-t border-white/20"
                   >
                     
                     <div>
