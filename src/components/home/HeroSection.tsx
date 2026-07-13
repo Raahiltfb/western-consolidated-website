@@ -109,12 +109,12 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           className="md:hidden w-full h-full object-cover brightness-110 contrast-110 scale-[1.1]"
         />
 
-        {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/0 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-black/0" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(255,255,255,0.1),transparent_100%)]" />
+        {/* Cinematic gradient overlays - readability layer for headline/CTAs */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(255,255,255,0.08),transparent_70%)]" />
       </div>
+
 
       {/* Assembly Animation Overlay */}
       <AnimatePresence>
@@ -147,18 +147,24 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* LEFT SIDE */}
-            <div className="space-y-4 pt-4 md:pt-0">
+            <div className="space-y-8 pt-4 md:pt-0">
               <AnimatePresence>
                 {showContent && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="mt-1 md:mt-4"
                   >
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                    {/* Mobile headline: stacked, editorial, tight leading */}
+                    <h1 className="md:hidden text-[3.75rem] xs:text-[4.25rem] font-black leading-[0.95] tracking-tight uppercase">
+                      <span className="block text-white">Extensive</span>
+                      <span className="block text-primary">Power</span>
+                      <span className="block text-white">Solutions</span>
+                    </h1>
+
+                    {/* Desktop headline: original two-line format preserved */}
+                    <h1 className="hidden md:block text-6xl lg:text-7xl font-bold leading-tight">
                       <span className="text-white">Extensive </span>
-                      
                       <span className="text-primary">Power</span>
                       <br />
                       <span className="text-white">Solutions</span>
@@ -170,42 +176,10 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
               <AnimatePresence>
                 {showContent && (
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex items-center gap-3 py-1"
-                  >
-                    <div className="line-accent bg-primary h-[2px] w-12" />
-                    <span className="text-primary font-bold tracking-[0.15em] text-sm uppercase whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                      
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="bg-black/40 backdrop-blur-sm border-l-4 border-primary/60 p-5 rounded-r-lg max-w-lg mt-4"
-                  >
-                    <p className="text-white text-lg font-medium leading-relaxed [text-shadow:_0_1px_8px_rgb(0_0_0_/_80%)]">
-                      Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
-                      Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-wrap gap-4 pt-4"
+                    className="flex flex-wrap gap-4"
                   >
                     <Link to="/products">
                       <Button variant="hero" size="lg" className="group">
@@ -228,33 +202,34 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                 )}
               </AnimatePresence>
 
+              {/* Stats: desktop only */}
               <AnimatePresence>
                 {showContent && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
-                    className="flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
+                    className="hidden md:flex items-center gap-8 pt-8 border-t border-white/20"
                   >
-                    
                     <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">60+</div>
-                      <div className="text-white/50 text-xs font-bold md:text-sm">Years</div>
+                      <div className="text-4xl font-bold text-white">60+</div>
+                      <div className="text-white/50 text-sm font-bold">Years</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">100,000+</div>
-                      <div className="text-white/50 text-xs font-bold md:text-sm">Installations</div>
+                      <div className="text-4xl font-bold text-white">100,000+</div>
+                      <div className="text-white/50 text-sm font-bold">Installations</div>
                     </div>
                     <div className="w-px h-10 bg-white/20" />
                     <div>
-                      <div className="text-3xl md:text-4xl font-bold text-white">24/7</div>
-                      <div className="text-white/50 text-xs font-bold md:text-sm">Support</div>
+                      <div className="text-4xl font-bold text-white">24/7</div>
+                      <div className="text-white/50 text-sm font-bold">Support</div>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+
 
             {/* RIGHT SIDE */}
             <AnimatePresence>
@@ -280,27 +255,8 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <AnimatePresence>
-        {animationPhase === 'complete' && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2"
-            >
-              <div className="w-1.5 h-3 bg-white/40 rounded-full" />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* KOEL Badge */}
+
       <AnimatePresence>
         {showContent && (
           <motion.div
