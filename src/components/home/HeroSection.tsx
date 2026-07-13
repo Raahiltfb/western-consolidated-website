@@ -190,37 +190,21 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="bg-black/40 backdrop-blur-sm border-l-4 border-primary/60 p-5 rounded-r-lg max-w-lg mt-4"
-                  >
-                    <p className="text-white text-lg font-medium leading-relaxed [text-shadow:_0_1px_8px_rgb(0_0_0_/_80%)]">
-                      Authorized GOEM of Kirloskar Oil Engines Ltd, delivering precision-engineered diesel generator sets from 3 kVA to 1010 kVA. 
-                      Trusted by industrial, cellular, and private customers across India for mission-critical power solutions and emergency backup systems.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {showContent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-wrap gap-4 pt-4"
+                    className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4 mb-8 md:mb-0"
                   >
-                    <Link to="/products">
-                      <Button variant="hero" size="lg" className="group">
+                    <Link to="/products" className="w-full sm:w-auto">
+                      <Button variant="hero" size="lg" className="group w-full sm:w-auto">
                         Explore Generator Sets
                         <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
 
-                    <Link to="/enquiry">
+                    <Link to="/enquiry" className="w-full sm:w-auto">
                       <Button
                         variant="outline"
                         size="lg"
-                        className="bg-white text-primary border-white hover:bg-white/90 hover:text-primary/80 transition-all font-bold shadow-lg"
+                        className="w-full sm:w-auto bg-white text-primary border-white hover:bg-white/90 hover:text-primary/80 transition-all font-bold shadow-lg"
                       >
                         <FileText size={18} className="mr-2" />
                         Get Quote
@@ -229,6 +213,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+
 
               <AnimatePresence>
                 {showContent && (
