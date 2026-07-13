@@ -221,7 +221,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
-                    className="flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
+                    className="hidden md:flex items-center gap-6 md:gap-8 pt-8 border-t border-white/20"
                   >
                     
                     <div>
@@ -241,6 +241,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+
             </div>
 
             {/* RIGHT SIDE */}
