@@ -156,9 +156,10 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="mt-1 md:mt-4"
                   >
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                      <span className="text-white">Extensive </span>
-                      
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] md:leading-tight">
+                      <span className="text-white">Extensive</span>
+                      <br className="md:hidden" />
+                      <span className="text-white hidden md:inline"> </span>
                       <span className="text-primary">Power</span>
                       <br />
                       <span className="text-white">Solutions</span>
@@ -166,6 +167,7 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+
 
               <AnimatePresence>
                 {showContent && (
