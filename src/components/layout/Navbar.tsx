@@ -67,27 +67,30 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
             <div className="container mx-auto px-4 lg:px-8">
               <div className="flex items-center justify-between h-20">
 
-                {/* Hamburger */}
-                <button
-                  onClick={() => setIsMenuOpen(true)}
-                  className={`p-2 transition-colors ${
-                    effectiveTheme === 'dark'
-                      ? 'text-white hover:text-primary'
-                      : 'text-foreground hover:text-primary'
-                  }`}
-                  aria-label="Open menu"
-                >
-                  <Menu size={24} />
-                </button>
+                {/* Left Header Group: Hamburger & Logo grouped closer */}
+                <div className="flex items-center gap-1 md:gap-4">
+                  {/* Hamburger */}
+                  <button
+                    onClick={() => setIsMenuOpen(true)}
+                    className={`p-2 transition-colors ${
+                      effectiveTheme === 'dark'
+                        ? 'text-white hover:text-primary'
+                        : 'text-foreground hover:text-primary'
+                    }`}
+                    aria-label="Open menu"
+                  >
+                    <Menu size={24} />
+                  </button>
 
-                {/* Logo */}
-                <Link to="/" className="flex items-center">
-                  <img
-                    src={logo}
-                    alt="Western Consolidated"
-                    className="h-16 w-auto transition-opacity duration-300"
-                  />
-                </Link>
+                  {/* Logo */}
+                  <Link to="/" className="flex items-center">
+                    <img
+                      src={logo}
+                      alt="Western Consolidated"
+                      className="h-10 md:h-16 w-auto transition-opacity duration-300"
+                    />
+                  </Link>
+                </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center gap-1">
@@ -128,7 +131,9 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
                     href="https://wa.me/919876543210"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                    className={`items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                      isAtHero ? 'flex' : 'hidden lg:flex'
+                    } ${
                       effectiveTheme === 'dark'
                         ? 'text-white/70 hover:text-[#25D366]'
                         : 'text-foreground-muted hover:text-[#25D366]'
@@ -140,7 +145,9 @@ export const Navbar = ({ isVisible = true }: NavbarProps) => {
 
                   <a
                     href="tel:+919876543210"
-                    className={`hidden lg:flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                    className={`items-center justify-center w-9 h-9 rounded-full transition-colors ${
+                      isAtHero ? 'flex' : 'hidden lg:flex'
+                    } ${
                       effectiveTheme === 'dark'
                         ? 'text-white/70 hover:text-primary'
                         : 'text-foreground-muted hover:text-primary'

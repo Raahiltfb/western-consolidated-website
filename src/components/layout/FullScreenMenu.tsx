@@ -42,7 +42,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
           </div>
 
           {/* Close Button */}
-          <button 
+          <button
             onClick={onClose}
             className="absolute top-6 right-6 lg:top-10 lg:right-10 p-2 text-muted-foreground hover:text-primary transition-all z-50"
             aria-label="Close menu"
@@ -52,7 +52,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
 
           <div className="container mx-auto px-6 lg:px-20 min-h-screen flex flex-col justify-center py-20 lg:py-0">
             <div className="grid lg:grid-cols-[1fr_450px] gap-12 lg:gap-24 items-start">
-              
+
               {/* Left: Navigation Section */}
               <nav className="flex flex-col border-l border-border transition-colors">
                 {menuLinks.map((link, index) => (
@@ -104,7 +104,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                   <h3 className="flex items-center gap-3 text-xs font-bold tracking-[0.3em] text-muted-foreground mb-8 uppercase">
                     <span className="w-1 h-5 bg-primary" /> Quick Contact
                   </h3>
-                  
+
                   <div className="space-y-8">
                     {/* Address */}
                     <div className="space-y-3">

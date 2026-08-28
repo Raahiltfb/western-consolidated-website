@@ -9,6 +9,7 @@ export const EnquiryWidget = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const location = useLocation();
   const isEnquiryPage = location.pathname === '/enquiry';
+  const isPortalPage = location.pathname.startsWith('/portal');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,7 +19,7 @@ export const EnquiryWidget = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (isEnquiryPage) return null;
+  if (isEnquiryPage || isPortalPage) return null;
 
   return (
     <AnimatePresence>

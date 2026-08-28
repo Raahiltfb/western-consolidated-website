@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WCPL Order Booking Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1b201d;
+      --paper: #f5f6f3;
+      --card: #ffffff;
+      --line: #dce1da;
+      --green: #156e43;
+      --green-dark: #0e5432;
+      --green-soft: #e7f1ea;
+      --amber: #b7791f;
+      --amber-soft: #faf3e3;
+      --red: #a63a2b;
+      --red-soft: #f9ece9;
+      --muted: #6a716c;
+      --radius: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html,
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.45
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+      font-variant-numeric: tabular-nums
+    }
+
+    header {
+      background: var(--ink);
+      color: #f2f4f1;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    header h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    header .spacer {
+      flex: 1
+    }
+
+    .view-seg {
+      display: flex;
+      border: 1px solid #3a423d;
+      border-radius: 6px;
+      overflow: hidden
+    }
+
+    .view-seg button {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #c8d4cc;
+      font: inherit;
+      font-weight: 500;
+      padding: 7px 16px;
+      cursor: pointer;
+      font-size: 13.5px
+    }
+
+    .view-seg button.active {
+      background: var(--green);
+      color: #fff
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 20px 60px
+    }
+
+    .wrap-narrow {
+      max-width: 640px
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 22px
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px
+    }
+
+    .stat .label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: 6px
+    }
+
+    .stat .value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 21px;
+      font-weight: 500
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin-bottom: 22px;
+      overflow: hidden
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa
+    }
+
+    .panel-head h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 19px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--green-dark)
+    }
+
+    form.grid {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #3c443f
+    }
+
+    .field label .opt {
+      font-weight: 400;
+      color: var(--muted)
+    }
+
+    .field input,
+    .field select {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 10px 10px;
+      font: inherit;
+      background: #fff;
+      width: 100%
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: 2px solid var(--green);
+      outline-offset: 0;
+      border-color: var(--green)
+    }
+
+    .span2 {
+      grid-column: span 2
+    }
+
+    .form-foot {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .calc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .calc b {
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 9px 18px;
+      font-weight: 600
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark)
+    }
+
+    .btn-primary:disabled {
+      opacity: .6;
+      cursor: default
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink)
+    }
+
+    .btn-ghost:hover {
+      background: #f0f2ee
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12.5px;
+      font-weight: 500
+    }
+
+    /* dealer confirmation */
+    .confirm {
+      padding: 40px 24px;
+      text-align: center
+    }
+
+    .confirm .tick {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 14px
+    }
+
+    .confirm h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 6px
+    }
+
+    .confirm .ref {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 15px;
+      background: #f0f2ee;
+      border-radius: 4px;
+      display: inline-block;
+      padding: 6px 14px;
+      margin: 10px 0 4px
+    }
+
+    .confirm p {
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-top: 8px
+    }
+
+    .confirm button {
+      margin-top: 18px
+    }
+
+    /* pin gate */
+    .pin-card {
+      max-width: 340px;
+      margin: 60px auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      text-align: center
+    }
+
+    .pin-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 21px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 4px
+    }
+
+    .pin-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px
+    }
+
+    .pin-card input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: .4em
+    }
+
+    .pin-card input:focus {
+      outline: 2px solid var(--green)
+    }
+
+    .pin-err {
+      color: var(--red);
+      font-size: 12.5px;
+      margin-top: 8px;
+      min-height: 16px
+    }
+
+    .pin-card button {
+      width: 100%;
+      margin-top: 12px
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap
+    }
+
+    .toolbar input[type=search] {
+      flex: 1;
+      min-width: 200px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 9px 12px;
+      font: inherit;
+      background: #fff
+    }
+
+    .toolbar input[type=search]:focus {
+      outline: 2px solid var(--green);
+      border-color: var(--green)
+    }
+
+    .seg {
+      display: flex;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff
+    }
+
+    .seg button {
+      border: 0;
+      border-radius: 0;
+      background: #fff;
+      font-weight: 500;
+      padding: 8px 14px;
+      font-size: 13.5px;
+      color: var(--muted)
+    }
+
+    .seg button.active {
+      background: var(--green);
+      color: #fff
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius)
+    }
+
+    thead th {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa;
+      white-space: nowrap
+    }
+
+    tbody td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #eceee9;
+      vertical-align: top
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0
+    }
+
+    tbody tr:hover {
+      background: #fafbf8
+    }
+
+    td.num,
+    th.num {
+      text-align: right
+    }
+
+    .month-row td {
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 7px 12px
+    }
+
+    .month-row .mtotal {
+      float: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none
+    }
+
+    .customer {
+      font-weight: 500
+    }
+
+    .phone,
+    .small-muted {
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 99px;
+      padding: 2.5px 10px
+    }
+
+    .pill.open {
+      background: var(--amber-soft);
+      color: var(--amber)
+    }
+
+    .pill.done {
+      background: var(--green-soft);
+      color: var(--green-dark)
+    }
+
+    .overdue {
+      color: var(--red);
+      font-weight: 600
+    }
+
+    .overdue-tag {
+      font-size: 11px;
+      color: var(--red);
+      background: var(--red-soft);
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-left: 6px;
+      font-weight: 600
+    }
+
+    .actions {
+      white-space: nowrap
+    }
+
+    .actions button {
+      margin-left: 4px
+    }
+
+    .empty {
+      padding: 44px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius)
+    }
+
+    .empty b {
+      color: var(--ink)
+    }
+
+    .note {
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: var(--muted)
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      opacity: 0;
+      transition: opacity .25s;
+      pointer-events: none;
+      z-index: 50
+    }
+
+    .toast.show {
+      opacity: 1
+    }
+
+    .loading {
+      padding: 50px;
+      text-align: center;
+      color: var(--muted)
+    }
+
+    .settings-grid {
+      padding: 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap
+    }
+
+    .settings-grid .field {
+      min-width: 180px
+    }
+
+    @media (max-width:860px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .table-scroll {
+        overflow-x: auto
+      }
+
+      table {
+        min-width: 960px
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .toast {
+        transition: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>WCPL Order Booking Portal</h1>
+    <span class="spacer"></span>
+    <div class="view-seg" role="group" aria-label="View">
+      <button id="tab-dealer" class="active">Dealer</button>
+      <button id="tab-admin">Admin</button>
+    </div>
+  </header>
+
+  <!-- ================= DEALER VIEW ================= -->
+  <div class="wrap wrap-narrow" id="dealer-view">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Book an order</h2>
+      </div>
+      <form class="grid" id="dealer-form">
+        <div class="field span2">
+          <label for="d-dealer">Dealer name</label>
+          <input id="d-dealer" required autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="d-kva">kVA rating</label>
+          <select id="d-kva" required>
+            <option value="" disabled selected>Select rating</option>
+            <optgroup label="3-Phase">
+              <option>15 (3Ph)</option>
+              <option>20 (3Ph)</option>
+              <option>25 (3Ph)</option>
+              <option>30 (3Ph)</option>
+              <option>35 (3Ph)</option>
+              <option>40 (3Ph)</option>
+              <option>45 (3Ph)</option>
+              <option>58.5 (3Ph)</option>
+              <option>82.5 (3Ph)</option>
+              <option>125 (3Ph)</option>
+              <option>160 (3Ph)</option>
+              <option>200 (3Ph)</option>
+              <option>250-SB (3Ph)</option>
+              <option>250 (3Ph)</option>
+              <option>320 (3Ph)</option>
+              <option>400 (3Ph)</option>
+              <option>500 (3Ph)</option>
+              <option>625 (3Ph)</option>
+              <option>750 (3Ph)</option>
+            </optgroup>
+            <optgroup label="1-Phase">
+              <option>15 (1Ph)</option>
+              <option>20 (1Ph)</option>
+              <option>25 (1Ph)</option>
+              <option>30 (1Ph)</option>
+              <option>35 (1Ph)</option>
+              <option>40 (1Ph)</option>
+              <option>45 (1Ph)</option>
+              <option>58.5 (1Ph)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label for="d-sets">No. of sets</label>
+          <input id="d-sets" type="number" min="1" step="1" value="1" required>
+        </div>
+        <div class="field span2">
+          <label for="d-customer">Customer name</label>
+          <input id="d-customer" required autocomplete="off">
+        </div>
+        <div class="field span2">
+          <label for="d-phone">Customer phone <span class="opt">(optional)</span></label>
+          <input id="d-phone" type="tel" autocomplete="off" placeholder="10-digit mobile">
+        </div>
+        <div class="field">
+          <label for="d-price">Price per set (&#8377;) <span class="opt">(basic, without GST)</span></label>
+          <input id="d-price" type="number" min="0" step="1" required placeholder="e.g. 550000">
+        </div>
+        <div class="field">
+          <label for="d-date">Projected dispatch date</label>
+          <input id="d-date" type="date" required>
+        </div>
+        <div class="form-foot">
+          <button type="submit" class="btn-primary" id="d-submit">Submit booking</button>
+          <span class="calc" id="d-calc"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- dealer confirmation -->
+  <div class="wrap wrap-narrow" id="dealer-done" style="display:none">
+    <div class="panel">
+      <div class="confirm">
+        <div class="tick">&#10003;</div>
+        <h3>Booking recorded</h3>
+        <div id="done-summary" class="small-muted"></div>
+        <div class="ref" id="done-ref"></div>
+        <p>Quote this reference for any changes or follow-up.</p>
+        <button class="btn-primary" id="done-again">Book another order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN PIN GATE ================= -->
+  <div id="admin-gate" style="display:none">
+    <div class="pin-card">
+      <h3>Admin access</h3>
+      <p>Enter the admin PIN to view the order book.</p>
+      <input id="pin-input" type="password" inputmode="numeric" placeholder="PIN" autocomplete="off">
+      <div class="pin-err" id="pin-err"></div>
+      <button class="btn-primary" id="pin-btn">Unlock</button>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <div class="wrap" id="admin-view" style="display:none">
+
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Open bookings</div>
+        <div class="value" id="st-count">–</div>
+      </div>
+      <div class="stat">
+        <div class="label">Sets pending dispatch</div>
+        <div class="value" id="st-sets">–</div>
+      </div>
+      <div class="stat">
+        <div class="label">Open order value</div>
+        <div class="value" id="st-value">–</div>
+      </div>
+      <div class="stat">
+        <div class="label">Sets due this month</div>
+        <div class="value" id="st-due">–</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search dealer, customer or kVA&hellip;"
+        aria-label="Search bookings">
+      <div class="seg" role="group" aria-label="Status filter">
+        <button data-filter="open" class="active">Open</button>
+        <button data-filter="dispatched">Dispatched</button>
+        <button data-filter="all">All</button>
+      </div>
+      <button class="btn-ghost" id="refresh-btn">Refresh</button>
+      <button class="btn-ghost" id="export-btn">Export CSV</button>
+    </div>
+
+    <div id="table-area">
+      <div class="loading">Loading order book&hellip;</div>
+    </div>
+
+    <!-- admin edit panel -->
+    <div class="panel" id="edit-panel" style="display:none;margin-top:22px">
+      <div class="panel-head">
+        <h2>Edit booking <span class="mono" id="edit-ref" style="font-size:13px;color:var(--muted)"></span></h2>
+        <button class="btn-ghost btn-sm" id="edit-cancel">Cancel</button>
+      </div>
+      <form class="grid" id="edit-form">
+        <div class="field span2"><label for="e-dealer">Dealer name</label><input id="e-dealer" required></div>
+        <div class="field"><label for="e-kva">kVA rating</label><select id="e-kva" required></select></div>
+        <div class="field"><label for="e-sets">No. of sets</label><input id="e-sets" type="number" min="1" step="1"
+            required></div>
+        <div class="field span2"><label for="e-customer">Customer name</label><input id="e-customer" required></div>
+        <div class="field span2"><label for="e-phone">Customer phone <span class="opt">(optional)</span></label><input
+            id="e-phone" type="tel"></div>
+        <div class="field"><label for="e-price">Price per set (&#8377;) <span class="opt">(basic, without
+              GST)</span></label><input id="e-price" type="number" min="0" step="1" required></div>
+        <div class="field"><label for="e-date">Projected dispatch date</label><input id="e-date" type="date" required>
+        </div>
+        <div class="form-foot"><button type="submit" class="btn-primary">Save changes</button></div>
+      </form>
+    </div>
+
+    <!-- settings -->
+    <div class="panel" style="margin-top:22px">
+      <div class="panel-head">
+        <h2>Settings</h2>
+      </div>
+      <div class="settings-grid">
+        <div class="field">
+          <label for="new-pin">Change admin PIN</label>
+          <input id="new-pin" type="password" inputmode="numeric" placeholder="New PIN" autocomplete="off">
+        </div>
+        <button class="btn-ghost" id="save-pin">Update PIN</button>
+      </div>
+    </div>
+
+    <p class="note">Bookings are grouped by projected dispatch month. Marking a booking as dispatched keeps it on record
+      for reconciliation against dispatch entries. Use Refresh to pull in bookings submitted by the team since the page
+      loaded.</p>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    /* ---------- constants ---------- */
+    const ORD_PREFIX = 'ord:';
+    const PIN_KEY = 'cfg:admin_pin';
+    const DEFAULT_PIN = '2580';
+    const KVA_OPTIONS = {
+      '3-Phase': ['15 (3Ph)', '20 (3Ph)', '25 (3Ph)', '30 (3Ph)', '35 (3Ph)', '40 (3Ph)', '45 (3Ph)', '58.5 (3Ph)', '82.5 (3Ph)', '125 (3Ph)', '160 (3Ph)', '200 (3Ph)', '250-SB (3Ph)', '250 (3Ph)', '320 (3Ph)', '400 (3Ph)', '500 (3Ph)', '625 (3Ph)', '750 (3Ph)'],
+      '1-Phase': ['15 (1Ph)', '20 (1Ph)', '25 (1Ph)', '30 (1Ph)', '35 (1Ph)', '40 (1Ph)', '45 (1Ph)', '58.5 (1Ph)']
+    };
+
+    let orders = [];
+    let unlocked = false;
+    let editingId = null;
+    let statusFilter = 'open';
+    let searchTerm = '';
+
+    const $ = id => document.getElementById(id);
+    const fmtINR = n => '\u20B9' + Number(n || 0).toLocaleString('en-IN');
+    const todayStr = () => new Date().toISOString().slice(0, 10);
+    function toast(msg) {
+      const t = $('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+    function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+    /* ---------- storage (shared) ---------- */
+    async function saveOrder(o) {
+      const res = await window.storage.set(ORD_PREFIX + o.id, JSON.stringify(o), true);
+      if (!res) throw new Error('save failed');
+    }
+    async function deleteOrder(id) {
+      await window.storage.delete(ORD_PREFIX + id, true);
+    }
+    async function loadOrders() {
+      let keys = [];
+      try {
+        const res = await window.storage.list(ORD_PREFIX, true);
+        keys = (res && res.keys) ? res.keys : [];
+      } catch (e) { keys = []; }
+      const names = keys.map(k => typeof k === 'string' ? k : (k.key || ''));
+      const out = [];
+      const CHUNK = 8;
+      for (let i = 0; i < names.length; i += CHUNK) {
+        const batch = names.slice(i, i + CHUNK).map(async k => {
+          try {
+            const r = await window.storage.get(k, true);
+            if (r && r.value) out.push(JSON.parse(r.value));
+          } catch (e) { }
+        });
+        await Promise.all(batch);
+      }
+      orders = out;
+    }
+    async function getPin() {
+      try {
+        const r = await window.storage.get(PIN_KEY, true);
+        if (r && r.value) return r.value;
+      } catch (e) { }
+      try { await window.storage.set(PIN_KEY, DEFAULT_PIN, true); } catch (e) { }
+      return DEFAULT_PIN;
+    }
+
+    /* ---------- view switching ---------- */
+    function show(view) {
+      $('dealer-view').style.display = view === 'dealer' ? '' : 'none';
+      $('dealer-done').style.display = view === 'dealer-done' ? '' : 'none';
+      $('admin-gate').style.display = view === 'gate' ? '' : 'none';
+      $('admin-view').style.display = view === 'admin' ? '' : 'none';
+      $('tab-dealer').classList.toggle('active', view === 'dealer' || view === 'dealer-done');
+      $('tab-admin').classList.toggle('active', view === 'gate' || view === 'admin');
+    }
+    $('tab-dealer').addEventListener('click', () => show('dealer'));
+    $('tab-admin').addEventListener('click', async () => {
+      if (unlocked) { show('admin'); await refreshAdmin(); }
+      else { show('gate'); $('pin-input').focus(); }
+    });
+
+    /* ---------- dealer view ---------- */
+    function dealerCalc() {
+      const sets = parseInt($('d-sets').value) || 0;
+      const price = parseFloat($('d-price').value) || 0;
+      $('d-calc').innerHTML = (sets && price) ? `Order value: <b>${fmtINR(sets * price)}</b>` : '';
+    }
+    $('d-sets').addEventListener('input', dealerCalc);
+    $('d-price').addEventListener('input', dealerCalc);
+
+    $('dealer-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = $('d-submit');
+      btn.disabled = true; btn.textContent = 'Submitting\u2026';
+      const id = 'OB-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 4).toUpperCase();
+      const rec = {
+        id, createdAt: todayStr(),
+        dealer: $('d-dealer').value.trim(),
+        kva: $('d-kva').value,
+        sets: parseInt($('d-sets').value) || 1,
+        customer: $('d-customer').value.trim(),
+        phone: $('d-phone').value.trim(),
+        price: parseFloat($('d-price').value) || 0,
+        dispatchDate: $('d-date').value,
+        status: 'open'
+      };
+      try {
+        await saveOrder(rec);
+        $('done-summary').textContent = `${rec.sets} × ${rec.kva} — ${rec.customer}`;
+        $('done-ref').textContent = rec.id;
+        show('dealer-done');
+        $('dealer-form').reset(); $('d-sets').value = 1; $('d-calc').textContent = '';
+      } catch (err) {
+        toast('Could not submit — check connection and try again');
+      }
+      btn.disabled = false; btn.textContent = 'Submit booking';
+    });
+    $('done-again').addEventListener('click', () => show('dealer'));
+
+    /* ---------- pin gate ---------- */
+    async function tryUnlock() {
+      const pin = await getPin();
+      if ($('pin-input').value === pin) {
+        unlocked = true;
+        $('pin-input').value = ''; $('pin-err').textContent = '';
+        show('admin');
+        await refreshAdmin();
+      } else {
+        $('pin-err').textContent = 'Incorrect PIN.';
+      }
+    }
+    $('pin-btn').addEventListener('click', tryUnlock);
+    $('pin-input').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+    $('save-pin').addEventListener('click', async () => {
+      const np = $('new-pin').value.trim();
+      if (np.length < 4) { toast('PIN must be at least 4 characters'); return; }
+      try {
+        await window.storage.set(PIN_KEY, np, true);
+        $('new-pin').value = '';
+        toast('PIN updated');
+      } catch (e) { toast('Could not update PIN'); }
+    });
+
+    /* ---------- admin view ---------- */
+    async function refreshAdmin() {
+      $('table-area').innerHTML = '<div class="loading">Loading order book\u2026</div>';
+      await loadOrders();
+      renderAdmin();
+    }
+    $('refresh-btn').addEventListener('click', refreshAdmin);
+
+    document.querySelectorAll('.seg button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.seg button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        statusFilter = b.dataset.filter;
+        renderAdmin();
+      });
+    });
+    $('search').addEventListener('input', e => { searchTerm = e.target.value.toLowerCase(); renderAdmin(); });
+
+    function visibleOrders() {
+      return orders.filter(o => {
+        if (statusFilter === 'open' && o.status !== 'open') return false;
+        if (statusFilter === 'dispatched' && o.status !== 'dispatched') return false;
+        if (searchTerm) {
+          const hay = (o.dealer + ' ' + o.customer + ' ' + o.kva + ' ' + (o.phone || '') + ' ' + o.id).toLowerCase();
+          if (!hay.includes(searchTerm)) return false;
+        }
+        return true;
+      }).sort((a, b) => (a.dispatchDate || '').localeCompare(b.dispatchDate || ''));
+    }
+    function monthLabel(d) {
+      if (!d) return 'No date';
+      const dt = new Date(d + 'T00:00:00');
+      return dt.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+    }
+
+    function renderAdmin() {
+      const open = orders.filter(o => o.status === 'open');
+      const now = new Date();
+      const dueThisMonth = open.filter(o => {
+        if (!o.dispatchDate) return false;
+        const d = new Date(o.dispatchDate + 'T00:00:00');
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+      }).reduce((s, o) => s + o.sets, 0);
+      $('st-count').textContent = open.length;
+      $('st-sets').textContent = open.reduce((s, o) => s + o.sets, 0);
+      $('st-value').textContent = fmtINR(open.reduce((s, o) => s + o.sets * o.price, 0));
+      $('st-due').textContent = dueThisMonth;
+
+      const list = visibleOrders();
+      const area = $('table-area');
+      if (!list.length) {
+        area.innerHTML = `<div class="empty"><b>No bookings ${statusFilter === 'all' ? 'yet' : 'in this view'}.</b><br>Bookings submitted from the Dealer tab will appear here. Use Refresh to pull in new ones.</div>`;
+        return;
+      }
+      const t = todayStr();
+      let html = '<div class="table-scroll"><table><thead><tr>' +
+        '<th>Ref</th><th>Booked</th><th>Dealer</th><th>kVA</th><th class="num">Sets</th><th>Customer</th>' +
+        '<th class="num">Price / set</th><th class="num">Value</th><th>Projected dispatch</th><th>Status</th><th></th></tr></thead><tbody>';
+      let currentMonth = null;
+      list.forEach(o => {
+        const m = monthLabel(o.dispatchDate);
+        if (m !== currentMonth) {
+          currentMonth = m;
+          const inMonth = list.filter(x => monthLabel(x.dispatchDate) === m);
+          const monthSets = inMonth.reduce((s, x) => s + x.sets, 0);
+          const monthVal = inMonth.reduce((s, x) => s + x.sets * x.price, 0);
+          html += `<tr class="month-row"><td colspan="11">${m}<span class="mtotal">${monthSets} sets &middot; ${fmtINR(monthVal)}</span></td></tr>`;
+        }
+        const overdue = o.status === 'open' && o.dispatchDate && o.dispatchDate < t;
+        const dateDisp = o.dispatchDate
+          ? new Date(o.dispatchDate + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+          : '\u2014';
+        html += `<tr>
+      <td class="mono" style="font-size:12.5px;color:var(--muted)">${escapeHtml(o.id)}</td>
+      <td class="mono" style="font-size:13px;color:var(--muted)">${o.createdAt ? new Date(o.createdAt + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : ''}</td>
+      <td>${escapeHtml(o.dealer)}</td>
+      <td class="mono">${escapeHtml(o.kva)}</td>
+      <td class="num mono">${o.sets}</td>
+      <td><div class="customer">${escapeHtml(o.customer)}</div>${o.phone ? `<div class="phone mono">${escapeHtml(o.phone)}</div>` : ''}</td>
+      <td class="num mono">${fmtINR(o.price)}</td>
+      <td class="num mono">${fmtINR(o.sets * o.price)}</td>
+      <td class="${overdue ? 'overdue' : ''} mono" style="font-size:13.5px">${dateDisp}${overdue ? '<span class="overdue-tag">overdue</span>' : ''}</td>
+      <td><span class="pill ${o.status === 'open' ? 'open' : 'done'}">${o.status === 'open' ? 'Open' : 'Dispatched'}</span></td>
+      <td class="actions">
+        ${o.status === 'open'
+            ? `<button class="btn-ghost btn-sm" onclick="markDispatched('${o.id}')">Dispatch</button>`
+            : `<button class="btn-ghost btn-sm" onclick="reopen('${o.id}')">Reopen</button>`}
+        <button class="btn-ghost btn-sm" onclick="startEdit('${o.id}')">Edit</button>
+        <button class="btn-ghost btn-sm" onclick="removeOrder('${o.id}')" title="Delete">\u2715</button>
+      </td>
+    </tr>`;
+      });
+      html += '</tbody></table></div>';
+      area.innerHTML = html;
+    }
+
+    /* ---------- admin actions ---------- */
+    async function setStatus(id, status) {
+      const o = orders.find(x => x.id === id); if (!o) return;
+      const updated = { ...o, status };
+      try {
+        await saveOrder(updated);
+        orders = orders.map(x => x.id === id ? updated : x);
+        renderAdmin();
+        toast(status === 'dispatched' ? 'Marked dispatched' : 'Booking reopened');
+      } catch (e) { toast('Could not update — try again'); }
+    }
+    window.markDispatched = id => setStatus(id, 'dispatched');
+    window.reopen = id => setStatus(id, 'open');
+
+    window.removeOrder = async id => {
+      const o = orders.find(x => x.id === id);
+      if (!confirm(`Delete booking ${id}${o ? ' for ' + o.customer : ''}? This cannot be undone.`)) return;
+      try {
+        await deleteOrder(id);
+        orders = orders.filter(x => x.id !== id);
+        renderAdmin();
+        toast('Booking deleted');
+      } catch (e) { toast('Could not delete — try again'); }
+    };
+
+    /* edit */
+    (function buildEditKva() {
+      const sel = $('e-kva');
+      Object.entries(KVA_OPTIONS).forEach(([grp, opts]) => {
+        const og = document.createElement('optgroup'); og.label = grp;
+        opts.forEach(v => { const op = document.createElement('option'); op.textContent = v; og.appendChild(op); });
+        sel.appendChild(og);
+      });
+    })();
+    window.startEdit = id => {
+      const o = orders.find(x => x.id === id); if (!o) return;
+      editingId = id;
+      $('edit-ref').textContent = id;
+      $('e-dealer').value = o.dealer; $('e-kva').value = o.kva; $('e-sets').value = o.sets;
+      $('e-customer').value = o.customer; $('e-phone').value = o.phone || '';
+      $('e-price').value = o.price; $('e-date').value = o.dispatchDate;
+      $('edit-panel').style.display = '';
+      $('edit-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    $('edit-cancel').addEventListener('click', () => { editingId = null; $('edit-panel').style.display = 'none'; });
+    $('edit-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const o = orders.find(x => x.id === editingId); if (!o) return;
+      const updated = {
+        ...o,
+        dealer: $('e-dealer').value.trim(),
+        kva: $('e-kva').value,
+        sets: parseInt($('e-sets').value) || 1,
+        customer: $('e-customer').value.trim(),
+        phone: $('e-phone').value.trim(),
+        price: parseFloat($('e-price').value) || 0,
+        dispatchDate: $('e-date').value
+      };
+      try {
+        await saveOrder(updated);
+        orders = orders.map(x => x.id === editingId ? updated : x);
+        editingId = null; $('edit-panel').style.display = 'none';
+        renderAdmin();
+        toast('Booking updated');
+      } catch (err) { toast('Could not save — try again'); }
+    });
+
+    /* export */
+    $('export-btn').addEventListener('click', () => {
+      const rows = [['Ref', 'Booking date', 'Dealer', 'kVA', 'Sets', 'Customer', 'Phone', 'Price per set', 'Order value', 'Projected dispatch', 'Status']];
+      visibleOrders().forEach(o => rows.push([
+        o.id, o.createdAt, o.dealer, o.kva, o.sets, o.customer, o.phone || '', o.price, o.sets * o.price, o.dispatchDate, o.status === 'open' ? 'Open' : 'Dispatched'
+      ]));
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'wcpl-order-book-' + todayStr() + '.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    /* init */
+    show('dealer');
+  </script>
+</body>
+
+</html>

@@ -12,6 +12,7 @@ const quickLinks = [
   { name: 'Career', path: '/career' },
   { name: 'CSR', path: '/csr' },
   { name: 'Contact', path: '/contact' },
+  { name: 'Dealer Portals', path: '/portal/login' },
 ];
 
 const productCategories = [
