@@ -185,9 +185,9 @@ export const HeroSection = ({ onAnimationComplete }: HeroSectionProps) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="w-full text-center"
+                        className="w-full text-left"
                       >
-                        <h2 className="text-2xl sm:text-3xl font-black text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-center">
+                        <h2 className="text-2xl sm:text-3xl font-black text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-left">
                           Extensive <span className="text-primary">Power</span> Solutions
                         </h2>
                       </motion.div>
