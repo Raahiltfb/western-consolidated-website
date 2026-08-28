@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/westernconsolida/public_html
+    - /bin/rsync -av dist/ $DEPLOYPATH/ || /usr/bin/rsync -av dist/ $DEPLOYPATH/ || cp -rf dist/* $DEPLOYPATH/
