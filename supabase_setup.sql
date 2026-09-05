@@ -117,8 +117,9 @@ set min_price = excluded.min_price, refer_floor = excluded.refer_floor;
 -- 4. Price Submissions Table (Logs)
 create table if not exists public.price_submissions (
   id text primary key, -- e.g. WC-XXXXXX
-  user_id uuid references auth.users,
+  user_id uuid references public.profiles(id) on delete set null,
   dealer_name text not null,
+  sales_rep text,
   kva text not null,
   customer_name text not null,
   offered_price numeric not null,
@@ -133,17 +134,15 @@ create policy "Dealers can view their own price submissions" on public.price_sub
 
 create policy "Admins can view all price submissions" on public.price_submissions
   for all using (
-    exists (
-      select 1 from public.profiles
-      where id = auth.uid() and role = 'admin'
-    )
+    public.is_admin()
   );
 
 -- 5. Orders Table
 create table if not exists public.orders (
   id text primary key, -- e.g. OB-XXXXXX
-  user_id uuid references auth.users,
+  user_id uuid references public.profiles(id) on delete set null,
   dealer_name text not null,
+  sales_rep text,
   kva text not null,
   sets_count integer not null check (sets_count > 0),
   customer_name text not null,
@@ -175,6 +174,37 @@ create policy "Admins can update all orders" on public.orders
 create policy "Admins can delete all orders" on public.orders
   for delete using (public.is_admin());
 
+-- Trigger to automatically set user_id and sales_rep on order creation
+create or replace function public.set_order_auth_fields()
+returns trigger
+language plpgsql
+security definer
+as $$
+declare
+  v_sales_rep text;
+begin
+  if auth.uid() is not null then
+    new.user_id := auth.uid();
+    
+    select regexp_replace(regexp_replace(coalesce(nullif(firm_name, ''), email), '@.*$', ''), '\s+(Power|Admin)$', '', 'i') into v_sales_rep
+    from public.profiles
+    where id = auth.uid();
+    
+    if v_sales_rep is not null and length(v_sales_rep) > 0 then
+      v_sales_rep := initcap(v_sales_rep);
+    end if;
+
+    new.sales_rep := coalesce(v_sales_rep, new.sales_rep, 'Unknown');
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_order_before_insert on public.orders;
+create trigger on_order_before_insert
+  before insert on public.orders
+  for each row execute function public.set_order_auth_fields();
+
 -- 6. RPC Function for Secure Price Verification
 create or replace function public.submit_price_support(
   p_kva text,
@@ -191,7 +221,17 @@ declare
   v_refer_floor numeric;
   v_verdict text;
   v_ref text;
+  v_sales_rep text;
 begin
+  -- Derive Sales Rep from profiles table
+  select regexp_replace(regexp_replace(coalesce(nullif(firm_name, ''), email), '@.*$', ''), '\s+(Power|Admin)$', '', 'i') into v_sales_rep
+  from public.profiles
+  where id = auth.uid();
+
+  if v_sales_rep is not null and length(v_sales_rep) > 0 then
+    v_sales_rep := initcap(v_sales_rep);
+  end if;
+
   -- Get thresholds securely
   select min_price, refer_floor into v_min_price, v_refer_floor
   from public.genset_ratings
@@ -218,6 +258,7 @@ begin
     id,
     user_id,
     dealer_name,
+    sales_rep,
     kva,
     customer_name,
     offered_price,
@@ -226,6 +267,7 @@ begin
     v_ref,
     auth.uid(),
     p_dealer_name,
+    coalesce(v_sales_rep, 'Unknown'),
     p_kva,
     p_customer_name,
     p_offered_price,

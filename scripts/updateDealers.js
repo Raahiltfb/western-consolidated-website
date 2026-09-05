@@ -16,6 +16,8 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 });
 
 const dealers = [
+  { email: 'sunil@westernconsolidated.com', name: 'Sunil' },
+  { email: 'shyamal@westernconsolidated.com', name: 'Shyamal' },
   { email: 'deepak@westernconsolidated.com', name: 'Deepak' },
   { email: 'abhishek@westernconsolidated.com', name: 'Abhishek' },
   { email: 'saurav@westernconsolidated.com', name: 'Saurav' },

@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { sortRatings } from '@/lib/utils';
+import { sortRatings, cleanSalesRepName } from '@/lib/utils';
 
 const formatINR = (n: number | string) => {
   const num = Number(n);
@@ -45,14 +45,17 @@ interface PriceSubmission {
   kva: string;
   customer_name: string;
   dealer_name: string;
+  sales_rep?: string;
   offered_price: number;
   verdict: 'APPROVED' | 'REFER' | 'NOT_POSSIBLE';
+  profiles?: { email: string; firm_name: string } | null;
 }
 
 interface Order {
   id: string;
   created_at: string;
   dealer_name: string;
+  sales_rep?: string;
   kva: string;
   sets_count: number;
   customer_name: string;
@@ -60,6 +63,7 @@ interface Order {
   price_per_set: number;
   dispatch_date: string;
   status: 'open' | 'dispatched';
+  profiles?: { email: string; firm_name: string } | null;
 }
 
 export default function AdminUnifiedDashboard() {
@@ -145,7 +149,7 @@ export default function AdminUnifiedDashboard() {
 
       const { data: subData, error: subErr } = await supabase
         .from('price_submissions')
-        .select('*')
+        .select('*, profiles:user_id(email, firm_name)')
         .order('created_at', { ascending: false });
       if (subErr) throw subErr;
       setSubmissions(subData || []);
@@ -158,7 +162,7 @@ export default function AdminUnifiedDashboard() {
     try {
       const { data, error } = await supabase
         .from('orders')
-        .select('*')
+        .select('*, profiles:user_id(email, firm_name)')
         .order('dispatch_date', { ascending: true });
       if (error) throw error;
       setOrders(data || []);
@@ -227,13 +231,14 @@ export default function AdminUnifiedDashboard() {
   };
 
   const handleCopySubmissionsCSV = () => {
-    const headers = ['Date', 'Reference', 'kVA', 'Customer', 'Dealer', 'Price (excluding-GST)', 'Verdict'];
+    const headers = ['Date', 'Reference', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Customer', 'Price (excluding-GST)', 'Verdict'];
     const rows = filteredSubmissions.map((s) => [
       new Date(s.created_at).toLocaleDateString('en-IN'),
       s.id,
+      cleanSalesRepName(s.sales_rep || s.profiles?.firm_name || s.profiles?.email || 'Unknown'),
+      s.dealer_name || '',
       s.kva,
       s.customer_name,
-      s.dealer_name,
       s.offered_price,
       s.verdict,
     ]);
@@ -321,11 +326,12 @@ export default function AdminUnifiedDashboard() {
   };
 
   const handleExportOrdersCSV = () => {
-    const headers = ['Ref', 'Booking Date', 'Dealer', 'kVA', 'Sets', 'Customer', 'Phone', 'Price per Set', 'Value', 'Dispatch Date', 'Status'];
+    const headers = ['Ref', 'Booking Date', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Sets', 'Customer', 'Phone', 'Price per Set', 'Value', 'Dispatch Date', 'Status'];
     const rows = filteredOrders.map((o) => [
       o.id,
       new Date(o.created_at).toLocaleDateString('en-IN'),
-      o.dealer_name,
+      cleanSalesRepName(o.sales_rep || o.profiles?.firm_name || o.profiles?.email || 'Unknown'),
+      o.dealer_name || '',
       o.kva,
       o.sets_count,
       o.customer_name,
@@ -350,13 +356,15 @@ export default function AdminUnifiedDashboard() {
 
   // --- Filters and Computations ---
   const filteredSubmissions = submissions.filter((s) => {
-    const searchString = `${s.id} ${s.customer_name} ${s.dealer_name} ${s.kva} ${s.verdict}`.toLowerCase();
+    const rep = s.sales_rep || s.profiles?.email || '';
+    const searchString = `${s.id} ${s.customer_name} ${s.dealer_name} ${rep} ${s.kva} ${s.verdict}`.toLowerCase();
     return searchString.includes(subSearch.toLowerCase());
   });
 
   const filteredOrders = orders.filter((o) => {
     if (orderFilter !== 'all' && o.status !== orderFilter) return false;
-    const searchString = `${o.id} ${o.customer_name} ${o.dealer_name} ${o.kva}`.toLowerCase();
+    const rep = o.sales_rep || o.profiles?.email || '';
+    const searchString = `${o.id} ${o.customer_name} ${o.dealer_name} ${rep} ${o.kva}`.toLowerCase();
     return searchString.includes(orderSearch.toLowerCase());
   });
 
@@ -556,6 +564,7 @@ export default function AdminUnifiedDashboard() {
                       <tr className="border-b border-border text-foreground-muted font-bold uppercase tracking-wider bg-slate-50/30">
                         <th className="py-3.5 px-4 font-semibold">Date</th>
                         <th className="py-3.5 px-4 font-semibold">Reference</th>
+                        <th className="py-3.5 px-4 font-semibold">Sales Rep (Account)</th>
                         <th className="py-3.5 px-4 font-semibold">Dealer</th>
                         <th className="py-3.5 px-4 font-semibold">kVA</th>
                         <th className="py-3.5 px-4 font-semibold">Customer</th>
@@ -566,14 +575,15 @@ export default function AdminUnifiedDashboard() {
                     <tbody>
                       {filteredSubmissions.length === 0 ? (
                         <tr>
-                          <td colSpan={7} className="py-12 text-center text-zinc-400 font-mono">No pricing submissions matched the filters.</td>
+                          <td colSpan={8} className="py-12 text-center text-zinc-400 font-mono">No pricing submissions matched the filters.</td>
                         </tr>
                       ) : (
                         filteredSubmissions.map((s) => (
                           <tr key={s.id} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
                             <td className="py-3.5 px-4 text-zinc-400 text-[10px]">{new Date(s.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
                             <td className="py-3.5 px-4 font-bold text-foreground">{s.id}</td>
-                            <td className="py-3.5 px-4 text-foreground-muted font-sans">{s.dealer_name}</td>
+                            <td className="py-3.5 px-4 font-sans font-medium text-foreground">{cleanSalesRepName(s.sales_rep || s.profiles?.firm_name || s.profiles?.email || '-')}</td>
+                            <td className="py-3.5 px-4 text-foreground-muted font-sans">{s.dealer_name || '-'}</td>
                             <td className="py-3.5 px-4 text-foreground">{s.kva}</td>
                             <td className="py-3.5 px-4 font-sans font-medium text-foreground">{s.customer_name}</td>
                             <td className="py-3.5 px-4 text-primary font-bold">{formatINR(s.offered_price)}</td>
@@ -666,6 +676,7 @@ export default function AdminUnifiedDashboard() {
                     <tr className="border-b border-border text-foreground-muted font-bold uppercase tracking-wider bg-slate-50/30">
                       <th className="py-3.5 px-4 font-semibold">Ref</th>
                       <th className="py-3.5 px-4 font-semibold">Booked</th>
+                      <th className="py-3.5 px-4 font-semibold">Sales Rep (Account)</th>
                       <th className="py-3.5 px-4 font-semibold">Dealer</th>
                       <th className="py-3.5 px-4 font-semibold">kVA</th>
                       <th className="py-3.5 px-4 font-semibold">Sets</th>
@@ -679,7 +690,7 @@ export default function AdminUnifiedDashboard() {
                   <tbody>
                     {filteredOrders.length === 0 ? (
                       <tr>
-                        <td colSpan={10} className="py-12 text-center text-zinc-400 font-mono">No order records found in this view.</td>
+                        <td colSpan={11} className="py-12 text-center text-zinc-400 font-mono">No order records found in this view.</td>
                       </tr>
                     ) : (
                       filteredOrders.map((o) => {
@@ -688,7 +699,8 @@ export default function AdminUnifiedDashboard() {
                           <tr key={o.id} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
                             <td className="py-3.5 px-4 font-bold text-foreground">{o.id}</td>
                             <td className="py-3.5 px-4 text-zinc-400 text-[10px]">{new Date(o.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</td>
-                            <td className="py-3.5 px-4 text-foreground-muted font-sans">{o.dealer_name}</td>
+                            <td className="py-3.5 px-4 font-sans font-medium text-foreground">{cleanSalesRepName(o.sales_rep || o.profiles?.firm_name || o.profiles?.email || '-')}</td>
+                            <td className="py-3.5 px-4 text-foreground-muted font-sans">{o.dealer_name || '-'}</td>
                             <td className="py-3.5 px-4 text-foreground">{o.kva}</td>
                             <td className="py-3.5 px-4 font-bold text-foreground">{o.sets_count}</td>
                             <td className="py-3.5 px-4 font-sans text-foreground">

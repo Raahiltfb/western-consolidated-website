@@ -16,13 +16,15 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
   }
 });
 
-const dealers = [
-  { email: 'deepak@westernconsolidated.com', firm: 'Deepak Power' },
-  { email: 'abhishek@westernconsolidated.com', firm: 'Abhishek Power' },
-  { email: 'saurav@westernconsolidated.com', firm: 'Saurav Power' },
-  { email: 'navneet@westernconsolidated.com', firm: 'Navneet Power' },
-  { email: 'vishal@westernconsolidated.com', firm: 'Vishal Power' },
-  { email: 'abhilash@westernconsolidated.com', firm: 'Abhilash Power' }
+const accounts = [
+  { email: 'sunil@westernconsolidated.com', firm: 'Sunil', role: 'admin' },
+  { email: 'shyamal@westernconsolidated.com', firm: 'Shyamal', role: 'dealer' },
+  { email: 'deepak@westernconsolidated.com', firm: 'Deepak', role: 'dealer' },
+  { email: 'abhishek@westernconsolidated.com', firm: 'Abhishek', role: 'dealer' },
+  { email: 'saurav@westernconsolidated.com', firm: 'Saurav', role: 'dealer' },
+  { email: 'navneet@westernconsolidated.com', firm: 'Navneet', role: 'dealer' },
+  { email: 'vishal@westernconsolidated.com', firm: 'Vishal', role: 'dealer' },
+  { email: 'abhilash@westernconsolidated.com', firm: 'Abhilash', role: 'dealer' }
 ];
 
 const DEFAULT_PASSWORD = 'Western@1234';
@@ -30,7 +32,7 @@ const DEFAULT_PASSWORD = 'Western@1234';
 async function run() {
   console.log('Fetching existing users from Supabase Auth...');
   
-  let existingEmails = new Set();
+  let existingUsersByEmail = new Map();
   
   try {
     const { data: { users }, error: listError } = await supabase.auth.admin.listUsers({
@@ -43,43 +45,67 @@ async function run() {
     
     users.forEach(u => {
       if (u.email) {
-        existingEmails.add(u.email.toLowerCase());
+        existingUsersByEmail.set(u.email.toLowerCase(), u);
       }
     });
     
-    console.log(`Found ${existingEmails.size} existing users.`);
+    console.log(`Found ${existingUsersByEmail.size} existing users.`);
   } catch (error) {
     console.error('Warning: Failed to list existing users. Will attempt direct creation (duplicate emails will be handled).', error);
   }
 
-  for (const dealer of dealers) {
-    const emailLower = dealer.email.toLowerCase();
+  for (const account of accounts) {
+    const emailLower = account.email.toLowerCase();
     
-    if (existingEmails.has(emailLower)) {
-      console.log(`[-] User ${dealer.email} already exists. Skipping.`);
+    if (existingUsersByEmail.has(emailLower)) {
+      const existingUser = existingUsersByEmail.get(emailLower);
+      console.log(`[-] User ${account.email} already exists (ID: ${existingUser.id}). Syncing profile...`);
+      
+      // Ensure metadata & profile match
+      await supabase.auth.admin.updateUserById(existingUser.id, {
+        user_metadata: {
+          role: account.role,
+          firm_name: account.firm
+        }
+      });
+
+      await supabase.from('profiles').upsert({
+        id: existingUser.id,
+        email: account.email,
+        firm_name: account.firm,
+        role: account.role
+      });
       continue;
     }
 
-    console.log(`[+] Creating dealer: ${dealer.email}...`);
+    console.log(`[+] Creating account: ${account.email} (Role: ${account.role})...`);
     
     const { data, error } = await supabase.auth.admin.createUser({
-      email: dealer.email,
+      email: account.email,
       password: DEFAULT_PASSWORD,
       email_confirm: true,
       user_metadata: {
-        role: 'dealer',
-        firm_name: dealer.firm
+        role: account.role,
+        firm_name: account.firm
       }
     });
 
     if (error) {
       if (error.message && error.message.includes('already exists')) {
-        console.log(`[-] User ${dealer.email} already exists (detected on insertion). Skipping.`);
+        console.log(`[-] User ${account.email} already exists (detected on insertion). Skipping.`);
       } else {
-        console.error(`[X] Failed to create ${dealer.email}:`, error.message);
+        console.error(`[X] Failed to create ${account.email}:`, error.message);
       }
     } else {
-      console.log(`[✓] Successfully created dealer account for ${dealer.email} (ID: ${data.user.id})`);
+      console.log(`[✓] Successfully created account for ${account.email} (ID: ${data.user.id})`);
+      
+      // Ensure profile row exists
+      await supabase.from('profiles').upsert({
+        id: data.user.id,
+        email: account.email,
+        firm_name: account.firm,
+        role: account.role
+      });
     }
   }
 

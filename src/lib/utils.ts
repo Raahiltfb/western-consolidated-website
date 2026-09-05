@@ -5,6 +5,36 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function cleanSalesRepName(nameOrEmail?: string | null): string {
+  if (!nameOrEmail) return '';
+  let str = nameOrEmail.trim();
+
+  if (str.includes('@')) {
+    const handle = str.split('@')[0];
+    str = handle.charAt(0).toUpperCase() + handle.slice(1);
+  }
+
+  const knownMap: Record<string, string> = {
+    navneet: 'Navneet',
+    abhishek: 'Abhishek',
+    deepak: 'Deepak',
+    saurav: 'Saurav',
+    vishal: 'Vishal',
+    abhilash: 'Abhilash',
+    shyamal: 'Shyamal',
+    sunil: 'Sunil',
+  };
+
+  str = str.replace(/\s+(Power|Admin)$/i, '').trim();
+
+  const lower = str.toLowerCase();
+  if (knownMap[lower]) {
+    return knownMap[lower];
+  }
+
+  return str;
+}
+
 export const SORT_ORDER = [
   '15 (3ph) HA',
   '15 (3ph) GK',
