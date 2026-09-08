@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,6 +27,7 @@ import PortalLogin from "./pages/PortalLogin";
 import PriceSupportPortal from "./pages/PriceSupportPortal";
 import OrderSupportPortal from "./pages/OrderSupportPortal";
 import AdminUnifiedDashboard from "./pages/AdminUnifiedDashboard";
+import AdminDispatched from "./pages/AdminDispatched";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +36,6 @@ const App = () => (
     <ThemeProvider>
       <TooltipProvider>
         <AuthProvider>
-          <Toaster />
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
@@ -80,6 +79,15 @@ const App = () => (
                 element={
                   <ProtectedRoute allowedRole="admin">
                     <AdminUnifiedDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+
+              <Route 
+                path="/portal/admin/dispatched" 
+                element={
+                  <ProtectedRoute allowedRole="admin">
+                    <AdminDispatched />
                   </ProtectedRoute>
                 } 
               />

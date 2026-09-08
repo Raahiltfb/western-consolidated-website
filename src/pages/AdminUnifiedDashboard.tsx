@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { supabase } from '@/lib/supabaseClient';
 import { PortalLayout } from '@/components/layout/PortalLayout';
 import {
@@ -11,6 +12,7 @@ import {
   Plus,
   Trash2,
   Check,
+  CheckCircle2,
   RefreshCcw,
   AlertTriangle,
   Edit
@@ -113,10 +115,24 @@ export default function AdminUnifiedDashboard() {
     return (filter === 'all' || filter === 'open' || filter === 'dispatched') ? filter : 'open';
   });
 
+  type OrderSortOption = 'booking_desc' | 'booking_asc' | 'dispatch_asc' | 'dispatch_desc';
+  const [orderSort, setOrderSort] = useState<OrderSortOption>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sort = params.get('sort');
+    return (sort === 'booking_desc' || sort === 'booking_asc' || sort === 'dispatch_asc' || sort === 'dispatch_desc') ? sort : 'booking_desc';
+  });
+
   const handleSetOrderFilter = (filter: 'all' | 'open' | 'dispatched') => {
     setOrderFilter(filter);
     const url = new URL(window.location.href);
     url.searchParams.set('filter', filter);
+    window.history.replaceState({}, '', url.toString());
+  };
+
+  const handleSetOrderSort = (sort: OrderSortOption) => {
+    setOrderSort(sort);
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', sort);
     window.history.replaceState({}, '', url.toString());
   };
 
@@ -361,12 +377,26 @@ export default function AdminUnifiedDashboard() {
     return searchString.includes(subSearch.toLowerCase());
   });
 
-  const filteredOrders = orders.filter((o) => {
-    if (orderFilter !== 'all' && o.status !== orderFilter) return false;
-    const rep = o.sales_rep || o.profiles?.email || '';
-    const searchString = `${o.id} ${o.customer_name} ${o.dealer_name} ${rep} ${o.kva}`.toLowerCase();
-    return searchString.includes(orderSearch.toLowerCase());
-  });
+  const filteredOrders = orders
+    .filter((o) => {
+      if (orderFilter !== 'all' && o.status !== orderFilter) return false;
+      const rep = o.sales_rep || o.profiles?.email || '';
+      const searchString = `${o.id} ${o.customer_name} ${o.dealer_name} ${rep} ${o.kva}`.toLowerCase();
+      return searchString.includes(orderSearch.toLowerCase());
+    })
+    .sort((a, b) => {
+      if (orderSort === 'booking_desc') {
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+      if (orderSort === 'booking_asc') {
+        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      }
+      if (orderSort === 'dispatch_desc') {
+        return new Date(b.dispatch_date).getTime() - new Date(a.dispatch_date).getTime();
+      }
+      // dispatch_asc
+      return new Date(a.dispatch_date).getTime() - new Date(b.dispatch_date).getTime();
+    });
 
   // Calculate Order statistics
   const openOrders = orders.filter((o) => o.status === 'open');
@@ -387,7 +417,7 @@ export default function AdminUnifiedDashboard() {
       <div className="space-y-8 text-foreground">
 
         {/* Module Switcher */}
-        <div className="flex bg-white p-1 rounded-xl border border-border max-w-md mx-auto sm:mx-0 shadow-sm">
+        <div className="flex bg-white p-1 rounded-xl border border-border max-w-xl mx-auto sm:mx-0 shadow-sm">
           <button
             onClick={() => handleSetActiveModule('pricing')}
             className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'pricing' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
@@ -402,6 +432,12 @@ export default function AdminUnifiedDashboard() {
           >
             <ShoppingBag size={14} /> Order Booking
           </button>
+          <NavLink
+            to="/portal/admin/dispatched"
+            className="flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 text-foreground-muted hover:text-primary hover:bg-slate-50"
+          >
+            <CheckCircle2 size={14} /> Dispatched Page
+          </NavLink>
         </div>
 
         {/* Pricing Module */}
@@ -655,6 +691,21 @@ export default function AdminUnifiedDashboard() {
                       {mode.toUpperCase()}
                     </button>
                   ))}
+                </div>
+
+                {/* Sorting Select */}
+                <div className="shrink-0">
+                  <Select value={orderSort} onValueChange={(val) => handleSetOrderSort(val as OrderSortOption)}>
+                    <SelectTrigger className="w-[230px] bg-white border-border text-foreground text-xs focus:ring-primary focus:ring-offset-0">
+                      <SelectValue placeholder="Sort Orders" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-border text-foreground text-xs">
+                      <SelectItem value="booking_desc">Booking Date: Newest → Oldest</SelectItem>
+                      <SelectItem value="booking_asc">Booking Date: Oldest → Newest</SelectItem>
+                      <SelectItem value="dispatch_asc">Dispatch Date: Earliest → Latest</SelectItem>
+                      <SelectItem value="dispatch_desc">Dispatch Date: Latest → Earliest</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 

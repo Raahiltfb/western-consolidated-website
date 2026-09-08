@@ -111,18 +111,33 @@ export const PortalLayout = ({ children, title, subtitle }: PortalLayoutProps) =
             {/* Navigation links based on role */}
             <nav className="hidden md:flex items-center gap-1">
               {profile?.role === 'admin' ? (
-                <NavLink
-                  to="/portal/admin"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider rounded-md transition-colors ${isActive
-                      ? 'text-primary bg-primary/5 border-b-2 border-primary'
-                      : 'text-foreground-muted hover:text-primary hover:bg-slate-100/50'
-                    }`
-                  }
-                >
-                  <LayoutDashboard size={14} />
-                  Admin Dashboard
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/portal/admin"
+                    end
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider rounded-md transition-colors ${isActive
+                        ? 'text-primary bg-primary/5 border-b-2 border-primary'
+                        : 'text-foreground-muted hover:text-primary hover:bg-slate-100/50'
+                      }`
+                    }
+                  >
+                    <LayoutDashboard size={14} />
+                    Admin Dashboard
+                  </NavLink>
+                  <NavLink
+                    to="/portal/admin/dispatched"
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider rounded-md transition-colors ${isActive
+                        ? 'text-primary bg-primary/5 border-b-2 border-primary'
+                        : 'text-foreground-muted hover:text-primary hover:bg-slate-100/50'
+                      }`
+                    }
+                  >
+                    <CheckCircle2 size={14} />
+                    Dispatched
+                  </NavLink>
+                </>
               ) : (
                 <>
                   <NavLink
@@ -184,16 +199,29 @@ export const PortalLayout = ({ children, title, subtitle }: PortalLayoutProps) =
         {/* Mobile Navigation bar */}
         <div className="md:hidden border-t border-border bg-white flex justify-around py-2.5 px-4 text-[10px] font-display font-bold uppercase tracking-wider shadow-sm">
           {profile?.role === 'admin' ? (
-            <NavLink
-              to="/portal/admin"
-              className={({ isActive }) =>
-                `flex flex-col items-center gap-1 transition-colors ${isActive ? 'text-primary' : 'text-zinc-400'
-                }`
-              }
-            >
-              <LayoutDashboard size={14} />
-              Admin
-            </NavLink>
+            <>
+              <NavLink
+                to="/portal/admin"
+                end
+                className={({ isActive }) =>
+                  `flex flex-col items-center gap-1 transition-colors ${isActive ? 'text-primary' : 'text-zinc-400'
+                  }`
+                }
+              >
+                <LayoutDashboard size={14} />
+                Admin
+              </NavLink>
+              <NavLink
+                to="/portal/admin/dispatched"
+                className={({ isActive }) =>
+                  `flex flex-col items-center gap-1 transition-colors ${isActive ? 'text-primary' : 'text-zinc-400'
+                  }`
+                }
+              >
+                <CheckCircle2 size={14} />
+                Dispatched
+              </NavLink>
+            </>
           ) : (
             <>
               <NavLink
