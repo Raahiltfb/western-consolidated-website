@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/hooks/useAuth';
 import { PortalLayout } from '@/components/layout/PortalLayout';
-import { ShoppingBag, CheckCircle, HelpCircle, AlertTriangle, History, RefreshCcw } from 'lucide-react';
+import { ShoppingBag, CheckCircle, HelpCircle, AlertTriangle, History, RefreshCcw, Check, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
@@ -143,6 +143,91 @@ export default function OrderSupportPortal() {
       console.error('Failed to load order history:', err);
     } finally {
       setLoadingHistory(false);
+    }
+  };
+
+  // --- Order Editing & Management Handlers ---
+  const [editingOrder, setEditingOrder] = useState<OrderItem | null>(null);
+  const [editDealer, setEditDealer] = useState('');
+  const [editKva, setEditKva] = useState('');
+  const [editSetsCount, setEditSetsCount] = useState(1);
+  const [editCustomer, setEditCustomer] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editPrice, setEditPrice] = useState('');
+  const [editDispatchDate, setEditDispatchDate] = useState('');
+  const [savingEdit, setSavingEdit] = useState(false);
+
+  const handleStartEditOrder = (o: OrderItem) => {
+    setEditingOrder(o);
+    setEditDealer(o.dealer_name || '');
+    setEditKva(o.kva);
+    setEditSetsCount(o.sets_count);
+    setEditCustomer(o.customer_name);
+    setEditPhone(o.customer_phone || '');
+    setEditPrice(o.price_per_set.toString());
+    setEditDispatchDate(o.dispatch_date);
+  };
+
+  const handleSaveOrderEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingOrder) return;
+
+    setSavingEdit(true);
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({
+          dealer_name: editDealer.trim(),
+          kva: editKva,
+          sets_count: Number(editSetsCount),
+          customer_name: editCustomer.trim(),
+          customer_phone: editPhone.trim() || null,
+          price_per_set: Number(editPrice),
+          dispatch_date: editDispatchDate,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', editingOrder.id);
+
+      if (error) throw error;
+
+      setEditingOrder(null);
+      fetchHistory();
+    } catch (err) {
+      console.error('Error updating order:', err);
+      alert('Failed to update order booking.');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+  const handleUpdateOrderStatus = async (id: string, status: 'open' | 'dispatched') => {
+    const actionText = status === 'dispatched' ? 'mark as dispatched' : 're-open';
+    if (!confirm(`Are you sure you want to ${actionText} order ${id}?`)) return;
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) throw error;
+      fetchHistory();
+    } catch (err) {
+      console.error('Failed to update order status:', err);
+      alert(`Failed to ${actionText} order.`);
+    }
+  };
+
+  const handleDeleteOrder = async (id: string) => {
+    if (!confirm(`Are you sure you want to delete order ${id}? This action is permanent.`)) return;
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      fetchHistory();
+    } catch (err) {
+      console.error('Failed to delete order:', err);
+      alert('Failed to delete order booking.');
     }
   };
 
@@ -470,16 +555,17 @@ export default function OrderSupportPortal() {
                     <th className="py-2.5 px-3 font-semibold">Value</th>
                     <th className="py-2.5 px-3 font-semibold">Dispatch Date</th>
                     <th className="py-2.5 px-3 font-semibold">Status</th>
+                    <th className="py-2.5 px-3 font-semibold text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingHistory ? (
                     <tr>
-                      <td colSpan={9} className="py-8 text-center text-zinc-400 font-mono">Loading your order history...</td>
+                      <td colSpan={10} className="py-8 text-center text-zinc-400 font-mono">Loading your order history...</td>
                     </tr>
                   ) : history.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="py-8 text-center text-zinc-400 font-mono">No order bookings recorded for your account yet.</td>
+                      <td colSpan={10} className="py-8 text-center text-zinc-400 font-mono">No order bookings recorded for your account yet.</td>
                     </tr>
                   ) : (
                     history.map((o) => (
@@ -504,6 +590,42 @@ export default function OrderSupportPortal() {
                           }`}>
                             {o.status === 'open' ? 'Open' : 'Dispatched'}
                           </span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right font-sans">
+                          <div className="flex gap-1.5 justify-end font-sans">
+                            {o.status === 'open' ? (
+                              <Button
+                                onClick={() => handleUpdateOrderStatus(o.id, 'dispatched')}
+                                size="xs"
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[9px] uppercase tracking-wide px-2 h-7"
+                              >
+                                <Check size={11} className="mr-0.5" /> Dispatch
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={() => handleUpdateOrderStatus(o.id, 'open')}
+                                size="xs"
+                                variant="outline"
+                                className="border-border hover:bg-slate-100 text-foreground font-bold text-[9px] uppercase tracking-wide px-2 h-7"
+                              >
+                                <RefreshCcw size={11} className="mr-0.5" /> Re-open
+                              </Button>
+                            )}
+                            <button
+                              onClick={() => handleStartEditOrder(o)}
+                              className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all"
+                              title="Edit Order"
+                            >
+                              <Edit size={13} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteOrder(o.id)}
+                              className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all"
+                              title="Delete Order"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -591,6 +713,152 @@ export default function OrderSupportPortal() {
                 Confirm & Submit
               </Button>
             </CardFooter>
+          </Card>
+        </div>
+      )}
+      {/* Edit Order Modal for Dealers */}
+      {editingOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <Card className="bg-white border-border shadow-xl w-full max-w-lg relative animate-in zoom-in-95 duration-200">
+            <CardHeader className="pb-4 border-b border-border">
+              <CardTitle className="font-display font-bold text-base uppercase tracking-wider text-foreground">
+                Edit Order Booking ({editingOrder.id})
+              </CardTitle>
+              <CardDescription className="text-foreground-muted text-xs mt-0.5">
+                Update the booking details below. Sales Rep is fixed to your account identity.
+              </CardDescription>
+            </CardHeader>
+            <form onSubmit={handleSaveOrderEdit}>
+              <CardContent className="space-y-4 pt-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                    Sales Rep (Fixed Identity)
+                  </label>
+                  <Input
+                    value={salesRep}
+                    readOnly
+                    disabled
+                    className="bg-slate-100 border-border text-slate-700 text-xs font-medium cursor-not-allowed"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                    Dealer Name
+                  </label>
+                  <Input
+                    value={editDealer}
+                    onChange={(e) => setEditDealer(e.target.value)}
+                    className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                    Customer Name
+                  </label>
+                  <Input
+                    value={editCustomer}
+                    onChange={(e) => setEditCustomer(e.target.value)}
+                    className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                      Genset Rating
+                    </label>
+                    <Select value={editKva} onValueChange={setEditKva} required>
+                      <SelectTrigger className="bg-white border-border text-foreground text-xs focus:ring-primary focus:ring-offset-0">
+                        <SelectValue placeholder="Select rating" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border-border text-foreground text-xs">
+                        {ratings.map((r) => (
+                          <SelectItem key={r.kva} value={r.kva} className="focus:bg-primary focus:text-white">
+                            {r.kva} kVA
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                      No. of Sets
+                    </label>
+                    <Input
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={editSetsCount}
+                      onChange={(e) => setEditSetsCount(Math.max(1, Number(e.target.value)))}
+                      className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                    Customer Phone (Optional)
+                  </label>
+                  <Input
+                    type="tel"
+                    value={editPhone}
+                    onChange={(e) => setEditPhone(e.target.value)}
+                    className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                      Price per set (₹)
+                    </label>
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      value={editPrice}
+                      onChange={(e) => setEditPrice(e.target.value.replace(/[^0-9]/g, ''))}
+                      className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-wider block">
+                      Projected Dispatch Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={editDispatchDate}
+                      onChange={(e) => setEditDispatchDate(e.target.value)}
+                      className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex gap-2 justify-end border-t border-border pt-4 bg-slate-50/50 p-4">
+                <Button
+                  type="button"
+                  onClick={() => setEditingOrder(null)}
+                  variant="outline"
+                  className="text-xs uppercase font-bold tracking-wider h-9"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={savingEdit}
+                  className="bg-primary hover:bg-primary/90 text-white text-xs uppercase font-bold tracking-wider h-9"
+                >
+                  {savingEdit ? 'Saving...' : 'Save Changes'}
+                </Button>
+              </CardFooter>
+            </form>
           </Card>
         </div>
       )}

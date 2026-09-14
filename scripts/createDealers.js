@@ -24,7 +24,8 @@ const accounts = [
   { email: 'saurav@westernconsolidated.com', firm: 'Saurav', role: 'dealer' },
   { email: 'navneet@westernconsolidated.com', firm: 'Navneet', role: 'dealer' },
   { email: 'vishal@westernconsolidated.com', firm: 'Vishal', role: 'dealer' },
-  { email: 'abhilash@westernconsolidated.com', firm: 'Abhilash', role: 'dealer' }
+  { email: 'abhilash@westernconsolidated.com', firm: 'Abhilash', role: 'dealer' },
+  { email: 'deepika@westernconsolidated.com', firm: 'Deepika', role: 'dealer' }
 ];
 
 const DEFAULT_PASSWORD = 'Western@1234';

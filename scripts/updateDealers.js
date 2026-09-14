@@ -23,7 +23,8 @@ const dealers = [
   { email: 'saurav@westernconsolidated.com', name: 'Saurav' },
   { email: 'navneet@westernconsolidated.com', name: 'Navneet' },
   { email: 'vishal@westernconsolidated.com', name: 'Vishal' },
-  { email: 'abhilash@westernconsolidated.com', name: 'Abhilash' }
+  { email: 'abhilash@westernconsolidated.com', name: 'Abhilash' },
+  { email: 'deepika@westernconsolidated.com', name: 'Deepika' }
 ];
 
 async function run() {

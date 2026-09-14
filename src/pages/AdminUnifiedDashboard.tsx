@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { supabase } from '@/lib/supabaseClient';
 import { PortalLayout } from '@/components/layout/PortalLayout';
+import { AdminDispatchedView } from './AdminDispatched';
 import {
   Calculator,
   ShoppingBag,
@@ -68,14 +69,15 @@ interface Order {
   profiles?: { email: string; firm_name: string } | null;
 }
 
-export default function AdminUnifiedDashboard() {
-  const [activeModule, setActiveModule] = useState<'pricing' | 'orders'>(() => {
+export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pricing' | 'orders' | 'dispatched' } = {}) {
+  const [activeModule, setActiveModule] = useState<'pricing' | 'orders' | 'dispatched'>(() => {
+    if (initialTab) return initialTab;
     const params = new URLSearchParams(window.location.search);
     const tab = params.get('tab');
-    return tab === 'orders' ? 'orders' : 'pricing';
+    return (tab === 'orders' || tab === 'dispatched' || tab === 'pricing') ? tab : 'pricing';
   });
 
-  const handleSetActiveModule = (module: 'pricing' | 'orders') => {
+  const handleSetActiveModule = (module: 'pricing' | 'orders' | 'dispatched') => {
     setActiveModule(module);
     const url = new URL(window.location.href);
     url.searchParams.set('tab', module);
@@ -432,12 +434,13 @@ export default function AdminUnifiedDashboard() {
           >
             <ShoppingBag size={14} /> Order Booking
           </button>
-          <NavLink
-            to="/portal/admin/dispatched"
-            className="flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 text-foreground-muted hover:text-primary hover:bg-slate-50"
+          <button
+            onClick={() => handleSetActiveModule('dispatched')}
+            className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'dispatched' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
+              }`}
           >
             <CheckCircle2 size={14} /> Dispatched Page
-          </NavLink>
+          </button>
         </div>
 
         {/* Pricing Module */}
@@ -799,6 +802,11 @@ export default function AdminUnifiedDashboard() {
             </div>
 
           </div>
+        </div>
+
+        {/* Dispatched Module */}
+        <div className={activeModule === 'dispatched' ? 'block' : 'hidden'}>
+          <AdminDispatchedView />
         </div>
 
       </div>

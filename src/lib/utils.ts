@@ -23,6 +23,7 @@ export function cleanSalesRepName(nameOrEmail?: string | null): string {
     abhilash: 'Abhilash',
     shyamal: 'Shyamal',
     sunil: 'Sunil',
+    deepika: 'Deepika',
   };
 
   str = str.replace(/\s+(Power|Admin)$/i, '').trim();

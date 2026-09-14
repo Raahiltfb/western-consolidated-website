@@ -162,6 +162,12 @@ create policy "Dealers can view their own orders" on public.orders
 create policy "Dealers can insert their own orders" on public.orders
   for insert with check (auth.uid() = user_id);
 
+create policy "Dealers can update their own orders" on public.orders
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create policy "Dealers can delete their own orders" on public.orders
+  for delete using (auth.uid() = user_id);
+
 create policy "Admins can select all orders" on public.orders
   for select using (public.is_admin());
 
@@ -173,6 +179,35 @@ create policy "Admins can update all orders" on public.orders
 
 create policy "Admins can delete all orders" on public.orders
   for delete using (public.is_admin());
+
+-- Trigger function to protect system identity, sales rep, and ownership fields from dealer updates
+create or replace function public.restrict_dealer_order_updates()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  -- Admins can update any field
+  if public.is_admin() then
+    return new;
+  end if;
+
+  -- For non-admin users (dealers), enforce that identity and ownership fields cannot be altered
+  if (old.id is distinct from new.id) or
+     (old.user_id is distinct from new.user_id) or
+     (old.sales_rep is distinct from new.sales_rep) or
+     (old.created_at is distinct from new.created_at) then
+    raise exception 'Dealers are not permitted to modify system identity, sales rep, or order ownership fields.';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists on_order_before_update on public.orders;
+create trigger on_order_before_update
+  before update on public.orders
+  for each row execute function public.restrict_dealer_order_updates();
 
 -- Trigger to automatically set user_id and sales_rep on order creation
 create or replace function public.set_order_auth_fields()
