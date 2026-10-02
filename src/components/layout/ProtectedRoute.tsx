@@ -74,14 +74,8 @@ export const ProtectedRoute = ({ children, allowedRole }: ProtectedRouteProps) =
             </p>
             <div className="flex gap-4 justify-center">
               <Link
-                to="/portal/price-support"
-                className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-semibold text-sm rounded-lg transition-colors"
-              >
-                Price Support
-              </Link>
-              <Link
                 to="/portal/order-support"
-                className="px-4 py-2 bg-white hover:bg-slate-50 text-foreground font-semibold text-sm rounded-lg transition-colors border border-border"
+                className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-semibold text-sm rounded-lg transition-colors"
               >
                 Order Booking
               </Link>

@@ -141,18 +141,6 @@ export const PortalLayout = ({ children, title, subtitle }: PortalLayoutProps) =
               ) : (
                 <>
                   <NavLink
-                    to="/portal/price-support"
-                    className={({ isActive }) =>
-                      `flex items-center gap-2 px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider rounded-md transition-colors ${isActive
-                        ? 'text-primary bg-primary/5 border-b-2 border-primary'
-                        : 'text-foreground-muted hover:text-primary hover:bg-slate-100/50'
-                      }`
-                    }
-                  >
-                    <Calculator size={14} />
-                    Price Support
-                  </NavLink>
-                  <NavLink
                     to="/portal/order-support"
                     className={({ isActive }) =>
                       `flex items-center gap-2 px-4 py-2 text-[13px] font-display font-bold uppercase tracking-wider rounded-md transition-colors ${isActive
@@ -224,16 +212,6 @@ export const PortalLayout = ({ children, title, subtitle }: PortalLayoutProps) =
             </>
           ) : (
             <>
-              <NavLink
-                to="/portal/price-support"
-                className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 transition-colors ${isActive ? 'text-primary' : 'text-zinc-400'
-                  }`
-                }
-              >
-                <Calculator size={14} />
-                Price
-              </NavLink>
               <NavLink
                 to="/portal/order-support"
                 className={({ isActive }) =>

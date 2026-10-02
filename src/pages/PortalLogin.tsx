@@ -23,7 +23,7 @@ export default function PortalLogin() {
         if (profile.role === 'admin') {
           navigate('/portal/admin');
         } else {
-          navigate('/portal/price-support');
+          navigate('/portal/order-support');
         }
       } else {
         setErrorMsg('Authentication succeeded, but no database profile was found for this user. Please verify user creation metadata or run the setup SQL trigger.');
