@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/hooks/useAuth';
 import { PortalLayout } from '@/components/layout/PortalLayout';
 import { AdminDispatchedView } from './AdminDispatched';
 import {
@@ -16,7 +17,11 @@ import {
   CheckCircle2,
   RefreshCcw,
   AlertTriangle,
-  Edit
+  Edit,
+  Paperclip,
+  Download,
+  ExternalLink,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,6 +44,7 @@ const formatINR = (n: number | string) => {
 interface Rating {
   kva: string;
   min_price: number;
+  bulk_min_price: number;
   refer_floor: number;
 }
 
@@ -51,6 +57,8 @@ interface PriceSubmission {
   sales_rep?: string;
   offered_price: number;
   verdict: 'APPROVED' | 'REFER' | 'NOT_POSSIBLE';
+  quantity?: number;
+  pricing_tier?: 'standard' | 'bulk';
   profiles?: { email: string; firm_name: string } | null;
 }
 
@@ -66,18 +74,32 @@ interface Order {
   price_per_set: number;
   dispatch_date: string;
   status: 'open' | 'dispatched';
+  attachment_path?: string | null;
+  attachment_name?: string | null;
   profiles?: { email: string; firm_name: string } | null;
 }
 
 export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pricing' | 'orders' | 'dispatched' } = {}) {
+  const { profile } = useAuth();
+  const isOrderAdmin = profile?.role === 'order_admin';
+
   const [activeModule, setActiveModule] = useState<'pricing' | 'orders' | 'dispatched'>(() => {
+    if (isOrderAdmin) return 'orders';
     if (initialTab) return initialTab;
     const params = new URLSearchParams(window.location.search);
     const tab = params.get('tab');
     return (tab === 'orders' || tab === 'dispatched' || tab === 'pricing') ? tab : 'pricing';
   });
 
+  // Ensure order_admin stays strictly on 'orders'
+  useEffect(() => {
+    if (isOrderAdmin && activeModule !== 'orders') {
+      setActiveModule('orders');
+    }
+  }, [isOrderAdmin, activeModule]);
+
   const handleSetActiveModule = (module: 'pricing' | 'orders' | 'dispatched') => {
+    if (isOrderAdmin && module !== 'orders') return;
     setActiveModule(module);
     const url = new URL(window.location.href);
     url.searchParams.set('tab', module);
@@ -89,6 +111,12 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   const [submissions, setSubmissions] = useState<PriceSubmission[]>([]);
   const [subSearch, setSubSearch] = useState('');
   
+  // Bulk threshold state
+  const [bulkThreshold, setBulkThreshold] = useState<number>(3);
+  const [editThresholdInput, setEditThresholdInput] = useState<string>('3');
+  const [isEditingThreshold, setIsEditingThreshold] = useState<boolean>(false);
+  const [savingThreshold, setSavingThreshold] = useState<boolean>(false);
+
   const [pricingTab, setPricingTab] = useState<'floors' | 'log'>(() => {
     const params = new URLSearchParams(window.location.search);
     const subtab = params.get('subtab');
@@ -105,6 +133,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   // Rating edit state
   const [newKva, setNewKva] = useState('');
   const [newMinPrice, setNewMinPrice] = useState('');
+  const [newBulkMinPrice, setNewBulkMinPrice] = useState('');
   const [newReferFloor, setNewReferFloor] = useState('');
   const [isEditingRating, setIsEditingRating] = useState(false);
 
@@ -148,15 +177,81 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   const [editOrderPrice, setEditOrderPrice] = useState('');
   const [editOrderDate, setEditOrderDate] = useState('');
   const [editOrderStatus, setEditOrderStatus] = useState<'open' | 'dispatched'>('open');
+  const [editOrderAttachmentPath, setEditOrderAttachmentPath] = useState<string | null>(null);
+  const [editOrderAttachmentName, setEditOrderAttachmentName] = useState<string | null>(null);
+  const [editOrderNewFile, setEditOrderNewFile] = useState<File | null>(null);
+  const [editOrderRemoveAttachment, setEditOrderRemoveAttachment] = useState(false);
   const [savingOrder, setSavingOrder] = useState(false);
 
   // Load Initial Data
   useEffect(() => {
-    fetchPricingData();
+    if (profile?.role === 'admin') {
+      fetchPricingData();
+      fetchBulkThreshold();
+    }
     fetchOrderData();
-  }, []);
+  }, [profile?.role]);
+
+  const fetchBulkThreshold = async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_bulk_threshold');
+      if (error) {
+        const { data: stData } = await supabase
+          .from('pricing_settings')
+          .select('value')
+          .eq('key', 'bulk_threshold')
+          .maybeSingle();
+        if (stData?.value) {
+          const val = parseInt(stData.value, 10);
+          if (!isNaN(val) && val >= 1) {
+            setBulkThreshold(val);
+            setEditThresholdInput(val.toString());
+          }
+        }
+      } else if (data) {
+        const val = Number(data);
+        setBulkThreshold(val);
+        setEditThresholdInput(val.toString());
+      }
+    } catch (e) {
+      console.error('Failed to load bulk threshold:', e);
+    }
+  };
+
+  const handleSaveBulkThreshold = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const val = parseInt(editThresholdInput, 10);
+    if (isNaN(val) || val < 1) {
+      alert('Threshold must be a positive whole number (e.g. 3).');
+      return;
+    }
+
+    setSavingThreshold(true);
+    try {
+      const { error } = await supabase.rpc('set_bulk_threshold', { p_threshold: val });
+      if (error) {
+        const { error: upsertErr } = await supabase
+          .from('pricing_settings')
+          .upsert({
+            key: 'bulk_threshold',
+            value: val.toString(),
+            updated_at: new Date().toISOString()
+          });
+        if (upsertErr) throw upsertErr;
+      }
+      setBulkThreshold(val);
+      setIsEditingThreshold(false);
+      alert('Bulk pricing threshold updated successfully.');
+    } catch (err: any) {
+      console.error('Failed to update threshold:', err);
+      alert('Failed to update threshold: ' + (err.message || 'Unknown error'));
+    } finally {
+      setSavingThreshold(false);
+    }
+  };
 
   const fetchPricingData = async () => {
+    if (profile?.role === 'order_admin') return;
     try {
       const { data: ratData, error: ratErr } = await supabase
         .from('genset_ratings')
@@ -193,9 +288,15 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   const handleSaveRating = async (e: React.FormEvent) => {
     e.preventDefault();
     const minVal = Number(newMinPrice);
+    const bulkMinVal = Number(newBulkMinPrice);
     const refVal = Number(newReferFloor);
-    if (!newKva.trim() || isNaN(minVal) || isNaN(refVal) || refVal > minVal) {
-      alert('Refer floor must be equal to or less than minimum price.');
+    if (!newKva.trim() || isNaN(minVal) || isNaN(bulkMinVal) || isNaN(refVal)) {
+      alert('Please fill all price fields with valid numbers.');
+      return;
+    }
+
+    if (refVal > minVal || refVal > bulkMinVal) {
+      alert('Refer floor must be equal to or less than both standard minimum price and bulk minimum price.');
       return;
     }
 
@@ -205,6 +306,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
         .upsert({
           kva: newKva.trim(),
           min_price: minVal,
+          bulk_min_price: bulkMinVal,
           refer_floor: refVal,
         });
 
@@ -212,6 +314,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
 
       setNewKva('');
       setNewMinPrice('');
+      setNewBulkMinPrice('');
       setNewReferFloor('');
       setIsEditingRating(false);
       fetchPricingData();
@@ -223,6 +326,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   const handleStartEditRating = (r: Rating) => {
     setNewKva(r.kva);
     setNewMinPrice(r.min_price.toString());
+    setNewBulkMinPrice((r.bulk_min_price ?? r.min_price).toString());
     setNewReferFloor(r.refer_floor.toString());
     setIsEditingRating(true);
   };
@@ -230,6 +334,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
   const handleCancelEditRating = () => {
     setNewKva('');
     setNewMinPrice('');
+    setNewBulkMinPrice('');
     setNewReferFloor('');
     setIsEditingRating(false);
   };
@@ -248,14 +353,31 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
     }
   };
 
+  const handleDeleteSubmission = async (id: string) => {
+    if (!confirm(`Are you sure you want to delete submission ${id}? This action is permanent.`)) return;
+    try {
+      const { error } = await supabase
+        .from('price_submissions')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      setSubmissions(submissions.filter(s => s.id !== id));
+    } catch (err: any) {
+      console.error('Failed to delete submission:', err);
+      alert(err.message || 'Failed to delete submission.');
+    }
+  };
+
   const handleCopySubmissionsCSV = () => {
-    const headers = ['Date', 'Reference', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Customer', 'Price (excluding-GST)', 'Verdict'];
+    const headers = ['Date', 'Reference', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Sets', 'Tier', 'Customer', 'Price (excluding-GST)', 'Verdict'];
     const rows = filteredSubmissions.map((s) => [
       new Date(s.created_at).toLocaleDateString('en-IN'),
       s.id,
       cleanSalesRepName(s.sales_rep || s.profiles?.firm_name || s.profiles?.email || 'Unknown'),
       s.dealer_name || '',
       s.kva,
+      s.quantity || 1,
+      s.pricing_tier || 'standard',
       s.customer_name,
       s.offered_price,
       s.verdict,
@@ -294,6 +416,21 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
     }
   };
 
+  const handleDownloadAttachment = async (path: string, fileName?: string) => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('order-attachments')
+        .createSignedUrl(path, 300);
+      if (error) throw error;
+      if (data?.signedUrl) {
+        window.open(data.signedUrl, '_blank');
+      }
+    } catch (err: any) {
+      console.error('Failed to view attachment:', err);
+      alert('Failed to load attachment: ' + (err.message || 'Unknown error'));
+    }
+  };
+
   const handleStartEditOrder = (o: Order) => {
     setEditingOrder(o);
     setEditOrderDealer(o.dealer_name);
@@ -304,10 +441,16 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
     setEditOrderPrice(o.price_per_set.toString());
     setEditOrderDate(o.dispatch_date);
     setEditOrderStatus(o.status);
+    setEditOrderAttachmentPath(o.attachment_path || null);
+    setEditOrderAttachmentName(o.attachment_name || null);
+    setEditOrderNewFile(null);
+    setEditOrderRemoveAttachment(false);
   };
 
   const handleCancelEditOrder = () => {
     setEditingOrder(null);
+    setEditOrderNewFile(null);
+    setEditOrderRemoveAttachment(false);
   };
 
   const handleSaveOrderEdit = async (e: React.FormEvent) => {
@@ -316,6 +459,23 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
 
     setSavingOrder(true);
     try {
+      let attachmentPath = editingOrder.attachment_path || null;
+      let attachmentName = editingOrder.attachment_name || null;
+
+      if (editOrderRemoveAttachment) {
+        attachmentPath = null;
+        attachmentName = null;
+      } else if (editOrderNewFile) {
+        const cleanName = editOrderNewFile.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const storagePath = `${editingOrder.user_id || profile?.id || 'admin'}/${editingOrder.id}/${Date.now()}_${cleanName}`;
+        const { error: upErr } = await supabase.storage
+          .from('order-attachments')
+          .upload(storagePath, editOrderNewFile, { upsert: true });
+        if (upErr) throw upErr;
+        attachmentPath = storagePath;
+        attachmentName = editOrderNewFile.name;
+      }
+
       const { error } = await supabase
         .from('orders')
         .update({
@@ -327,6 +487,8 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
           price_per_set: Number(editOrderPrice),
           dispatch_date: editOrderDate,
           status: editOrderStatus,
+          attachment_path: attachmentPath,
+          attachment_name: attachmentName,
           updated_at: new Date().toISOString(),
         })
         .eq('id', editingOrder.id);
@@ -335,16 +497,16 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
 
       setEditingOrder(null);
       fetchOrderData();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating order:', err);
-      alert('Failed to update order booking.');
+      alert('Failed to update order booking: ' + (err.message || ''));
     } finally {
       setSavingOrder(false);
     }
   };
 
   const handleExportOrdersCSV = () => {
-    const headers = ['Ref', 'Booking Date', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Sets', 'Customer', 'Phone', 'Price per Set', 'Value', 'Dispatch Date', 'Status'];
+    const headers = ['Ref', 'Booking Date', 'Sales Rep (Account)', 'Dealer', 'kVA', 'Sets', 'Customer', 'Phone', 'Price per Set', 'Value', 'Dispatch Date', 'Attachment', 'Status'];
     const rows = filteredOrders.map((o) => [
       o.id,
       new Date(o.created_at).toLocaleDateString('en-IN'),
@@ -357,6 +519,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
       o.price_per_set,
       o.sets_count * o.price_per_set,
       o.dispatch_date,
+      o.attachment_name || (o.attachment_path ? 'Yes' : 'None'),
       o.status,
     ]);
 
@@ -413,160 +576,346 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
 
   return (
     <PortalLayout
-      title="Admin Panel"
-
+      title={isOrderAdmin ? "Admin Order Booking" : "Admin Panel"}
+      subtitle={isOrderAdmin ? "Authorized order administration view" : undefined}
     >
       <div className="space-y-8 text-foreground">
 
-        {/* Module Switcher */}
-        <div className="flex bg-white p-1 rounded-xl border border-border max-w-xl mx-auto sm:mx-0 shadow-sm">
-          <button
-            onClick={() => handleSetActiveModule('pricing')}
-            className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'pricing' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
-              }`}
-          >
-            <Calculator size={14} /> Pricing Support
-          </button>
-          <button
-            onClick={() => handleSetActiveModule('orders')}
-            className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'orders' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
-              }`}
-          >
-            <ShoppingBag size={14} /> Order Booking
-          </button>
-          <button
-            onClick={() => handleSetActiveModule('dispatched')}
-            className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'dispatched' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
-              }`}
-          >
-            <CheckCircle2 size={14} /> Dispatched Page
-          </button>
-        </div>
+        {/* Module Switcher - Only shown for Full Admins */}
+        {!isOrderAdmin && (
+          <div className="flex bg-white p-1 rounded-xl border border-border max-w-xl mx-auto sm:mx-0 shadow-sm">
+            <button
+              onClick={() => handleSetActiveModule('pricing')}
+              className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'pricing' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
+                }`}
+            >
+              <Calculator size={14} /> Pricing Support
+            </button>
+            <button
+              onClick={() => handleSetActiveModule('orders')}
+              className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'orders' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
+                }`}
+            >
+              <ShoppingBag size={14} /> Order Booking
+            </button>
+            <button
+              onClick={() => handleSetActiveModule('dispatched')}
+              className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${activeModule === 'dispatched' ? 'bg-primary text-white' : 'text-foreground-muted hover:text-primary hover:bg-slate-50'
+                }`}
+            >
+              <CheckCircle2 size={14} /> Dispatched Page
+            </button>
+          </div>
+        )}
 
-        {/* Pricing Module */}
-        <div className={activeModule === 'pricing' ? 'block' : 'hidden'}>
-          <Tabs value={pricingTab} onValueChange={(val) => handleSetPricingTab(val as 'floors' | 'log')} className="w-full">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border pb-3 mb-6 gap-4">
-              <TabsList className="bg-white border border-border shadow-sm p-1">
-                <TabsTrigger value="floors" className="data-[state=active]:bg-primary data-[state=active]:text-white text-xs font-bold tracking-wide uppercase">
-                  <Sliders size={13} className="mr-1.5" /> Price Floors
-                </TabsTrigger>
-                <TabsTrigger value="log" className="data-[state=active]:bg-primary data-[state=active]:text-white text-xs font-bold tracking-wide uppercase">
-                  <History size={13} className="mr-1.5" /> Submission Log
-                </TabsTrigger>
-              </TabsList>
+        {/* Pricing Module - Only for Full Admins */}
+        {!isOrderAdmin && activeModule === 'pricing' && (
+          <div>
+            <Tabs value={pricingTab} onValueChange={(val) => handleSetPricingTab(val as 'floors' | 'log')} className="w-full">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-border pb-3 mb-6 gap-4">
+                <TabsList className="bg-white border border-border shadow-sm p-1">
+                  <TabsTrigger value="floors" className="data-[state=active]:bg-primary data-[state=active]:text-white text-xs font-bold tracking-wide uppercase">
+                    <Sliders size={13} className="mr-1.5" /> Price Floors
+                  </TabsTrigger>
+                  <TabsTrigger value="log" className="data-[state=active]:bg-primary data-[state=active]:text-white text-xs font-bold tracking-wide uppercase">
+                    <History size={13} className="mr-1.5" /> Submission Log
+                  </TabsTrigger>
+                </TabsList>
 
-              <div className="flex gap-2">
-                <Button onClick={fetchPricingData} size="sm" variant="outline" className="border-border hover:bg-slate-100 text-foreground">
-                  <RefreshCcw size={14} className="mr-1" /> Refresh
-                </Button>
+                <div className="flex gap-2">
+                  <Button onClick={fetchPricingData} size="sm" variant="outline" className="border-border hover:bg-slate-100 text-foreground">
+                    <RefreshCcw size={14} className="mr-1" /> Refresh
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            {/* TAB: Price Floors */}
-            <TabsContent value="floors" forceMount className={pricingTab === 'floors' ? "space-y-6 outline-none block" : "hidden"}>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                {/* Add/Edit floor configuration */}
-                <Card className="bg-white border-border h-fit shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
-                      {isEditingRating ? 'Edit Price Floor' : 'Configure Price Floor'}
-                    </CardTitle>
+              {/* TAB: Price Floors */}
+              <TabsContent value="floors" forceMount className={pricingTab === 'floors' ? "space-y-6 outline-none block" : "hidden"}>
+                
+                {/* Global Bulk Order Threshold Configuration */}
+                <Card className="bg-white border-border shadow-sm">
+                  <CardHeader className="pb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <CardTitle className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+                          Bulk Order Pricing Rule
+                        </CardTitle>
+                        <CardDescription className="text-xs text-foreground-muted mt-0.5">
+                          Set the minimum quantity of sets required for bulk pricing tiers to apply.
+                        </CardDescription>
+                      </div>
+                      <div className="flex items-center gap-2 bg-slate-50 border border-border px-3.5 py-2 rounded-lg">
+                        <span className="text-xs font-semibold text-foreground">
+                          Bulk pricing applies to <strong className="text-primary font-bold">{bulkThreshold} or more sets</strong>.
+                        </span>
+                      </div>
+                    </div>
                   </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleSaveRating} className="space-y-4">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">kVA Rating</label>
-                        <Input
-                          placeholder="e.g. 15 (3ph) GK"
-                          value={newKva}
-                          onChange={(e) => setNewKva(e.target.value)}
-                          className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
-                          required
-                          disabled={isEditingRating}
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">Minimum Approved Price (₹)</label>
-                        <Input
-                          type="number"
-                          placeholder="e.g. 280000"
-                          value={newMinPrice}
-                          onChange={(e) => setNewMinPrice(e.target.value)}
-                          className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">Management Referral Floor (₹)</label>
-                        <Input
-                          type="number"
-                          placeholder="e.g. 270000"
-                          value={newReferFloor}
-                          onChange={(e) => setNewReferFloor(e.target.value)}
-                          className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
-                          required
-                        />
-                      </div>
-
-                      {newMinPrice && newReferFloor && Number(newReferFloor) > Number(newMinPrice) && (
-                        <div className="text-primary text-[10px] flex items-center gap-1">
-                          <AlertTriangle size={12} /> Refer floor cannot exceed minimum price.
+                  <CardContent className="pt-0">
+                    {isEditingThreshold ? (
+                      <form onSubmit={handleSaveBulkThreshold} className="flex flex-wrap items-center gap-3 pt-2">
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider">
+                            Global Threshold (Sets):
+                          </label>
+                          <Input
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={editThresholdInput}
+                            onChange={(e) => setEditThresholdInput(e.target.value)}
+                            className="w-24 bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary"
+                            required
+                          />
                         </div>
-                      )}
-
-                      <div className="flex gap-2">
-                        {isEditingRating && (
-                          <Button type="button" onClick={handleCancelEditRating} size="sm" className="flex-1 bg-white hover:bg-slate-100 text-foreground hover:text-foreground font-bold tracking-wider uppercase text-[10px] h-9 border border-border">
+                        <div className="flex gap-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setIsEditingThreshold(false);
+                              setEditThresholdInput(bulkThreshold.toString());
+                            }}
+                            className="h-8 text-xs"
+                          >
                             Cancel
                           </Button>
-                        )}
-                        <Button type="submit" size="sm" className="flex-1 bg-primary hover:bg-primary/95 text-white font-bold tracking-wider uppercase text-[10px] h-9">
-                          {isEditingRating ? <Check size={14} className="mr-1" /> : <Plus size={14} className="mr-1" />}
-                          {isEditingRating ? 'Update Rule' : 'Save Rule'}
+                          <Button
+                            type="submit"
+                            size="sm"
+                            disabled={savingThreshold}
+                            className="h-8 text-xs bg-primary hover:bg-primary/95 text-white"
+                          >
+                            {savingThreshold ? 'Saving...' : 'Save Rule'}
+                          </Button>
+                        </div>
+                      </form>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-border/50">
+                        <span className="text-xs text-zinc-500">
+                          Submissions with quantity &lt; {bulkThreshold} use Standard Minimum Price; quantity &ge; {bulkThreshold} use Bulk Minimum Price. Both share the same Refer Floor.
+                        </span>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setEditThresholdInput(bulkThreshold.toString());
+                            setIsEditingThreshold(true);
+                          }}
+                          className="h-8 text-xs border-border bg-white text-foreground hover:bg-white hover:text-foreground hover:border-border self-start sm:self-auto shadow-none"
+                        >
+                          <Edit size={12} className="mr-1.5" /> Edit Threshold
                         </Button>
                       </div>
-                    </form>
+                    )}
                   </CardContent>
                 </Card>
 
-                {/* Ratings Table */}
-                <div className="lg:col-span-2 bg-white border border-border rounded-xl overflow-hidden shadow-sm">
-                  <div className="p-4 border-b border-border bg-slate-50/50 flex justify-between items-center">
-                    <span className="font-display text-xs font-bold uppercase tracking-wider text-foreground-muted">Company Price Floors</span>
-                    <span className="text-[10px] text-zinc-400 font-mono">{ratings.length} ratings active</span>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                  {/* Add/Edit floor configuration */}
+                  <Card className="bg-white border-border h-fit shadow-sm">
+                    <CardHeader>
+                      <CardTitle className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+                        {isEditingRating ? 'Edit Price Floor' : 'Configure Price Floor'}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <form onSubmit={handleSaveRating} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">kVA Rating</label>
+                          <Input
+                            placeholder="e.g. 15 (3ph) GK"
+                            value={newKva}
+                            onChange={(e) => setNewKva(e.target.value)}
+                            className="bg-white border-border text-foreground text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                            required
+                            disabled={isEditingRating}
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">Standard Min Approved Price (₹)</label>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 280000"
+                            value={newMinPrice}
+                            onChange={(e) => setNewMinPrice(e.target.value)}
+                            className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">Bulk Min Approved Price (₹)</label>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 275000"
+                            value={newBulkMinPrice}
+                            onChange={(e) => setNewBulkMinPrice(e.target.value)}
+                            className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-foreground-muted uppercase tracking-widest block">Management Referral Floor (₹)</label>
+                          <Input
+                            type="number"
+                            placeholder="e.g. 270000"
+                            value={newReferFloor}
+                            onChange={(e) => setNewReferFloor(e.target.value)}
+                            className="bg-white border-border text-foreground font-mono text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                            required
+                          />
+                        </div>
+
+                        {((newMinPrice && newReferFloor && Number(newReferFloor) > Number(newMinPrice)) ||
+                          (newBulkMinPrice && newReferFloor && Number(newReferFloor) > Number(newBulkMinPrice))) && (
+                          <div className="text-primary text-[10px] flex items-center gap-1">
+                            <AlertTriangle size={12} /> Refer floor cannot exceed standard or bulk minimum price.
+                          </div>
+                        )}
+
+                        <div className="flex gap-2">
+                          {isEditingRating && (
+                            <Button type="button" onClick={handleCancelEditRating} size="sm" className="flex-1 bg-white hover:bg-slate-100 text-foreground hover:text-foreground font-bold tracking-wider uppercase text-[10px] h-9 border border-border">
+                              Cancel
+                            </Button>
+                          )}
+                          <Button type="submit" size="sm" className="flex-1 bg-primary hover:bg-primary/95 text-white font-bold tracking-wider uppercase text-[10px] h-9">
+                            {isEditingRating ? <Check size={14} className="mr-1" /> : <Plus size={14} className="mr-1" />}
+                            {isEditingRating ? 'Update Rule' : 'Save Rule'}
+                          </Button>
+                        </div>
+                      </form>
+                    </CardContent>
+                  </Card>
+
+                  {/* Ratings Table */}
+                  <div className="lg:col-span-2 bg-white border border-border rounded-xl overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-border bg-slate-50/50 flex justify-between items-center">
+                      <span className="font-display text-xs font-bold uppercase tracking-wider text-foreground-muted">Company Price Floors</span>
+                      <span className="text-[10px] text-zinc-400 font-mono">{ratings.length} ratings active</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="border-b border-border text-foreground-muted font-bold uppercase tracking-wider bg-slate-50/30">
+                            <th className="py-3.5 px-4 font-semibold">kVA</th>
+                            <th className="py-3.5 px-4 font-semibold">Standard Min</th>
+                            <th className="py-3.5 px-4 font-semibold">Bulk Min</th>
+                            <th className="py-3.5 px-4 font-semibold">Refer Floor</th>
+                            <th className="py-3.5 px-4 font-semibold text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {ratings.length === 0 ? (
+                            <tr>
+                              <td colSpan={5} className="py-12 text-center text-zinc-400 font-mono">No pricing guidelines defined yet.</td>
+                            </tr>
+                          ) : (
+                            ratings.map((r) => (
+                              <tr key={r.kva} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
+                                <td className="py-3 px-4 font-bold text-foreground">{r.kva}</td>
+                                <td className="py-3 px-4 text-emerald-600 font-bold">{formatINR(r.min_price)}</td>
+                                <td className="py-3 px-4 text-blue-600 font-bold">{formatINR(r.bulk_min_price ?? r.min_price)}</td>
+                                <td className="py-3 px-4 text-amber-600 font-bold">{formatINR(r.refer_floor)}</td>
+                                <td className="py-3 px-4 text-right">
+                                  <div className="flex gap-1 justify-end">
+                                    <button onClick={() => handleStartEditRating(r)} className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all" title="Edit">
+                                      <Edit size={14} />
+                                    </button>
+                                    <button onClick={() => handleDeleteRating(r.kva)} className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all" title="Delete">
+                                      <Trash2 size={14} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
+
+                </div>
+              </TabsContent>
+
+              {/* TAB: Submissions Log */}
+              <TabsContent value="log" forceMount className={pricingTab === 'log' ? "space-y-4 outline-none block" : "hidden"}>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+                    <Input
+                      placeholder="Search by reference, dealer, customer, rating..."
+                      value={subSearch}
+                      onChange={(e) => setSubSearch(e.target.value)}
+                      className="pl-9 bg-white border-border text-foreground placeholder-zinc-400 text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                    />
+                  </div>
+                  <Button onClick={handleCopySubmissionsCSV} size="sm" className="bg-white text-foreground border border-border">
+                    <FileDown size={14} className="mr-1.5" /> Copy CSV Log
+                  </Button>
+                </div>
+
+                <div className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
                         <tr className="border-b border-border text-foreground-muted font-bold uppercase tracking-wider bg-slate-50/30">
+                          <th className="py-3.5 px-4 font-semibold">Date</th>
+                          <th className="py-3.5 px-4 font-semibold">Reference</th>
+                          <th className="py-3.5 px-4 font-semibold">Sales Rep (Account)</th>
+                          <th className="py-3.5 px-4 font-semibold">Dealer</th>
                           <th className="py-3.5 px-4 font-semibold">kVA</th>
-                          <th className="py-3.5 px-4 font-semibold">Minimum Price</th>
-                          <th className="py-3.5 px-4 font-semibold">Refer Floor</th>
-                          <th className="py-3.5 px-4 font-semibold text-right">Actions</th>
+                          <th className="py-3.5 px-4 font-semibold">Sets</th>
+                          <th className="py-3.5 px-4 font-semibold">Tier</th>
+                          <th className="py-3.5 px-4 font-semibold">Customer</th>
+                          <th className="py-3.5 px-4 font-semibold">Offered Price</th>
+                          <th className="py-3.5 px-4 font-semibold">Verdict</th>
+                          <th className="py-3.5 px-4 font-semibold text-right">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {ratings.length === 0 ? (
+                        {filteredSubmissions.length === 0 ? (
                           <tr>
-                            <td colSpan={4} className="py-12 text-center text-zinc-400 font-mono">No pricing guidelines defined yet.</td>
+                            <td colSpan={11} className="py-12 text-center text-zinc-400 font-mono">No pricing submissions matched the filters.</td>
                           </tr>
                         ) : (
-                          ratings.map((r) => (
-                            <tr key={r.kva} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
-                              <td className="py-3 px-4 font-bold text-foreground">{r.kva}</td>
-                              <td className="py-3 px-4 text-emerald-600 font-bold">{formatINR(r.min_price)}</td>
-                              <td className="py-3 px-4 text-amber-600 font-bold">{formatINR(r.refer_floor)}</td>
-                              <td className="py-3 px-4 text-right">
-                                <div className="flex gap-1 justify-end">
-                                  <button onClick={() => handleStartEditRating(r)} className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all" title="Edit">
-                                    <Edit size={14} />
-                                  </button>
-                                  <button onClick={() => handleDeleteRating(r.kva)} className="text-zinc-400 hover:text-primary p-1.5 rounded transition-all" title="Delete">
-                                    <Trash2 size={14} />
-                                  </button>
-                                </div>
+                          filteredSubmissions.map((s) => (
+                            <tr key={s.id} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
+                              <td className="py-3.5 px-4 text-zinc-400 text-[10px]">{new Date(s.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
+                              <td className="py-3.5 px-4 font-bold text-foreground">{s.id}</td>
+                              <td className="py-3.5 px-4 font-sans font-medium text-foreground">{cleanSalesRepName(s.sales_rep || s.profiles?.firm_name || s.profiles?.email || '-')}</td>
+                              <td className="py-3.5 px-4 text-foreground-muted font-sans">{s.dealer_name || '-'}</td>
+                              <td className="py-3.5 px-4 text-foreground">{s.kva}</td>
+                              <td className="py-3.5 px-4 font-bold text-foreground">{s.quantity || 1}</td>
+                              <td className="py-3.5 px-4">
+                                <span className={`inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase font-sans tracking-wide ${
+                                  s.pricing_tier === 'bulk' ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-600'
+                                }`}>
+                                  {s.pricing_tier === 'bulk' ? 'Bulk' : 'Standard'}
+                                </span>
+                              </td>
+                              <td className="py-3.5 px-4 font-sans font-medium text-foreground">{s.customer_name}</td>
+                              <td className="py-3.5 px-4 text-primary font-bold">{formatINR(s.offered_price)}</td>
+                              <td className="py-3.5 px-4">
+                                <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase font-sans tracking-wide ${s.verdict === 'APPROVED' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/50' :
+                                  s.verdict === 'REFER' ? 'bg-amber-50 text-amber-800 border border-amber-200/50' :
+                                    'bg-red-50 text-red-850 border border-red-200/50'
+                                  }`}>
+                                  {s.verdict === 'APPROVED' ? 'Approved' : s.verdict === 'REFER' ? 'Refer' : 'No'}
+                                </span>
+                              </td>
+                              <td className="py-3.5 px-4 text-right">
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteSubmission(s.id)}
+                                  className="text-zinc-400 hover:text-destructive p-1.5 rounded transition-colors"
+                                  title="Delete Submission"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
                               </td>
                             </tr>
                           ))
@@ -575,78 +924,13 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
                     </table>
                   </div>
                 </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        )}
 
-              </div>
-            </TabsContent>
-
-            {/* TAB: Submissions Log */}
-            <TabsContent value="log" forceMount className={pricingTab === 'log' ? "space-y-4 outline-none block" : "hidden"}>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-                  <Input
-                    placeholder="Search by reference, dealer, customer, rating..."
-                    value={subSearch}
-                    onChange={(e) => setSubSearch(e.target.value)}
-                    className="pl-9 bg-white border-border text-foreground placeholder-zinc-400 text-xs focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
-                  />
-                </div>
-                <Button onClick={handleCopySubmissionsCSV} size="sm" className="bg-white hover:bg-slate-100 text-foreground hover:text-foreground border border-border">
-                  <FileDown size={14} className="mr-1.5" /> Copy CSV Log
-                </Button>
-              </div>
-
-              <div className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-border text-foreground-muted font-bold uppercase tracking-wider bg-slate-50/30">
-                        <th className="py-3.5 px-4 font-semibold">Date</th>
-                        <th className="py-3.5 px-4 font-semibold">Reference</th>
-                        <th className="py-3.5 px-4 font-semibold">Sales Rep (Account)</th>
-                        <th className="py-3.5 px-4 font-semibold">Dealer</th>
-                        <th className="py-3.5 px-4 font-semibold">kVA</th>
-                        <th className="py-3.5 px-4 font-semibold">Customer</th>
-                        <th className="py-3.5 px-4 font-semibold">Offered Price</th>
-                        <th className="py-3.5 px-4 font-semibold">Verdict</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredSubmissions.length === 0 ? (
-                        <tr>
-                          <td colSpan={8} className="py-12 text-center text-zinc-400 font-mono">No pricing submissions matched the filters.</td>
-                        </tr>
-                      ) : (
-                        filteredSubmissions.map((s) => (
-                          <tr key={s.id} className="border-b border-border hover:bg-slate-50/50 transition-all font-mono text-foreground">
-                            <td className="py-3.5 px-4 text-zinc-400 text-[10px]">{new Date(s.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
-                            <td className="py-3.5 px-4 font-bold text-foreground">{s.id}</td>
-                            <td className="py-3.5 px-4 font-sans font-medium text-foreground">{cleanSalesRepName(s.sales_rep || s.profiles?.firm_name || s.profiles?.email || '-')}</td>
-                            <td className="py-3.5 px-4 text-foreground-muted font-sans">{s.dealer_name || '-'}</td>
-                            <td className="py-3.5 px-4 text-foreground">{s.kva}</td>
-                            <td className="py-3.5 px-4 font-sans font-medium text-foreground">{s.customer_name}</td>
-                            <td className="py-3.5 px-4 text-primary font-bold">{formatINR(s.offered_price)}</td>
-                            <td className="py-3.5 px-4">
-                              <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase font-sans tracking-wide ${s.verdict === 'APPROVED' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/50' :
-                                s.verdict === 'REFER' ? 'bg-amber-50 text-amber-800 border border-amber-200/50' :
-                                  'bg-red-50 text-red-850 border border-red-200/50'
-                                }`}>
-                                {s.verdict === 'APPROVED' ? 'Approved' : s.verdict === 'REFER' ? 'Refer' : 'No'}
-                              </span>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        {/* Orders Module */}
-        <div className={activeModule === 'orders' ? 'block' : 'hidden'}>
+        {/* Orders Module - Visible to both Full Admin and Order Admin */}
+        {(isOrderAdmin || activeModule === 'orders') && (
           <div className="space-y-6">
 
             {/* Order Book Statistics Grid */}
@@ -737,6 +1021,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
                       <th className="py-3.5 px-4 font-semibold">Customer</th>
                       <th className="py-3.5 px-4 font-semibold">Value</th>
                       <th className="py-3.5 px-4 font-semibold">Dispatch Date</th>
+                      <th className="py-3.5 px-4 font-semibold">Attachment</th>
                       <th className="py-3.5 px-4 font-semibold">Status</th>
                       <th className="py-3.5 px-4 font-semibold text-right">Actions</th>
                     </tr>
@@ -744,7 +1029,7 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
                   <tbody>
                     {filteredOrders.length === 0 ? (
                       <tr>
-                        <td colSpan={11} className="py-12 text-center text-zinc-400 font-mono">No order records found in this view.</td>
+                        <td colSpan={12} className="py-12 text-center text-zinc-400 font-mono">No order records found in this view.</td>
                       </tr>
                     ) : (
                       filteredOrders.map((o) => {
@@ -765,6 +1050,21 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
                             <td className={`py-3.5 px-4 ${overdue ? 'text-primary font-bold' : 'text-foreground'}`}>
                               {new Date(o.dispatch_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                               {overdue && <span className="ml-1 text-[8px] bg-red-50 border border-primary text-primary px-1 py-0.5 rounded font-sans uppercase font-bold tracking-wide">Overdue</span>}
+                            </td>
+                            <td className="py-3.5 px-4 font-sans text-xs">
+                              {o.attachment_path ? (
+                                <button
+                                  type="button"
+                                  onClick={() => handleDownloadAttachment(o.attachment_path!, o.attachment_name || undefined)}
+                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 text-[11px] font-semibold transition-all"
+                                  title={`View/Download: ${o.attachment_name || 'PDF Document'}`}
+                                >
+                                  <Paperclip size={12} className="shrink-0" />
+                                  <span className="truncate max-w-[85px]">{o.attachment_name || 'View PDF'}</span>
+                                </button>
+                              ) : (
+                                <span className="text-zinc-300 text-[11px] font-mono">-</span>
+                              )}
                             </td>
                             <td className="py-3.5 px-4">
                               <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase font-sans tracking-wide ${o.status === 'open' ? 'bg-amber-50 text-amber-800 border border-amber-200/50' :
@@ -802,12 +1102,14 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
             </div>
 
           </div>
-        </div>
+        )}
 
-        {/* Dispatched Module */}
-        <div className={activeModule === 'dispatched' ? 'block' : 'hidden'}>
-          <AdminDispatchedView />
-        </div>
+        {/* Dispatched Module - Only for Full Admins */}
+        {!isOrderAdmin && activeModule === 'dispatched' && (
+          <div>
+            <AdminDispatchedView />
+          </div>
+        )}
 
       </div>
 
@@ -943,6 +1245,81 @@ export default function AdminUnifiedDashboard({ initialTab }: { initialTab?: 'pr
                       <SelectItem value="dispatched" className="focus:bg-primary focus:text-white">Dispatched</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                {/* Supporting PDF Attachment Section */}
+                <div className="space-y-2 border-t border-border pt-4">
+                  <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider block">
+                    Supporting PDF Attachment
+                  </label>
+                  {editOrderAttachmentPath && !editOrderRemoveAttachment && !editOrderNewFile ? (
+                    <div className="flex items-center justify-between p-3 bg-slate-50 border border-border rounded-lg text-xs">
+                      <div className="flex items-center gap-2 truncate">
+                        <Paperclip size={14} className="text-primary shrink-0" />
+                        <span className="font-medium text-foreground truncate">{editOrderAttachmentName || 'Current Attachment (PDF)'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="xs"
+                          onClick={() => handleDownloadAttachment(editOrderAttachmentPath!)}
+                          className="h-7 text-[11px]"
+                        >
+                          View
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="xs"
+                          onClick={() => setEditOrderRemoveAttachment(true)}
+                          className="h-7 text-[11px] text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <Input
+                        type="file"
+                        accept=".pdf,application/pdf"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                              alert('Only PDF files are accepted.');
+                              e.target.value = '';
+                              return;
+                            }
+                            if (file.size > 10 * 1024 * 1024) {
+                              alert('File exceeds 10 MB maximum limit.');
+                              e.target.value = '';
+                              return;
+                            }
+                            setEditOrderNewFile(file);
+                            setEditOrderRemoveAttachment(false);
+                          }
+                        }}
+                        className="bg-white border-border text-foreground text-xs file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                      />
+                      <div className="flex justify-between items-center text-[10px] text-zinc-400">
+                        <span>Max 10 MB. PDF documents only.</span>
+                        {editOrderAttachmentPath && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditOrderRemoveAttachment(false);
+                              setEditOrderNewFile(null);
+                            }}
+                            className="text-primary hover:underline"
+                          >
+                            Keep existing file
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </CardContent>
               <CardFooter className="flex gap-3 justify-end border-t border-border pt-4 bg-slate-50/50 p-6">

@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRole?: 'admin' | 'dealer';
+  allowedRole?: 'admin' | 'dealer' | 'order_admin' | Array<'admin' | 'dealer' | 'order_admin'>;
 }
 
 export const ProtectedRoute = ({ children, allowedRole }: ProtectedRouteProps) => {
@@ -40,7 +40,7 @@ export const ProtectedRoute = ({ children, allowedRole }: ProtectedRouteProps) =
             <br /><br />
             Please verify that:
             <ul className="list-disc pl-5 mt-2 space-y-1 text-zinc-400">
-              <li>The user account was created with metadata containing user role (`admin` or `dealer`).</li>
+              <li>The user account was created with metadata containing user role (`admin`, `dealer`, or `order_admin`).</li>
               <li>The signup trigger from `supabase_setup.sql` has been executed on this database.</li>
             </ul>
           </p>
@@ -57,10 +57,18 @@ export const ProtectedRoute = ({ children, allowedRole }: ProtectedRouteProps) =
     );
   }
 
-  // If role is specified and does not match
-  if (allowedRole && profile.role !== allowedRole) {
+  // Check role authorization
+  const isAllowed = !allowedRole || (
+    Array.isArray(allowedRole)
+      ? allowedRole.includes(profile.role)
+      : profile.role === allowedRole
+  );
+
+  if (!isAllowed) {
     if (profile.role === 'admin') {
       return <Navigate to="/portal/admin" replace />;
+    } else if (profile.role === 'order_admin') {
+      return <Navigate to="/portal/admin?tab=orders" replace />;
     } else {
       return (
         <div className="light min-h-screen bg-slate-50 flex flex-col items-center justify-center text-foreground p-6">
@@ -70,7 +78,7 @@ export const ProtectedRoute = ({ children, allowedRole }: ProtectedRouteProps) =
               Access Denied
             </h1>
             <p className="text-foreground-muted text-sm mb-6">
-              You are signed in as a Dealer. You do not have permission to access the administrative dashboard.
+              You do not have permission to access this page.
             </p>
             <div className="flex gap-4 justify-center">
               <Link

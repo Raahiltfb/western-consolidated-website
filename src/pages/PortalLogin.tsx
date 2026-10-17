@@ -22,6 +22,8 @@ export default function PortalLogin() {
       if (profile) {
         if (profile.role === 'admin') {
           navigate('/portal/admin');
+        } else if (profile.role === 'order_admin') {
+          navigate('/portal/admin?tab=orders');
         } else {
           navigate('/portal/order-support');
         }

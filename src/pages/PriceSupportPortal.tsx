@@ -29,6 +29,8 @@ interface PriceSubmission {
   sales_rep: string;
   offered_price: number;
   verdict: 'APPROVED' | 'REFER' | 'NOT_POSSIBLE';
+  quantity?: number;
+  pricing_tier?: 'standard' | 'bulk';
 }
 
 export default function PriceSupportPortal() {
@@ -36,6 +38,7 @@ export default function PriceSupportPortal() {
   const navigate = useNavigate();
   const [ratings, setRatings] = useState<RatingOption[]>([]);
   const [kva, setKva] = useState('');
+  const [quantity, setQuantity] = useState<number>(1);
   const [customer, setCustomer] = useState('');
   const [dealerName, setDealerName] = useState('');
   const [price, setPrice] = useState('');
@@ -52,6 +55,8 @@ export default function PriceSupportPortal() {
   // Verdict state
   const [verdict, setVerdict] = useState<'APPROVED' | 'REFER' | 'NOT_POSSIBLE' | null>(null);
   const [refId, setRefId] = useState('');
+  const [verdictQty, setVerdictQty] = useState<number>(1);
+  const [verdictTier, setVerdictTier] = useState<'standard' | 'bulk' | null>(null);
 
   // Confirmation step/modal state
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -59,10 +64,15 @@ export default function PriceSupportPortal() {
   // Load session storage state on mount
   useEffect(() => {
     const storedKva = sessionStorage.getItem('wcpl_price_kva');
+    const storedQuantity = sessionStorage.getItem('wcpl_price_quantity');
     const storedCustomer = sessionStorage.getItem('wcpl_price_customer');
     const storedDealer = sessionStorage.getItem('wcpl_price_dealer');
     const storedPrice = sessionStorage.getItem('wcpl_price_price');
     if (storedKva) setKva(storedKva);
+    if (storedQuantity) {
+      const q = parseInt(storedQuantity, 10);
+      if (!isNaN(q) && q >= 1) setQuantity(q);
+    }
     if (storedCustomer) setCustomer(storedCustomer);
     if (storedDealer) setDealerName(storedDealer);
     if (storedPrice) setPrice(storedPrice);
@@ -76,6 +86,10 @@ export default function PriceSupportPortal() {
       sessionStorage.removeItem('wcpl_price_kva');
     }
   }, [kva]);
+
+  useEffect(() => {
+    sessionStorage.setItem('wcpl_price_quantity', quantity.toString());
+  }, [quantity]);
 
   useEffect(() => {
     if (customer) {
@@ -148,18 +162,21 @@ export default function PriceSupportPortal() {
 
   const handlePreSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!kva || !customer.trim() || !price || Number(price) <= 0) return;
+    const q = Number(quantity);
+    if (!kva || !customer.trim() || !price || Number(price) <= 0 || isNaN(q) || q < 1) return;
     setShowConfirmModal(true);
   };
 
   const executeSubmit = async () => {
     setSubmitting(true);
+    const q = Math.max(1, Math.floor(Number(quantity) || 1));
     try {
       const { data, error } = await supabase.rpc('submit_price_support', {
         p_kva: kva,
         p_customer_name: customer.trim(),
         p_dealer_name: dealerName.trim(),
         p_offered_price: Number(price),
+        p_quantity: q,
       });
 
       if (error) throw error;
@@ -167,15 +184,18 @@ export default function PriceSupportPortal() {
       if (data) {
         setVerdict(data.verdict);
         setRefId(data.ref);
+        setVerdictQty(data.quantity || q);
+        setVerdictTier(data.tier || (q >= 3 ? 'bulk' : 'standard'));
         // Clear persistence upon successful submission
         sessionStorage.removeItem('wcpl_price_kva');
+        sessionStorage.removeItem('wcpl_price_quantity');
         sessionStorage.removeItem('wcpl_price_customer');
         sessionStorage.removeItem('wcpl_price_price');
         fetchHistory();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error submitting price support:', err);
-      alert('Failed to submit price support. Please verify database connection.');
+      alert(err.message || 'Failed to submit price support. Please verify database connection.');
     } finally {
       setSubmitting(false);
     }
@@ -184,10 +204,13 @@ export default function PriceSupportPortal() {
   const handleReset = () => {
     setVerdict(null);
     setKva('');
+    setQuantity(1);
     setCustomer('');
     setPrice('');
     setRefId('');
+    setVerdictTier(null);
     sessionStorage.removeItem('wcpl_price_kva');
+    sessionStorage.removeItem('wcpl_price_quantity');
     sessionStorage.removeItem('wcpl_price_customer');
     sessionStorage.removeItem('wcpl_price_price');
   };
@@ -239,6 +262,10 @@ export default function PriceSupportPortal() {
                       <span className="font-semibold text-foreground">{kva} kVA</span>
                     </div>
                     <div>
+                      <span className="text-zinc-400 block text-[10px] uppercase font-mono tracking-wider">Number of Sets</span>
+                      <span className="font-semibold text-foreground">{verdictQty} {verdictQty === 1 ? 'Set' : 'Sets'}</span>
+                    </div>
+                    <div className="col-span-2">
                       <span className="text-zinc-400 block text-[10px] uppercase font-mono tracking-wider">Customer</span>
                       <span className="font-semibold text-foreground truncate block">{customer}</span>
                     </div>
@@ -253,14 +280,14 @@ export default function PriceSupportPortal() {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="w-full border-border hover:bg-slate-100 text-foreground font-bold tracking-wider uppercase text-xs h-11"
+                  className="w-full border-border bg-white text-foreground font-bold tracking-wider uppercase text-xs h-11"
                 >
                   Evaluate Another Price
                 </Button>
                 {verdict === 'APPROVED' && (
                   <Button
                     onClick={() => navigate('/portal/order-support')}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-bold tracking-wider uppercase text-xs h-11 flex items-center justify-center gap-2"
+                    className="w-full bg-primary text-white font-bold tracking-wider uppercase text-xs h-11 flex items-center justify-center gap-2"
                   >
                     Book This Order <ArrowRight size={14} />
                   </Button>
@@ -301,28 +328,48 @@ export default function PriceSupportPortal() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider block">
-                      Genset Rating
-                    </label>
-                    <Select value={kva} onValueChange={setKva} required>
-                      <SelectTrigger className="bg-white border-border text-foreground focus:ring-primary focus:ring-offset-0">
-                        <SelectValue placeholder="Select rating" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-border text-foreground">
-                        {loadingRatings ? (
-                          <SelectItem value="loading" disabled>Loading ratings...</SelectItem>
-                        ) : ratings.length === 0 ? (
-                          <SelectItem value="empty" disabled>No active ratings found</SelectItem>
-                        ) : (
-                          ratings.map((r) => (
-                            <SelectItem key={r.kva} value={r.kva} className="focus:bg-primary focus:text-white">
-                              {r.kva} kVA
-                            </SelectItem>
-                          ))
-                        )}
-                      </SelectContent>
-                    </Select>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider block">
+                        Genset Rating
+                      </label>
+                      <Select value={kva} onValueChange={setKva} required>
+                        <SelectTrigger className="bg-white border-border text-foreground focus:ring-primary focus:ring-offset-0">
+                          <SelectValue placeholder="Select rating" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-border text-foreground">
+                          {loadingRatings ? (
+                            <SelectItem value="loading" disabled>Loading ratings...</SelectItem>
+                          ) : ratings.length === 0 ? (
+                            <SelectItem value="empty" disabled>No active ratings found</SelectItem>
+                          ) : (
+                            ratings.map((r) => (
+                              <SelectItem key={r.kva} value={r.kva} className="focus:bg-primary focus:text-white">
+                                {r.kva} kVA
+                              </SelectItem>
+                            ))
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider block">
+                        Number of Sets / Quantity
+                      </label>
+                      <Input
+                        type="number"
+                        min="1"
+                        step="1"
+                        value={quantity}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          setQuantity(isNaN(val) || val < 1 ? 1 : val);
+                        }}
+                        className="bg-white border-border text-foreground font-mono focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary"
+                        required
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -339,7 +386,7 @@ export default function PriceSupportPortal() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-foreground-muted uppercase tracking-wider block">
-                      Offered Price:
+                      Offered Price: <span className="normal-case font-medium text-zinc-500">(for 1 single genset)</span>
                     </label>
                     <Input
                       type="text"
@@ -358,8 +405,8 @@ export default function PriceSupportPortal() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-bold tracking-wider uppercase transition-all duration-200 mt-2"
-                    disabled={submitting || loadingRatings || !kva || !customer.trim() || !price}
+                    className="w-full bg-primary text-white font-bold tracking-wider uppercase mt-2"
+                    disabled={submitting || loadingRatings || !kva || !customer.trim() || !price || quantity < 1}
                   >
                     {submitting ? 'Checking limits...' : 'Submit for Evaluation'}
                   </Button>
@@ -375,7 +422,7 @@ export default function PriceSupportPortal() {
             <CardTitle className="font-display font-extrabold text-base uppercase tracking-wider text-foreground flex items-center gap-2">
               <History className="text-primary w-4 h-4" /> My Submission History
             </CardTitle>
-            <Button onClick={fetchHistory} size="xs" variant="outline" className="border-border hover:bg-slate-100 text-foreground">
+            <Button onClick={fetchHistory} size="xs" variant="outline" className="border-border bg-white text-foreground">
               <RefreshCcw size={12} className="mr-1" /> Refresh
             </Button>
           </CardHeader>
@@ -388,6 +435,7 @@ export default function PriceSupportPortal() {
                     <th className="py-2.5 px-3 font-semibold">Reference</th>
                     <th className="py-2.5 px-3 font-semibold">Dealer</th>
                     <th className="py-2.5 px-3 font-semibold">kVA</th>
+                    <th className="py-2.5 px-3 font-semibold">Sets</th>
                     <th className="py-2.5 px-3 font-semibold">Customer</th>
                     <th className="py-2.5 px-3 font-semibold">Offered Price</th>
                     <th className="py-2.5 px-3 font-semibold">Verdict</th>
@@ -396,11 +444,11 @@ export default function PriceSupportPortal() {
                 <tbody>
                   {loadingHistory ? (
                     <tr>
-                      <td colSpan={7} className="py-8 text-center text-zinc-400 font-mono">Loading your submission history...</td>
+                      <td colSpan={8} className="py-8 text-center text-zinc-400 font-mono">Loading your submission history...</td>
                     </tr>
                   ) : history.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="py-8 text-center text-zinc-400 font-mono">No submissions recorded for your account yet.</td>
+                      <td colSpan={8} className="py-8 text-center text-zinc-400 font-mono">No submissions recorded for your account yet.</td>
                     </tr>
                   ) : (
                     history.map((s) => (
@@ -409,6 +457,7 @@ export default function PriceSupportPortal() {
                         <td className="py-2.5 px-3 font-bold text-foreground">{s.id}</td>
                         <td className="py-2.5 px-3 text-foreground-muted font-sans">{s.dealer_name || '-'}</td>
                         <td className="py-2.5 px-3 text-foreground">{s.kva}</td>
+                        <td className="py-2.5 px-3 font-bold text-foreground">{s.quantity || 1}</td>
                         <td className="py-2.5 px-3 font-sans font-medium text-foreground">{s.customer_name}</td>
                         <td className="py-2.5 px-3 text-primary font-bold">{formatINR(s.offered_price)}</td>
                         <td className="py-2.5 px-3">
@@ -457,6 +506,10 @@ export default function PriceSupportPortal() {
                   <span className="font-semibold text-foreground">{kva} kVA</span>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-zinc-400 text-xs uppercase tracking-wide">Number of Sets</span>
+                  <span className="font-semibold text-foreground font-mono">{quantity} {quantity === 1 ? 'Set' : 'Sets'}</span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-zinc-400 text-xs uppercase tracking-wide">Customer</span>
                   <span className="font-semibold text-foreground truncate max-w-[200px]">{customer}</span>
                 </div>
@@ -481,7 +534,7 @@ export default function PriceSupportPortal() {
               <Button
                 type="button"
                 onClick={() => setShowConfirmModal(false)}
-                className="flex-1 bg-white hover:bg-slate-100 text-foreground hover:text-foreground border border-border text-xs uppercase font-bold tracking-wider h-10"
+                className="flex-1 bg-white text-foreground border border-border text-xs uppercase font-bold tracking-wider h-10"
               >
                 Go Back & Edit
               </Button>
@@ -491,7 +544,7 @@ export default function PriceSupportPortal() {
                   setShowConfirmModal(false);
                   executeSubmit();
                 }}
-                className="flex-1 bg-primary hover:bg-primary/90 text-white text-xs uppercase font-bold tracking-wider h-10"
+                className="flex-1 bg-primary text-white text-xs uppercase font-bold tracking-wider h-10"
               >
                 Confirm & Submit
               </Button>

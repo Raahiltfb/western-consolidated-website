@@ -9,16 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary text-primary-foreground",
+        destructive: "bg-destructive text-destructive-foreground",
+        outline: "border border-border bg-white text-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
+        ghost: "bg-transparent text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_hsl(350_80%_45%/0.3)] hover:shadow-[0_0_30px_hsl(350_80%_45%/0.4)]",
-        heroOutline: "border-2 border-foreground/30 bg-transparent text-foreground hover:bg-foreground/10 hover:border-foreground/50",
-        industrial: "bg-card border border-border text-foreground hover:bg-card/80 hover:border-border/80",
-        cta: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl",
+        hero: "bg-primary text-primary-foreground shadow-[0_0_20px_hsl(350_80%_45%/0.3)]",
+        heroOutline: "border-2 border-foreground/30 bg-transparent text-foreground",
+        industrial: "bg-card border border-border text-foreground",
+        cta: "bg-primary text-primary-foreground shadow-lg",
       },
       size: {
         default: "h-10 px-4 py-2",

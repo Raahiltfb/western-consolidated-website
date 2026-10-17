@@ -9,7 +9,8 @@ import {
   Calendar,
   Layers,
   ShoppingBag,
-  ArrowUpDown
+  ArrowUpDown,
+  Paperclip
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,6 +41,8 @@ interface DispatchedOrder {
   price_per_set: number;
   dispatch_date: string;
   status: 'open' | 'dispatched';
+  attachment_path?: string | null;
+  attachment_name?: string | null;
   profiles?: { email: string; firm_name: string } | null;
 }
 
@@ -114,6 +117,21 @@ export function AdminDispatchedView() {
       return new Date(b.dispatch_date).getTime() - new Date(a.dispatch_date).getTime();
     });
 
+  const handleDownloadAttachment = async (path: string, fileName?: string) => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('order-attachments')
+        .createSignedUrl(path, 300);
+      if (error) throw error;
+      if (data?.signedUrl) {
+        window.open(data.signedUrl, '_blank');
+      }
+    } catch (err: any) {
+      console.error('Failed to view attachment:', err);
+      alert('Could not open attachment. Verify file storage configuration.');
+    }
+  };
+
   // Export CSV for Dispatched Orders
   const handleExportCSV = () => {
     const headers = [
@@ -127,7 +145,8 @@ export function AdminDispatchedView() {
       'Genset Rating',
       'No. of Sets',
       'Price per Set (₹)',
-      'Total Order Value (₹)'
+      'Total Order Value (₹)',
+      'Attachment'
     ];
 
     const rows = filteredOrders.map((o) => [
@@ -141,7 +160,8 @@ export function AdminDispatchedView() {
       o.kva,
       o.sets_count,
       o.price_per_set,
-      o.sets_count * o.price_per_set
+      o.sets_count * o.price_per_set,
+      o.attachment_name || (o.attachment_path ? 'Yes' : 'None')
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
@@ -299,18 +319,19 @@ export function AdminDispatchedView() {
                 <th className="py-3.5 px-4 font-semibold">No. of Sets</th>
                 <th className="py-3.5 px-4 font-semibold">Price per Set</th>
                 <th className="py-3.5 px-4 font-semibold">Total Value</th>
+                <th className="py-3.5 px-4 font-semibold text-center">Attachment</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={11} className="py-12 text-center text-zinc-400 font-mono">
+                  <td colSpan={12} className="py-12 text-center text-zinc-400 font-mono">
                     Loading dispatched orders...
                   </td>
                 </tr>
               ) : filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="py-12 text-center text-zinc-400 font-mono">
+                  <td colSpan={12} className="py-12 text-center text-zinc-400 font-mono">
                     No dispatched order records found.
                   </td>
                 </tr>
@@ -336,6 +357,21 @@ export function AdminDispatchedView() {
                     <td className="py-3.5 px-4 font-bold text-foreground">{o.sets_count}</td>
                     <td className="py-3.5 px-4 text-foreground font-mono">{formatINR(o.price_per_set)}</td>
                     <td className="py-3.5 px-4 text-primary font-bold">{formatINR(o.sets_count * o.price_per_set)}</td>
+                    <td className="py-3.5 px-4 text-center">
+                      {o.attachment_path ? (
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadAttachment(o.attachment_path!, o.attachment_name || undefined)}
+                          title={`Download/View ${o.attachment_name || 'PDF'}`}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-sans font-medium text-[11px] transition-colors"
+                        >
+                          <Paperclip size={12} className="text-primary" />
+                          <span className="truncate max-w-[80px]">{o.attachment_name || 'PDF'}</span>
+                        </button>
+                      ) : (
+                        <span className="text-zinc-400 font-sans text-[11px]">-</span>
+                      )}
+                    </td>
                   </tr>
                 ))
               )}

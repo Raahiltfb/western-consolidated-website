@@ -6,7 +6,7 @@ export interface Profile {
   id: string;
   email: string;
   firm_name: string;
-  role: 'dealer' | 'admin';
+  role: 'dealer' | 'admin' | 'order_admin';
 }
 
 interface AuthContextType {

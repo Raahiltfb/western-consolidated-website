@@ -58,7 +58,11 @@ const App = () => (
               
               <Route 
                 path="/portal/price-support" 
-                element={<Navigate to="/portal/order-support" replace />} 
+                element={
+                  <ProtectedRoute allowedRole="dealer">
+                    <PriceSupportPortal />
+                  </ProtectedRoute>
+                } 
               />
               
               <Route 
@@ -73,7 +77,7 @@ const App = () => (
               <Route 
                 path="/portal/admin" 
                 element={
-                  <ProtectedRoute allowedRole="admin">
+                  <ProtectedRoute allowedRole={['admin', 'order_admin']}>
                     <AdminUnifiedDashboard />
                   </ProtectedRoute>
                 } 

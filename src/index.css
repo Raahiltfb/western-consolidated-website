@@ -316,4 +316,11 @@
   .fade-edges {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
+
+  /* Portal buttons - prevent hover color shifts */
+  .light button,
+  .light button:hover {
+    transition: none !important;
+  }
 }
+
