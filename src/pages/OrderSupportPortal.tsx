@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { sortRatings, cleanSalesRepName } from '@/lib/utils';
+import { triggerOrderBookingNotification } from '@/lib/notifications';
 
 let cachedRatings: RatingOption[] | null = null;
 
@@ -378,6 +379,9 @@ export default function OrderSupportPortal() {
       setAttachmentFile(null);
       clearSessionStorage();
       fetchHistory();
+
+      // Send automated transactional order confirmation email (non-blocking)
+      triggerOrderBookingNotification(bookingRef);
     } catch (err: any) {
       console.error('Error submitting order:', err);
       alert(err.message || 'Failed to submit order booking. Verify database schema trigger status.');

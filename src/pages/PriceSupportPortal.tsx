@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { sortRatings, cleanSalesRepName } from '@/lib/utils';
+import { triggerPriceEscalationNotification } from '@/lib/notifications';
 
 let cachedRatings: RatingOption[] | null = null;
 const formatINR = (n: number | string) => {
@@ -192,6 +193,11 @@ export default function PriceSupportPortal() {
         sessionStorage.removeItem('wcpl_price_customer');
         sessionStorage.removeItem('wcpl_price_price');
         fetchHistory();
+
+        // Send automated escalation email if verdict is REFER or NOT_POSSIBLE (non-blocking)
+        if (data.verdict === 'REFER' || data.verdict === 'NOT_POSSIBLE') {
+          triggerPriceEscalationNotification(data.ref, data.verdict);
+        }
       }
     } catch (err: any) {
       console.error('Error submitting price support:', err);
